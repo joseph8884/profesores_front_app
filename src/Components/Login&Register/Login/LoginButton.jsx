@@ -5,7 +5,7 @@ const LoginButton = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/home_profesores');
+    navigate('/home');
   };
 
   return (
