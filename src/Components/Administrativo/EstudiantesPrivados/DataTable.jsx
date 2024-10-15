@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/button";
 import { Checkbox } from "../../ui/checkbox";
+import { Input } from "../../ui/input";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-import { Input } from "../../ui/input";
-import { ArrowUpDown, ChevronDown, Eye } from "lucide-react";
+} from "../../ui/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -28,12 +29,18 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "../../ui/pagination";
+import {
+  Sheet,
+  SheetTrigger,
+} from "../../ui/sheet";
+import { MoreHorizontal } from "lucide-react"
+
+import SheetContent from './CrearEstudiante';
 
 // Datos ficticios adicionales
 const data = [
@@ -141,13 +148,34 @@ const columns = [
   },
   {
     id: "actions",
-    cell: () => (
-      <Button variant="ghost" className="h-8 w-8 p-0">
-        <Eye className="h-4 w-4" />
-      </Button>
-    ),
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original
+ 
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(payment.id)}
+            >
+              Copy payment ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>View payment details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
   },
-];
+]
 
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
@@ -188,7 +216,13 @@ export function DataTableDemo() {
     const studentData = row.original;
     navigate(`/detail?data=${encodeURIComponent(JSON.stringify(studentData))}`);
   };
-
+  const dataprueba={
+    profileImage: "profilephoto.jpeg",
+    name: "",
+    email:"",
+    dob:"",
+    country:""
+  }
   return (
     <div className="w-full">
       <div className="flex items-center py-4 justify-between">
@@ -196,7 +230,16 @@ export function DataTableDemo() {
           placeholder="Name, email or id of the student"
           className="w-96"
         />
-        <Button variant="ghost">Clear All</Button>
+        <Button variant="ghost">Borrar filtros</Button>
+        <Sheet>
+      <SheetTrigger asChild>
+        {/* Este botón será visible solo en pantallas pequeñas */}
+        <Button>
+          Crear nuevo estudiante +
+        </Button>
+      </SheetTrigger>
+      <SheetContent data={dataprueba}/>
+      </Sheet>
       </div>
 
       <div className="rounded-md border">
