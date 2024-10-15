@@ -1,0 +1,123 @@
+import React, { useState } from "react";
+import NavMobile from "../Nav/NavMobile";
+import NavWeb from "../Nav/NavWeb";
+import Card from "./Card"; // Importa el componente de las cartas
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../../ui/pagination";
+
+const data = [
+  {
+    image: 'https://www.cocacolaep.com/assets/Uploads/resources/Coca-Cola-1210.jpg', 
+    name: 'Coca-Cola',
+    category: 'Carga y transporte',
+    nit: '102754149-8',
+  },
+  {
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7mURUpDDSiSt2zKcCYaVQCAew63wR-JnnaQ&s', 
+    name: 'Nike',
+    category: 'Carga y transporte',
+    nit: '102754149-8',
+  },
+  {
+    image: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg', 
+    name: 'Adidas',
+    category: 'Carga y transporte',
+    nit: '102754149-8',
+  },
+  {
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfiYuZrWQi8QW2EW8LqsmiBbVidhnMPjkrWw&s', 
+    name: 'Pepsi',
+    category: 'Carga y transporte',
+    nit: '102754149-8',
+  },
+  {
+    image: 'https://outvio.com/static/43dda54a37da393abbf0fccc92840e86/e30c4/ckyycvha3000c7b9gfipieqcb.jpg', 
+    name: 'Amazon',
+    category: 'Carga y transporte',
+    nit: '102754149-8',
+  },
+  {
+    image: 'https://via.placeholder.com/150', 
+    name: 'Tesla',
+    category: 'Carga y transporte',
+    nit: '102754149-8',
+  },
+];
+
+const GruposEmpresas = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
+  // Función para cambiar de página
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Datos para la página actual
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  return (
+    <div className="min-h-screen flex">
+      <NavMobile />
+      <NavWeb />
+
+      <div className="flex-1 p-6">
+        <h1 className="text-2xl font-bold mb-4">Bienvenido de nuevo, Gustavo</h1>
+
+        {/* Sección de Cartas */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          {currentItems.map((item, index) => (
+            <Card
+              key={index}
+              image={item.image}
+              name={item.name}
+              category={item.category}
+              nit={item.nit}
+            />
+          ))}
+        </div>
+
+        {/* Paginación */}
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" onClick={() => handlePageChange(1)} isActive={currentPage === 1}>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" onClick={() => handlePageChange(2)} isActive={currentPage === 2}>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === Math.ceil(data.length / itemsPerPage)}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+    </div>
+  );
+};
+
+export default GruposEmpresas;

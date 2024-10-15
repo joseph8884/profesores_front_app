@@ -25,9 +25,11 @@ const Nav = () => {
                 <li>Individuales</li>
               </Button>
             </a>
+            <a href="/grupos_administrativo">
             <Button variant="ghost">
               <li>Grupales</li>
             </Button>
+            </a>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">

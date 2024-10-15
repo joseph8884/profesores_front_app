@@ -3,7 +3,9 @@ import Register from './Components/Login&Register/Register/Register.jsx';
 import HomeProfesores from './Components/Profesores/Home/Home.jsx';
 import HomeAdministrativo from './Components/Administrativo/Home/Home.jsx';
 import TablaEstudiantesProvados from './Components/Administrativo/EstudiantesPrivados/EstudiantesPrivados.jsx';
+import GruposEmpresas from './Components/Administrativo/Grupos/Grupos.jsx'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
     <>
@@ -14,6 +16,8 @@ function App() {
         <Route path="/home_profesores" element={<HomeProfesores />} />
         <Route path="/estudiantes_privados_administrativo" element={<TablaEstudiantesProvados />} />
         <Route path="/home" element={<HomeAdministrativo />} />
+        <Route path='/grupos_administrativo' element={<GruposEmpresas/>}/>
+        
       </Routes>
     </Router>
     </>
