@@ -53,7 +53,7 @@ const data = [
 
 const GruposEmpresas = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 1;
 
   // Función para cambiar de página
   const handlePageChange = (page) => {

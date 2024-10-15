@@ -1,4 +1,5 @@
-// Importación de librerías adicionales si es necesario (mantén lucide-react y tanstack-react-table)
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/button";
 import { Checkbox } from "../../ui/checkbox";
 import {
@@ -8,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { Input } from "../../ui/input";
-import { ArrowUpDown, ChevronDown, Eye } from "lucide-react"; // Cambié MoreHorizontal por Eye
+import { ArrowUpDown, ChevronDown, Eye } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -33,9 +34,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../../ui/pagination";
-import * as React from "react";
 
-// Datos ficticios (puedes cambiar estos datos según tu aplicación)
+// Datos ficticios adicionales
 const data = [
   {
     photo: "102",
@@ -73,10 +73,22 @@ const data = [
     canceladosATiempo: "02",
     action: "View",
   },
-  // Más filas de datos...
+  {
+    photo: "103",
+    name: "Ana Maria Lopez",
+    virtual: "02",
+    presencial: "01",
+    lastRegister: "15/09/2024",
+    horasPlaneadas: "4H",
+    horasRestantes: "02",
+    canceladosTarde: "01",
+    canceladosATiempo: "03",
+    action: "View",
+  },
+  // Agrega más datos aquí para probar la paginación
 ];
 
-// Estructura de columnas de la tabla actualizada
+// Estructura de columnas de la tabla
 const columns = [
   {
     id: "photo",
@@ -137,13 +149,13 @@ const columns = [
   },
 ];
 
-// Componente actualizado
 export function DataTableDemo() {
-  const [sorting, setSorting] = React.useState([]);
-  const [columnFilters, setColumnFilters] = React.useState([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const itemsPerPage = 4;
+  const [sorting, setSorting] = useState([]);
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 2;
+  const navigate = useNavigate();
 
   // Función para cambiar de página
   const handlePageChange = (page) => {
@@ -155,9 +167,8 @@ export function DataTableDemo() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-  
   const table = useReactTable({
-    data,
+    data: currentItems,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -172,10 +183,15 @@ export function DataTableDemo() {
     },
   });
 
+  // Función para manejar el clic en una fila
+  const handleRowClick = (row) => {
+    const studentData = row.original;
+    navigate(`/detail?data=${encodeURIComponent(JSON.stringify(studentData))}`);
+  };
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4 justify-between">
-        {/* Barra superior de búsqueda y Clear All */}
         <Input
           placeholder="Name, email or id of the student"
           className="w-96"
@@ -203,7 +219,7 @@ export function DataTableDemo() {
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} onClick={() => handleRowClick(row)}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -221,36 +237,37 @@ export function DataTableDemo() {
           </TableBody>
         </Table>
       </div>
-      
-        {/* Paginación */}
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
+
+      {/* Paginación */}
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href="#"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+          {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map((page) => (
+            <PaginationItem key={page + 1}>
+              <PaginationLink
                 href="#"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" onClick={() => handlePageChange(1)} isActive={currentPage === 1}>
-                1
+                onClick={() => handlePageChange(page + 1)}
+                isActive={currentPage === page + 1}
+              >
+                {page + 1}
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" onClick={() => handlePageChange(2)} isActive={currentPage === 2}>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === Math.ceil(data.length / itemsPerPage)}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              href="#"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === Math.ceil(data.length / itemsPerPage)}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }
