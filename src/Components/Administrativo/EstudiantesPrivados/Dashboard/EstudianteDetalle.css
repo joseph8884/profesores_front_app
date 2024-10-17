@@ -56,13 +56,6 @@
 
 @media screen and (max-width: 600px) {
     .dashboard {
-        grid-template-areas: 
-        "actions"
-        "actividad_academica"
-        "calendario"
-        "grafica"
-        "personal_information"
-        "last_classes";
         overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
         max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
         overflow-x: auto; /* Agregar scroll lateral */
