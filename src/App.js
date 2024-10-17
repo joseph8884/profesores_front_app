@@ -6,6 +6,7 @@ import HomeAdministrativo from './Components/Administrativo/Home/Home.jsx';
 import TablaEstudiantesProvados from './Components/Administrativo/EstudiantesPrivados/EstudiantesPrivados.jsx';
 import GruposEmpresas from './Components/Administrativo/Grupos/Grupos.jsx';
 import StudentDetail from './Components/Administrativo/EstudiantesPrivados/Dashboard/EstudianteDetalle.jsx';
+import GroupDetail from './Components/Administrativo/Grupos/Dashboard/GrupoDetalle.jsx';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path="/estudiantes_privados_administrativo" element={<TablaEstudiantesProvados />} />
         <Route path="/home" element={<HomeAdministrativo />} />
         <Route path='/grupos_administrativo' element={<GruposEmpresas/>}/>
-        <Route path='/detail' element={<StudentDetail/>}/>
+        <Route path='/studentdetail' element={<StudentDetail/>}/>
+        <Route path='/groupdetail' element={<GroupDetail/>}/>
       </Routes>
     </Router>
   );

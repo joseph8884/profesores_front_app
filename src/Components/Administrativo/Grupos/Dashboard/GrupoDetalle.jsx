@@ -1,23 +1,24 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect,useState} from "react";
 import { useLocation } from "react-router-dom";
 import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
-import "./EstudianteDetalle.css";
+import "./GrupoDetalle.css";
 
-const StudentDetail = () => {
-  const [studentData, setStudentData] = useState(null);
+const GroupDetail = () => {
+  const [groupData, setGroupData] = useState(null);
 
   useEffect(() => {
-    const data = localStorage.getItem('studentData');
+    const data = localStorage.getItem('groupData');
     if (data) {
-      setStudentData(JSON.parse(data));
+      setGroupData(JSON.parse(data));
     }
   }, []);
 
-  if (!studentData) {
+  if (!groupData) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <div className="min-h-screen flex">
@@ -26,7 +27,7 @@ const StudentDetail = () => {
       <div className="dashboard">
         <div className="dashboardcontainer">
           <div className="filtrosandbackbtn">
-            <a href="/estudiantes_privados_administrativo"><Button>Back</Button></a>
+            <a href="/grupos_administrativo"><Button>Back</Button></a>
             {
             //Cosas de los filtros.
             }
@@ -64,4 +65,4 @@ const StudentDetail = () => {
   );
 };
 
-export default StudentDetail;
+export default GroupDetail;

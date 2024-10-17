@@ -213,8 +213,10 @@ export function DataTableDemo() {
 
   // Función para manejar el clic en una fila
   const handleRowClick = (row) => {
-    const studentData = row.original;
-    navigate(`/detail?data=${encodeURIComponent(JSON.stringify(studentData))}`);
+    // Store data in local storage
+    localStorage.setItem('studentData', JSON.stringify(row));
+    // Navigate to the detail page
+    navigate('/studentdetail');
   };
   const dataprueba={
     profileImage: "profilephoto.jpeg",

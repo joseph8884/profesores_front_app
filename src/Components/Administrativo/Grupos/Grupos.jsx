@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
 import Card from "./Card"; // Importa el componente de las cartas
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "../../ui/pagination";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
+import {
+  Sheet,
+  SheetTrigger,
+} from "../../ui/sheet";
+import SheetContent from "./CrearModGrupo";
+
+
 
 const data = [
   {
@@ -54,6 +63,15 @@ const data = [
 const GruposEmpresas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 1;
+  const navigate = useNavigate();
+
+  const handleRowClick = (row) => {
+    // Store data in local storage
+    localStorage.setItem('groupData', JSON.stringify(row));
+    // Navigate to the detail page
+    navigate('/groupdetail');
+  };
+
 
   // Función para cambiar de página
   const handlePageChange = (page) => {
@@ -65,13 +83,35 @@ const GruposEmpresas = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
+  const dataprueba={
+    profileImage: "profilephoto.jpeg",
+    name: "",
+    email:"",
+    dob:"",
+    country:""
+  }
   return (
     <div className="min-h-screen flex">
       <NavMobile />
       <NavWeb />
 
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-4">Bienvenido de nuevo, Gustavo</h1>
+      <div className="flex items-center py-4 justify-between">
+        <Input
+          placeholder="Name, email or id of the student"
+          className="w-96"
+        />
+        <Button variant="ghost">Borrar filtros</Button>
+        <Sheet>
+      <SheetTrigger asChild>
+        {/* Este botón será visible solo en pantallas pequeñas */}
+        <Button>
+          Crear nuevo grupo +
+        </Button>
+      </SheetTrigger>
+      <SheetContent data={dataprueba}/>
+      </Sheet>
+      </div>
 
         {/* Sección de Cartas */}
         <div className="grid grid-cols-3 gap-4 mb-6">
@@ -82,6 +122,7 @@ const GruposEmpresas = () => {
               name={item.name}
               category={item.category}
               nit={item.nit}
+              onClick={() => handleRowClick(item)}
             />
           ))}
         </div>
