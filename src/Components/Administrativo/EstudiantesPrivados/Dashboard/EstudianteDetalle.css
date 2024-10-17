@@ -1,0 +1,46 @@
+.dashboard{
+    display:grid;
+    width: 100%;
+    height: 100vh;
+    grid-template-areas: 
+    "actions"
+    "actividad_academica"
+    "calendario"
+    "grafica"
+    "personal_information"
+    "last_classes";
+
+    & div.dashboardcontainer{
+        display: grid;
+        grid-template: 
+        "actions actions actions" 10%
+        "actividad_academica actividad_academica personal_information" auto
+        "grafica calendario personal_information" auto
+        "last_classes last_classes personal_information" auto/
+         30% 30% auto; 
+        gap: 20px;
+        & div.filtrosandbackbtn{
+            grid-area: actions;
+        }
+        & div.resumenDeActividadAcademica{
+            background-color: aqua;
+            grid-area: actividad_academica;
+        }
+        & div.calendario{
+            background-color: blue;
+            grid-area: calendario;
+        }
+        & div.grafica{
+            background-color: brown;
+            grid-area: grafica;
+        }
+        & div.informacionDetalladaEstudiante{
+            background-color: burlywood;
+            grid-area: personal_information;
+        }
+        & div.ultimasclasesvistas{
+            background-color: chartreuse;
+            grid-area: last_classes;
+        }
+    }
+}
