@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
@@ -18,8 +18,6 @@ import {
   SheetTrigger,
 } from "../../ui/sheet";
 import SheetContent from "./CrearModGrupo";
-
-
 
 const data = [
   {
@@ -62,7 +60,7 @@ const data = [
 
 const GruposEmpresas = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 1;
+  const itemsPerPage = 1; // Ajusta este valor según sea necesario
   const navigate = useNavigate();
 
   const handleRowClick = (row) => {
@@ -72,10 +70,11 @@ const GruposEmpresas = () => {
     navigate('/groupdetail');
   };
 
-
   // Función para cambiar de página
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    if (page > 0 && page <= Math.ceil(data.length / itemsPerPage)) {
+      setCurrentPage(page);
+    }
   };
 
   // Datos para la página actual
@@ -83,35 +82,38 @@ const GruposEmpresas = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-  const dataprueba={
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const dataprueba = {
     profileImage: "profilephoto.jpeg",
     name: "",
-    email:"",
-    dob:"",
-    country:""
-  }
+    email: "",
+    dob: "",
+    country: ""
+  };
+
   return (
     <div className="min-h-screen flex">
       <NavMobile />
       <NavWeb />
 
       <div className="flex-1 p-6">
-      <div className="flex items-center py-4 justify-between">
-        <Input
-          placeholder="Name, email or id of the student"
-          className="w-96"
-        />
-        <Button variant="ghost">Borrar filtros</Button>
-        <Sheet>
-      <SheetTrigger asChild>
-        {/* Este botón será visible solo en pantallas pequeñas */}
-        <Button>
-          Crear nuevo grupo +
-        </Button>
-      </SheetTrigger>
-      <SheetContent data={dataprueba}/>
-      </Sheet>
-      </div>
+        <div className="flex items-center py-4 justify-between">
+          <Input
+            placeholder="Name, email or id of the student"
+            className="w-96"
+          />
+          <Button variant="ghost">Borrar filtros</Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              {/* Este botón será visible solo en pantallas pequeñas */}
+              <Button>
+                Crear nuevo grupo +
+              </Button>
+            </SheetTrigger>
+            <SheetContent data={dataprueba} />
+          </Sheet>
+        </div>
 
         {/* Sección de Cartas */}
         <div className="grid grid-cols-3 gap-4 mb-6">
@@ -137,21 +139,22 @@ const GruposEmpresas = () => {
                 disabled={currentPage === 1}
               />
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" onClick={() => handlePageChange(1)} isActive={currentPage === 1}>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" onClick={() => handlePageChange(2)} isActive={currentPage === 2}>
-                2
-              </PaginationLink>
-            </PaginationItem>
+            {[...Array(totalPages).keys()].map((page) => (
+              <PaginationItem key={page + 1}>
+                <PaginationLink
+                  href="#"
+                  onClick={() => handlePageChange(page + 1)}
+                  isActive={currentPage === page + 1}
+                >
+                  {page + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
             <PaginationItem>
               <PaginationNext
                 href="#"
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === Math.ceil(data.length / itemsPerPage)}
+                disabled={currentPage === totalPages}
               />
             </PaginationItem>
           </PaginationContent>

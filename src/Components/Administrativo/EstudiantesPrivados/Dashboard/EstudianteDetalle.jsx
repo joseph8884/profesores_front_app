@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import { useLocation } from "react-router-dom";
 import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
