@@ -8,7 +8,7 @@ const LoginButton = ({ username, password }) => {
   const { setToken, setUserType } = useAuth();
 
   const handleLogin = () => {
-    //const resp = postUser({ username, password });
+    //const resp = postUser(username, password);
     //console.log("Response:", resp);
     setToken("this is a test token");
 
