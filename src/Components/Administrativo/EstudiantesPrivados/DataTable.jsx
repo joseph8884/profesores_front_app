@@ -54,6 +54,8 @@ const data = [
     canceladosTarde: "03",
     canceladosATiempo: "02",
     action: "View",
+    horasCanceladas: "03",
+    horasCanceladasProfesor:"4",
   },
   {
     photo: "103",
@@ -69,6 +71,8 @@ const data = [
     canceladosTarde: "03",
     canceladosATiempo: "02",
     action: "View",
+    horasCanceladas: "03",
+    horasCanceladasProfesor:"2",
   },
   {
     photo: "104",
@@ -84,6 +88,8 @@ const data = [
     canceladosTarde: "03",
     canceladosATiempo: "02",
     action: "View",
+    horasCanceladas: "03",
+    horasCanceladasProfesor:"1",
   }
 ];
 

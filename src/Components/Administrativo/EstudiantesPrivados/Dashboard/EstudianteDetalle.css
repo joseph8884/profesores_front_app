@@ -1,8 +1,8 @@
 .dashboard{
     display:grid;
     width: 100%;
-    height: 100vh;
     grid-template-areas: 
+    "tituloynotificaciones"
     "actions"
     "actividad_academica"
     "calendario"
@@ -12,41 +12,77 @@
     overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
     max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
     overflow-x: auto; /* Agregar scroll lateral */
+    background-color: #D1D9E2;
+    padding: 10px;
 
     & div.dashboardcontainer{
         display: grid;
         height: 100vh;
-        grid-template: 
-        "actions actions actions" 10%
-        "actividad_academica actividad_academica personal_information" 20%
+        margin-bottom: 50px;
+        grid-template:
+        "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10% 
+        "actions actions actions" auto
+        "actividad_academica actividad_academica personal_information" auto
         "grafica calendario personal_information" auto
         "last_classes last_classes personal_information" auto/
          30% 30% auto; 
         gap: 10px;
+        & div.tituloynotificaciones{
+            background-color: white;
+            grid-area: tituloynotificaciones;
+            border-radius: 10px;
+            display: flex;
+            float: right;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
         & div.filtrosandbackbtn{
+            border-radius: 10px;
+            background-color: white;
             grid-area: actions;
+            display: flex;
+            float: right;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+
+            & div.actions{
+                display: flex;
+                float: right;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 20px 0 20px;
+                gap: 10px;
+            }
         }
         & div.resumenDeActividadAcademica{
-            background-color: aqua;
+            border-radius: 10px;
+            background-color: white;
             grid-area: actividad_academica;
         }
         & div.calendario{
-            background-color: blue;
+            border-radius: 10px;
+            background-color: white;
             grid-area: calendario;
         }
         & div.grafica{
-            background-color: brown;
+            border-radius: 10px;
+            background-color: white;
             grid-area: grafica;
         }
         & div.informacionDetalladaEstudiante{
-            background-color: burlywood;
+            padding: 50px;
+            background-color: white;
+            border-radius: 10px;
             grid-area: personal_information;
             overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
             max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
             overflow-x: auto; /* Agregar scroll lateral */
         }
         & div.ultimasclasesvistas{
-            background-color: chartreuse;
+            background-color: white;
+            border-radius: 10px;
             grid-area: last_classes;
         }
     }
@@ -60,7 +96,8 @@
         overflow-x: auto; /* Agregar scroll lateral */
         & div.dashboardcontainer{
             height: auto;
-            grid-template: 
+            grid-template:
+            "tituloynotificaciones"auto
             "actions" 40px
             "actividad_academica" 15%
             "grafica" auto
