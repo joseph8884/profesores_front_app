@@ -9,7 +9,9 @@
     "grafica"
     "personal_information"
     "last_classes";
-
+    overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
+    max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
+    overflow-x: auto; /* Agregar scroll lateral */
 
     & div.dashboardcontainer{
         display: grid;
@@ -46,9 +48,6 @@
         & div.ultimasclasesvistas{
             background-color: chartreuse;
             grid-area: last_classes;
-            overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-            max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
-            overflow-x: auto; /* Agregar scroll lateral */
         }
     }
 }
