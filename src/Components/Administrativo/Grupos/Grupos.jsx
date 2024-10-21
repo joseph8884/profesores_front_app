@@ -60,7 +60,7 @@ const data = [
 
 const GruposEmpresas = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 1; // Ajusta este valor según sea necesario
+  const itemsPerPage = 4; // Ajusta este valor según sea necesario
   const navigate = useNavigate();
 
   const handleRowClick = (row) => {

@@ -32,7 +32,7 @@ const StudentDetail = () => {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex" style={{ overflowY: 'hidden', height: '100vh', }}>
       <NavMobile />
       <NavWeb />
       <div className="dashboard">

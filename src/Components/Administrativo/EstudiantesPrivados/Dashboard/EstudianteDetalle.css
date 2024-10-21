@@ -17,15 +17,14 @@
 
     & div.dashboardcontainer{
         display: grid;
-        height: 100vh;
         margin-bottom: 50px;
         grid-template:
         "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10% 
         "actions actions actions" auto
-        "actividad_academica actividad_academica personal_information" auto
+        "actividad_academica actividad_academica personal_information" 15%
         "grafica calendario personal_information" auto
         "last_classes last_classes personal_information" auto/
-         30% 30% auto; 
+         35% 35% auto; 
         gap: 10px;
         & div.tituloynotificaciones{
             background-color: white;
@@ -76,9 +75,6 @@
             background-color: white;
             border-radius: 10px;
             grid-area: personal_information;
-            overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-            max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
-            overflow-x: auto; /* Agregar scroll lateral */
         }
         & div.ultimasclasesvistas{
             background-color: white;
