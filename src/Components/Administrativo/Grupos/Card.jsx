@@ -1,7 +1,15 @@
 import React from 'react';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "../../ui/context-menu"
 
 const Card = ({ image, name, category, nit, onClick }) => {
   return (
+    <ContextMenu>
+    <ContextMenuTrigger>
     <div className="bg-white shadow-lg rounded-lg p-4" onClick={onClick}>
       <img src={image} alt={name} className="h-32 w-full object-cover rounded-md" />
       <div className="mt-4">
@@ -10,6 +18,12 @@ const Card = ({ image, name, category, nit, onClick }) => {
         <p className="text-sm text-gray-400">NIT: {nit}</p>
       </div>
     </div>
+    </ContextMenuTrigger>
+      <ContextMenuContent>
+      <ContextMenuItem>Editar</ContextMenuItem>
+      <ContextMenuItem>Eliminar</ContextMenuItem>
+    </ContextMenuContent>
+    </ContextMenu>
   );
 };
 

@@ -1,6 +1,6 @@
 .dashboard{
     display:grid;
-    width: 100%;
+    width: 100vw;
     grid-template-areas: 
     "tituloynotificaciones"
     "actions"
@@ -64,11 +64,17 @@
             border-radius: 10px;
             background-color: white;
             grid-area: calendario;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         & div.grafica{
             border-radius: 10px;
             background-color: white;
             grid-area: grafica;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         & div.informacionDetalladaEstudiante{
             padding: 50px;
@@ -88,7 +94,6 @@
 @media screen and (max-width: 600px) {
     .dashboard {
         overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-        max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
         overflow-x: auto; /* Agregar scroll lateral */
         & div.dashboardcontainer{
             height: auto;
@@ -100,7 +105,7 @@
             "calendario" auto
             "last_classes" auto
             "personal_information" auto/
-            auto; 
+            100%; 
         }
     }
 

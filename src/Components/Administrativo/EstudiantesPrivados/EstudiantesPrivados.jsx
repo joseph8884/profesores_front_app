@@ -5,7 +5,7 @@ import { DataTableDemo } from "./DataTable";
 
 const EstudiantesPrivados = () => {
   return (
-    <div className="min-h-screen flex">
+<div className="min-h-screen flex" style={{ overflowY: 'hidden', height: '100vh', }}>
       <NavMobile />
       <NavWeb />
       <DataTableDemo />
