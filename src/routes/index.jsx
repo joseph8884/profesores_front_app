@@ -3,12 +3,20 @@ import { useAuth } from "../provider/auth/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import LoginForm from '../Components/Login&Register/Login/LoginForm.jsx';
 import Register from '../Components/Login&Register/Register/Register.jsx';
-import HomeProfesores from '../Components/Profesores/Home/Home.jsx';
+//Admin components
+
 import HomeAdministrativo from '../Components/Administrativo/Home/Home.jsx';
 import TablaEstudiantesProvados from '../Components/Administrativo/EstudiantesPrivados/EstudiantesPrivados.jsx';
 import GruposEmpresas from '../Components/Administrativo/Grupos/Grupos.jsx';
 import StudentDetail from '../Components/Administrativo/EstudiantesPrivados/Dashboard/EstudianteDetalle.jsx';
 import GroupDetail from '../Components/Administrativo/Grupos/Dashboard/GrupoDetalle.jsx';
+
+//Profesor components
+import HomeProfesores from '../Components/Profesores/Home/Home.jsx';
+import EstudianteTableAll from '../Components/Profesores/RegistrarEstudianteHoras/EstudianteTable.jsx';
+import GruposAllView from '../Components/Profesores/RegistrarGruposHoras/GruposAllview.jsx';
+
+//ErrorBoundary
 import ErrorBoundary from '../Components/ErrorBoundary/ErrorBoundary.jsx';
 
 const Routes = () => {
@@ -35,37 +43,47 @@ const Routes = () => {
       children: [
         ...(userType === 'admin' ? [
           {
-            path: "/home",
+            path: "/admin/home",
             element: <HomeAdministrativo />,
             errorElement: <ErrorBoundary />
           },
           {
-            path: "/estudiantes_privados_administrativo",
+            path: "/admin/tablaestudiantes/estudiantesprivados",
             element: <TablaEstudiantesProvados />,
             errorElement: <ErrorBoundary />
           },
           {
-            path: "/grupos_administrativo",
+            path: "/admin/gruposvista/grupos",
             element: <GruposEmpresas />,
             errorElement: <ErrorBoundary />
           },
           {
-            path: "/studentdetail",
+            path: "/admin/tablaestudiantes/estudiantesprivados/studentdetail",
             element: <StudentDetail />,
             errorElement: <ErrorBoundary />
           },
           {
-            path: "/groupdetail",
+            path: "/admin/gruposvista/grupos/groupdetail",
             element: <GroupDetail />,
             errorElement: <ErrorBoundary />
           },
         ] : []),
         ...(userType === 'profesor' ? [
           {
-            path: "/home_profesores",
+            path: "/profesor/home",
             element: <HomeProfesores />,
             errorElement: <ErrorBoundary />
           },
+          {
+            path: "/profesor/registrarhoras/estudianteindividual",
+            element: <EstudianteTableAll />,
+            errorElement: <ErrorBoundary />
+          },
+          {
+            path: "/profesor/registrarhoras/grupos",
+            element: <GruposAllView />,
+            errorElement: <ErrorBoundary />
+          }
         ] : []),
       ],
     },

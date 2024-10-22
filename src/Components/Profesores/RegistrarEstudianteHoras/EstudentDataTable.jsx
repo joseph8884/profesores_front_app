@@ -36,7 +36,6 @@ import {
 import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 
-import CrearEditarEstudiante from "./CrearEstudiante";
 
 const data = [{"id":203,"photo":102,"name":"Caldwell Alflatt","email":"calflatt0@examiner.com","countryCode":"GR","virtual":"01","phoneNumber":"627-794-5382","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
   {"id":101,"photo":102,"name":"Trumaine Knights","email":"tknights1@flavors.me","countryCode":"US","virtual":"01","phoneNumber":"478-124-4021","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
@@ -103,7 +102,7 @@ export function DataTableDemo() {
       return;
     }
     // Navigate to the detail page
-    navigate("/admin/tablaestudiantes/estudiantesprivados/studentdetail");
+    navigate("/studentdetail");
   };
 
   const itemsPerPage = 8;
@@ -192,49 +191,6 @@ export function DataTableDemo() {
       cell: ({ row }) => (
         <div className="text-center">{row.getValue("canceladosTarde")}</div>
       ),
-    },
-    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-        const student = row.original;
-
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
-                }}
-              >
-                <Sheet>
-                  <SheetTrigger asChild>
-                    {/* Este botón será visible solo en pantallas pequeñas */}
-                    <Button variant="ghost">Editar</Button>
-                  </SheetTrigger>
-                  <CrearEditarEstudiante data={student} />
-                </Sheet>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
-                  // Aquí iría la lógica para eliminar el estudiante
-                }}
-              >
-                <Button variant="ghost">Eliminar</Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
-      },
     },
   ];
 
@@ -377,14 +333,6 @@ export function DataTableDemo() {
         <Button variant="ghost" onClick={() => setSearchTerm("")}>
           Clear filters
         </Button>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>Create new student +</Button>
-          </SheetTrigger>
-          <SheetContent>
-            <CrearEditarEstudiante data={{}} />
-          </SheetContent>
-        </Sheet>
       </div>
 
       <div className="rounded-md border">

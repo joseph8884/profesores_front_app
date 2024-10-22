@@ -15,10 +15,10 @@ const LoginButton = ({ username, password }) => {
     // Example logic to determine user type
     if (username === "admin") {
       setUserType("admin");
-      navigate("/home");
+      navigate("/admin/home");
     } else if (username === "profesor") {
       setUserType("profesor");
-      navigate("/home_profesores");
+      navigate("/profesor/home");
     }
   };
 

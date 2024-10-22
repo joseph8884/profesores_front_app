@@ -44,7 +44,7 @@ const StudentDetail = () => {
             <BellIcon className="h-6 w-6" />
           </div>
           <div className="filtrosandbackbtn">
-            <a href="/estudiantes_privados_administrativo">
+            <a href="/admin/tablaestudiantes/estudiantesprivados">
               <Button>Back</Button>
             </a>
             <div className="actions">

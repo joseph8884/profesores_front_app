@@ -49,7 +49,7 @@ const GruposEmpresas = () => {
     // Store data in local storage
     localStorage.setItem('groupData', JSON.stringify(row));
     // Navigate to the detail page
-    navigate('/groupdetail');
+    navigate('/admin/gruposvista/grupos/groupdetail');
   };
 
   // Función para cambiar de página

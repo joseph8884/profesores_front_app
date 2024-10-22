@@ -27,7 +27,7 @@ const GroupDetail = () => {
       <div className="dashboard">
         <div className="dashboardcontainer">
           <div className="filtrosandbackbtn">
-            <a href="/grupos_administrativo"><Button>Back</Button></a>
+            <a href="/admin/gruposvista/grupos"><Button>Back</Button></a>
             {
             //Cosas de los filtros.
             }
