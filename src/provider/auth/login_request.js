@@ -1,5 +1,5 @@
 export default async function postUser(user) {
-    const url = 'https://profesoresbackend.onrender.com/login';
+    const url = 'https://profesoresbackend.onrender.com/auth/login';
     console.log('login usuario', user);
     const resp = await fetch(url, {
       method: 'POST',
