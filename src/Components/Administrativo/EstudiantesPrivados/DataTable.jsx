@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
+import { BellIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +22,6 @@ import {
 import {
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -87,7 +87,7 @@ export function DataTableDemo() {
     navigate("/admin/tablaestudiantes/estudiantesprivados/studentdetail");
   };
 
-  const itemsPerPage = 8;
+  const itemsPerPage = 10;
   const navigate = useNavigate();
 
   // Filter data based on search input
@@ -108,7 +108,7 @@ const filteredData = useMemo(() => {
     }
 
     return filtered;
-  }, [searchTerm, statusFilter, data]);
+  }, [searchTerm, statusFilter]);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const currentItems = useMemo(() => {
@@ -380,7 +380,13 @@ const filteredData = useMemo(() => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full" style={{ overflowY: 'scroll'}}>
+      <div className="bg-white rounded-lg flex justify-between items-center p-5">
+            <h2 className="text-xl font-bold text-gray-900">
+              Lista de estudiantes individuales
+            </h2>
+            <BellIcon className="h-6 w-6" />
+      </div>
       <div className="flex items-center py-4 justify-between">
         <Input
           placeholder="Search by name, email or ID"
