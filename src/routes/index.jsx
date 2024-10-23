@@ -22,7 +22,7 @@ import ErrorBoundary from '../Components/ErrorBoundary/ErrorBoundary.jsx';
 const Routes = () => {
   const { token, userType } = useAuth();
 
-  const routesForNotAuthenticatedOnly = [
+  const routesForPublic  = [
     {
       path: "/login",
       element: <LoginForm />,
@@ -34,14 +34,18 @@ const Routes = () => {
       errorElement: <ErrorBoundary />
     },
   ];
+  const routesForNotAuthenticatedOnly = [
+    {
+      path: "/",
+      element: <div>Home Page go to <a href="/login"><button>login</button></a></div>,
+    }];
 
   const routesForAuthenticatedOnly = [
     {
       path: "/",
-      element: <ProtectedRoute />,
-      errorElement: <ErrorBoundary />,
+      element: <ProtectedRoute errorElement={<ErrorBoundary />} />,
       children: [
-        ...(userType === 'admin' ? [
+        ...(userType === 'ADMINISTRADOR' ? [
           {
             path: "/admin/home",
             element: <HomeAdministrativo />,
@@ -68,7 +72,7 @@ const Routes = () => {
             errorElement: <ErrorBoundary />
           },
         ] : []),
-        ...(userType === 'profesor' ? [
+        ...(userType === 'PROFESOR' ? [
           {
             path: "/profesor/home",
             element: <HomeProfesores />,
@@ -90,8 +94,9 @@ const Routes = () => {
   ];
 
   const router = createBrowserRouter([
+    ...routesForPublic,
     ...(!token ? routesForNotAuthenticatedOnly : []),
-    ...(token ? routesForAuthenticatedOnly : []),
+    ...routesForAuthenticatedOnly,
   ]);
 
   return <RouterProvider router={router} />;

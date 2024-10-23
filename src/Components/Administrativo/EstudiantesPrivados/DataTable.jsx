@@ -38,57 +38,36 @@ import { MoreHorizontal } from "lucide-react";
 
 import CrearEditarEstudiante from "./CrearEstudiante";
 
-const data = [{"id":203,"photo":102,"name":"Caldwell Alflatt","email":"calflatt0@examiner.com","countryCode":"GR","virtual":"01","phoneNumber":"627-794-5382","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":101,"photo":102,"name":"Trumaine Knights","email":"tknights1@flavors.me","countryCode":"US","virtual":"01","phoneNumber":"478-124-4021","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":102,"photo":103,"name":"Tripp Bullan","email":"tbullan2@biblegateway.com","countryCode":"PL","virtual":"01","phoneNumber":"762-766-7633","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":102,"photo":102,"name":"Bunnie Bowmer","email":"bbowmer3@hc360.com","countryCode":"ID","virtual":"01","phoneNumber":"360-228-6165","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":103,"photo":103,"name":"Stanley McKague","email":"smckague4@blogs.com","countryCode":"FI","virtual":"01","phoneNumber":"452-995-0491","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":103,"name":"Mead Hatcher","email":"mhatcher5@spiegel.de","countryCode":"CN","virtual":"01","phoneNumber":"718-134-6453","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":103,"photo":104,"name":"Lorry Farnish","email":"lfarnish6@e-recht24.de","countryCode":"HT","virtual":"01","phoneNumber":"386-192-1132","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":101,"photo":103,"name":"Emlynn Rittelmeyer","email":"erittelmeyer7@dyndns.org","countryCode":"US","virtual":"01","phoneNumber":"919-327-7736","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":103,"name":"Jesse Beadham","email":"jbeadham8@livejournal.com","countryCode":"CN","virtual":"01","phoneNumber":"804-750-3167","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":103,"photo":102,"name":"Keslie Manolov","email":"kmanolov9@gov.uk","countryCode":"FR","virtual":"01","phoneNumber":"408-224-5344","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":102,"photo":104,"name":"Waring Prestland","email":"wprestlanda@cafepress.com","countryCode":"SA","virtual":"01","phoneNumber":"528-280-3559","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":103,"photo":102,"name":"Tawnya Windous","email":"twindousb@sourceforge.net","countryCode":"CO","virtual":"01","phoneNumber":"414-276-4853","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":102,"name":"Guendolen Malden","email":"gmaldenc@reverbnation.com","countryCode":"KZ","virtual":"01","phoneNumber":"991-535-3766","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":101,"photo":102,"name":"Xymenes Minchi","email":"xminchid@hubpages.com","countryCode":"CN","virtual":"01","phoneNumber":"294-589-2533","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":101,"photo":103,"name":"Marcela Gisbourn","email":"mgisbourne@google.it","countryCode":"CN","virtual":"01","phoneNumber":"977-271-7542","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":103,"photo":103,"name":"Thorny Langeley","email":"tlangeleyf@shareasale.com","countryCode":"MK","virtual":"01","phoneNumber":"462-841-1382","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":201,"photo":104,"name":"Jarrod Djurdjevic","email":"jdjurdjevicg@xrea.com","countryCode":"ID","virtual":"01","phoneNumber":"593-737-6713","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":103,"photo":103,"name":"Kory Parminter","email":"kparminterh@de.vu","countryCode":"PE","virtual":"01","phoneNumber":"258-580-8188","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":101,"photo":104,"name":"Hymie Gentsch","email":"hgentschi@sogou.com","countryCode":"CN","virtual":"01","phoneNumber":"507-367-5479","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":102,"photo":102,"name":"Arny Mattaser","email":"amattaserj@desdev.cn","countryCode":"EE","virtual":"01","phoneNumber":"674-531-9686","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":103,"photo":103,"name":"Fidela Wyrall","email":"fwyrallk@merriam-webster.com","countryCode":"PT","virtual":"01","phoneNumber":"135-239-3735","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":103,"photo":102,"name":"Othello Francescozzi","email":"ofrancescozzil@time.com","countryCode":"UA","virtual":"01","phoneNumber":"988-270-9078","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":103,"photo":103,"name":"Shawn Rawdall","email":"srawdallm@drupal.org","countryCode":"FR","virtual":"01","phoneNumber":"555-241-8547","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":101,"photo":104,"name":"Adriena Alastair","email":"aalastairn@slate.com","countryCode":"CN","virtual":"01","phoneNumber":"934-203-8886","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":103,"photo":102,"name":"Alvin Wardroper","email":"awardropero@patch.com","countryCode":"ID","virtual":"01","phoneNumber":"330-300-3594","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":102,"photo":104,"name":"Iago Traice","email":"itraicep@ftc.gov","countryCode":"ID","virtual":"01","phoneNumber":"709-920-7973","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":103,"photo":104,"name":"Corinne Casaro","email":"ccasaroq@histats.com","countryCode":"FR","virtual":"01","phoneNumber":"406-125-6307","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":101,"photo":103,"name":"Bruno Buckleigh","email":"bbuckleighr@wired.com","countryCode":"AR","virtual":"01","phoneNumber":"332-140-5484","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":102,"photo":103,"name":"Flory Piscopo","email":"fpiscopos@psu.edu","countryCode":"SV","virtual":"01","phoneNumber":"771-610-3504","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":101,"photo":104,"name":"Lexy Luciano","email":"llucianot@squidoo.com","countryCode":"BG","virtual":"01","phoneNumber":"313-973-2107","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":102,"photo":104,"name":"Phyllida Beddoe","email":"pbeddoeu@ask.com","countryCode":"PT","virtual":"01","phoneNumber":"363-838-2834","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":103,"photo":102,"name":"Gabbie Corston","email":"gcorstonv@ucoz.com","countryCode":"ID","virtual":"01","phoneNumber":"301-137-0856","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":101,"photo":104,"name":"Larisa Callear","email":"lcallearw@bloglovin.com","countryCode":"CN","virtual":"01","phoneNumber":"166-159-2603","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":101,"photo":102,"name":"Gertrud Hardinge","email":"ghardingex@typepad.com","countryCode":"CN","virtual":"01","phoneNumber":"462-132-2903","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":103,"photo":104,"name":"Gay MacKain","email":"gmackainy@vistaprint.com","countryCode":"ZA","virtual":"01","phoneNumber":"908-600-0108","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":103,"photo":102,"name":"Mason Jennins","email":"mjenninsz@rambler.ru","countryCode":"ID","virtual":"01","phoneNumber":"375-827-9164","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":102,"name":"Vanny Barles","email":"vbarles10@amazon.co.jp","countryCode":"ID","virtual":"01","phoneNumber":"295-148-0656","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":103,"photo":103,"name":"Lexis Philpin","email":"lphilpin11@chronoengine.com","countryCode":"FR","virtual":"01","phoneNumber":"937-194-3817","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":101,"photo":104,"name":"Cordey Brownsett","email":"cbrownsett12@oakley.com","countryCode":"CN","virtual":"01","phoneNumber":"901-574-6973","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":102,"photo":102,"name":"Rollin Spurgeon","email":"rspurgeon13@cornell.edu","countryCode":"SE","virtual":"01","phoneNumber":"586-227-9196","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":101,"photo":104,"name":"Gannie Durden","email":"gdurden14@ted.com","countryCode":"YE","virtual":"01","phoneNumber":"397-165-2736","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":102,"name":"Clarinda Gaskell","email":"cgaskell15@java.com","countryCode":"FR","virtual":"01","phoneNumber":"844-459-5558","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3},
-  {"id":103,"photo":104,"name":"Roz Borley","email":"rborley16@prlog.org","countryCode":"KG","virtual":"01","phoneNumber":"745-442-9772","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":104,"name":"Garrot Goroni","email":"ggoroni17@google.com.br","countryCode":"VN","virtual":"01","phoneNumber":"340-358-5616","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":103,"name":"Veronica Cristea","email":"vcristea18@usda.gov","countryCode":"GB","virtual":"01","phoneNumber":"336-804-5501","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":101,"photo":103,"name":"Hendrik Mulberry","email":"hmulberry19@ed.gov","countryCode":"ID","virtual":"01","phoneNumber":"673-352-6864","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":101,"photo":102,"name":"Wash Lomas","email":"wlomas1a@cam.ac.uk","countryCode":"PT","virtual":"01","phoneNumber":"512-195-9529","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":1},
-  {"id":101,"photo":103,"name":"Jerrie Broadbear","email":"jbroadbear1b@wikispaces.com","countryCode":"AR","virtual":"01","phoneNumber":"930-329-9333","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
-  {"id":102,"photo":104,"name":"Urbain Matushevich","email":"umatushevich1c@purevolume.com","countryCode":"FR","virtual":"01","phoneNumber":"361-591-1536","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4},
-  {"id":103,"photo":103,"name":"Lilia Ruffli","email":"lruffli1d@4shared.com","countryCode":"MX","virtual":"01","phoneNumber":"873-972-6565","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4}];
-
+const data = [{"id":1,"photo":103,"name":"Alida Valero","email":"avalero0@arstechnica.com","countryCode":"AL","virtual":"01","phoneNumber":"329-380-2626","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"inactivo"},
+  {"id":2,"photo":102,"name":"Gigi Yitzhak","email":"gyitzhak1@google.com","countryCode":"UA","virtual":"01","phoneNumber":"180-516-6476","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"inactivo"},
+  {"id":3,"photo":103,"name":"Shae Toopin","email":"stoopin2@intel.com","countryCode":"BR","virtual":"01","phoneNumber":"621-151-7151","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"inactivo"},
+  {"id":4,"photo":102,"name":"Niccolo Gobourn","email":"ngobourn3@alibaba.com","countryCode":"CN","virtual":"01","phoneNumber":"897-676-0290","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"inactivo"},
+  {"id":5,"photo":103,"name":"Forester Taffarello","email":"ftaffarello4@wikimedia.org","countryCode":"UG","virtual":"01","phoneNumber":"823-401-4067","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"activo"},
+  {"id":6,"photo":102,"name":"Josy Ruller","email":"jruller5@shareasale.com","countryCode":"KP","virtual":"01","phoneNumber":"640-660-9465","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":7,"photo":103,"name":"Carlyn Edmands","email":"cedmands6@house.gov","countryCode":"FR","virtual":"01","phoneNumber":"363-223-2922","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":8,"photo":103,"name":"Viv Humpage","email":"vhumpage7@disqus.com","countryCode":"CN","virtual":"01","phoneNumber":"720-610-4327","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":9,"photo":103,"name":"Franni Lomasny","email":"flomasny8@flickr.com","countryCode":"ID","virtual":"01","phoneNumber":"724-408-1569","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"activo"},
+  {"id":10,"photo":102,"name":"Jakob Faraker","email":"jfaraker9@jiathis.com","countryCode":"LT","virtual":"01","phoneNumber":"931-481-1879","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"activo"},
+  {"id":11,"photo":102,"name":"Derrek Sutherden","email":"dsutherdena@creativecommons.org","countryCode":"PH","virtual":"01","phoneNumber":"150-737-4988","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":12,"photo":103,"name":"Pietra Alford","email":"palfordb@state.tx.us","countryCode":"CN","virtual":"01","phoneNumber":"481-285-6241","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":13,"photo":102,"name":"Gerta Baltrushaitis","email":"gbaltrushaitisc@theglobeandmail.com","countryCode":"PK","virtual":"01","phoneNumber":"915-310-7291","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"activo"},
+  {"id":14,"photo":103,"name":"Gerry Meakin","email":"gmeakind@foxnews.com","countryCode":"RU","virtual":"01","phoneNumber":"142-219-2252","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":15,"photo":103,"name":"Lauryn Fontanet","email":"lfontanete@youtu.be","countryCode":"ZA","virtual":"01","phoneNumber":"176-957-3352","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":16,"photo":103,"name":"Seward Walsh","email":"swalshf@nationalgeographic.com","countryCode":"MX","virtual":"01","phoneNumber":"659-548-5512","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"activo"},
+  {"id":17,"photo":102,"name":"Sidney Jessel","email":"sjesselg@narod.ru","countryCode":"LT","virtual":"01","phoneNumber":"545-149-3515","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":18,"photo":102,"name":"Sibyl Geipel","email":"sgeipelh@behance.net","countryCode":"PH","virtual":"01","phoneNumber":"878-268-7594","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":19,"photo":102,"name":"Padriac Swindlehurst","email":"pswindlehursti@blogtalkradio.com","countryCode":"PH","virtual":"01","phoneNumber":"600-890-8005","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":20,"photo":103,"name":"Zondra O'Towey","email":"zotoweyj@mac.com","countryCode":"PT","virtual":"01","phoneNumber":"496-194-9480","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"activo"},
+  {"id":21,"photo":102,"name":"Arabela Bankhurst","email":"abankhurstk@baidu.com","countryCode":"US","virtual":"01","phoneNumber":"434-743-6175","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":22,"photo":103,"name":"Lindie Peacop","email":"lpeacopl@fc2.com","countryCode":"CN","virtual":"01","phoneNumber":"326-839-7216","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":23,"photo":102,"name":"Trixy Blackboro","email":"tblackborom@reverbnation.com","countryCode":"AU","virtual":"01","phoneNumber":"588-332-0224","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":3,"status":"activo"},
+  {"id":24,"photo":102,"name":"Traver Diggar","email":"tdiggarn@addtoany.com","countryCode":"PT","virtual":"01","phoneNumber":"235-394-3450","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":25,"photo":102,"name":"Daren Bancroft","email":"dbancrofto@cbc.ca","countryCode":"RU","virtual":"01","phoneNumber":"400-135-9441","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":26,"photo":102,"name":"Kaleena Pepperd","email":"kpepperdp@msu.edu","countryCode":"ID","virtual":"01","phoneNumber":"117-466-5461","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":27,"photo":103,"name":"Veronika Gostall","email":"vgostallq@sina.com.cn","countryCode":"RU","virtual":"01","phoneNumber":"666-146-3817","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":28,"photo":102,"name":"Bambie Kik","email":"bkikr@ezinearticles.com","countryCode":"CN","virtual":"01","phoneNumber":"897-885-7911","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2,"status":"activo"},
+  {"id":29,"photo":103,"name":"Henka Mushawe","email":"hmushawes@360.cn","countryCode":"FI","virtual":"01","phoneNumber":"212-191-1962","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"},
+  {"id":30,"photo":102,"name":"Sofie Stanway","email":"sstanwayt@163.com","countryCode":"FR","virtual":"01","phoneNumber":"408-618-1452","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":4,"status":"activo"}]
 
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
@@ -96,6 +75,8 @@ export function DataTableDemo() {
   const [rowSelection, setRowSelection] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState(null); 
+
 
   const handleRowClick = (row, event) => {
     localStorage.setItem("selected_student", JSON.stringify(row.original));
@@ -110,15 +91,24 @@ export function DataTableDemo() {
   const navigate = useNavigate();
 
   // Filter data based on search input
-  const filteredData = useMemo(() => {
-    if (!searchTerm) return data;
-    return data.filter((item) =>
-      ["name", "email", "id"].some((key) => {
-        const value = item[key];
-        return typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase());
-      })
-    );
-  }, [searchTerm]);
+const filteredData = useMemo(() => {
+    let filtered = data;
+
+    if (searchTerm) {
+      filtered = filtered.filter((item) =>
+        ["name", "email", "id"].some((key) => {
+          const value = item[key];
+          return typeof value === "string" && value.toLowerCase().includes(searchTerm.toLowerCase());
+        })
+      );
+    }
+
+    if (statusFilter) {
+      filtered = filtered.filter((item) => item.status === statusFilter);
+    }
+
+    return filtered;
+  }, [searchTerm, statusFilter, data]);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const currentItems = useMemo(() => {
@@ -138,6 +128,11 @@ export function DataTableDemo() {
           className="h-10 w-10 object-cover rounded-full"
         />
       ),
+    },
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div>{row.getValue("id")}</div>,
     },
     {
       accessorKey: "name",
@@ -191,6 +186,15 @@ export function DataTableDemo() {
       header: "Cancelados tarde",
       cell: ({ row }) => (
         <div className="text-center">{row.getValue("canceladosTarde")}</div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+        <span className={row.original.status === "activo" ? "text-green-500" : "text-red-500"}>
+          {row.getValue("status")}
+        </span>
       ),
     },
     {
@@ -252,6 +256,16 @@ export function DataTableDemo() {
       rowSelection,
     },
   });
+
+    // Manejador para cambiar el filtro de estado
+    const toggleStatusFilter = (status) => {
+      if (statusFilter === status) {
+        setStatusFilter(null); // Si el filtro ya está activo, se desactiva
+      } else {
+        setStatusFilter(status.toLowerCase()); // Convertir a minúsculas para coincidir con los datos
+      }
+    };
+
 
   // Pagination logic with 3 dots for more than 9 pages
   const renderPageNumbers = () => {
@@ -374,7 +388,25 @@ export function DataTableDemo() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button variant="ghost" onClick={() => setSearchTerm("")}>
+        {/* Botones de filtros */}
+        <Button
+          variant={statusFilter === "activo" ? "solid" : "outline"}
+          onClick={() => toggleStatusFilter("Activo")}
+          className={statusFilter === "activo" ? "bg-green-500 text-white" : ""}
+        >
+          Activo
+        </Button>
+        <Button
+          variant={statusFilter === "inactivo" ? "solid" : "outline"}
+          onClick={() => toggleStatusFilter("Inactivo")}
+          className={statusFilter === "inactivo" ? "bg-red-500 text-white" : ""}
+        >
+          Inactivo
+        </Button>
+        <Button variant="ghost" onClick={() => {
+            setStatusFilter(null); 
+            setSearchTerm("");
+          }}>
           Clear filters
         </Button>
         <Sheet>

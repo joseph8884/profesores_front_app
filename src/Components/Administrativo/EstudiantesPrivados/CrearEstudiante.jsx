@@ -7,6 +7,13 @@ import {
   SheetTitle,
   SheetDescription,
 } from "../../ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../ui/select";
 
 const CrearEditarEstudiante = ({ data }) => {
   // Initialize state for each field
@@ -23,6 +30,7 @@ const CrearEditarEstudiante = ({ data }) => {
   const [lastRegister, setLastRegister] = useState(
     data.lastRegister ? new Date(data.lastRegister).toLocaleString() : "N/A"
   );
+  const [status, setStatus] = useState(data.status || "inactivo");
 
   // Validation function
   const validateFields = () => {
@@ -69,6 +77,7 @@ const CrearEditarEstudiante = ({ data }) => {
         horasPlaneadas,
         horasRestantes,
         lastRegister,
+        status,
       };
       console.log("Saved Data:", updatedData);
       // Aquí puedes agregar la lógica para guardar los datos actualizados
@@ -197,6 +206,20 @@ const CrearEditarEstudiante = ({ data }) => {
             onChange={(e) => setLastRegister(e.target.value)}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Status{" "}
+          </label>
+          <Select defaultValue={status} onValueChange={(value) => setStatus(value)}>
+            <SelectTrigger className="text-sm font-medium text-gray-700">
+              <SelectValue placeholder="status"/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="activo">Activo</SelectItem>
+              <SelectItem value="inactivo">Inactivo</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Save Button */}

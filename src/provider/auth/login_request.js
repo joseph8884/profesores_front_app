@@ -12,5 +12,5 @@ export default async function postUser(user) {
     } else {
       console.error('Error al agregar la práctica');
     }
-    return resp;
+    return resp; // Asegúrate de que esto retorne la respuesta completa
   };
