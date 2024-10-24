@@ -16,21 +16,21 @@ import {
 } from "../../ui/select";
 
 const CrearEditarEstudiante = ({ data }) => {
-  // Initialize state for each field
-  const [name, setName] = useState(data.name || "");
+  // Initialize state for each field with new variable names
+  const [fullName, setFullName] = useState(data.fullName || ""); // Changed from name to fullName
   const [email, setEmail] = useState(data.email || "");
   const [countryCode, setCountryCode] = useState(data.countryCode || "");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
-  const [horasPlaneadas, setHorasPlaneadas] = useState(
-    parseInt(data.horasPlaneadas) || 0
+  const [hoursPurchased, setHoursPurchased] = useState( // Changed from horasPlaneadas
+    parseInt(data.hoursPurchased) || 0
   );
-  const [horasRestantes, setHorasRestantes] = useState(
-    parseInt(data.horasRestantes) || 0
+  const [hoursSpent, setHoursSpent] = useState( // Changed from horasRestantes
+    parseInt(data.hoursSpented) || 0
   );
-  const [lastRegister, setLastRegister] = useState(
-    data.lastRegister ? new Date(data.lastRegister).toLocaleString() : "N/A"
+  const [lastLog, setLastLog] = useState( // Changed from lastRegister
+    data.lastLog ? new Date(data.lastLog).toLocaleString() : "N/A"
   );
-  const [status, setStatus] = useState(data.status || "inactivo");
+  const [status, setStatus] = useState(data.status ? "activo" : "inactivo"); // Adjusted for boolean status
 
   // Validation function
   const validateFields = () => {
@@ -38,7 +38,7 @@ const CrearEditarEstudiante = ({ data }) => {
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     const phoneRegex = /^[0-9]+$/;
 
-    if (!name || !nameRegex.test(name)) {
+    if (!fullName || !nameRegex.test(fullName)) { // Changed from name to fullName
       alert("Please enter a valid name.");
       return false;
     }
@@ -54,11 +54,11 @@ const CrearEditarEstudiante = ({ data }) => {
       alert("Please enter a valid phone number.");
       return false;
     }
-    if (horasPlaneadas < 0) {
+    if (hoursPurchased < 0) { // Changed from horasPlaneadas
       alert("Hours purchased cannot be negative.");
       return false;
     }
-    if (horasRestantes < 0) {
+    if (hoursSpent < 0) { // Changed from horasRestantes
       alert("Hours spent cannot be negative.");
       return false;
     }
@@ -70,14 +70,14 @@ const CrearEditarEstudiante = ({ data }) => {
 
     if (window.confirm("Are you sure you want to save the changes?")) {
       const updatedData = {
-        name,
+        fullName, // Changed from name to fullName
         email,
         countryCode,
         phoneNumber,
-        horasPlaneadas,
-        horasRestantes,
-        lastRegister,
-        status,
+        hoursPurchased, // Changed from horasPlaneadas
+        hoursSpented: hoursSpent, // Changed from horasRestantes
+        lastLog, // Changed from lastRegister
+        status: status === "activo", // Convert back to boolean
       };
       console.log("Saved Data:", updatedData);
       // Aquí puedes agregar la lógica para guardar los datos actualizados
@@ -92,10 +92,10 @@ const CrearEditarEstudiante = ({ data }) => {
       {/* Header */}
       <SheetHeader>
         <SheetTitle className="text-xl font-bold mb-4">
-          {data.name ? "Edit Student" : "Create Student"}
+          {data.fullName ? "Edit Student" : "Create Student"}
         </SheetTitle>
         <SheetDescription>
-          {data.name
+          {data.fullName
             ? "Edit the details of the student."
             : "Fill in the details to create a new student."}
         </SheetDescription>
@@ -120,8 +120,8 @@ const CrearEditarEstudiante = ({ data }) => {
           </label>
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={fullName} // Changed from name to fullName
+            onChange={(e) => setFullName(e.target.value)} // Changed from setName to setFullName
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter full name"
           />
@@ -176,8 +176,8 @@ const CrearEditarEstudiante = ({ data }) => {
           </label>
           <input
             type="number"
-            value={horasPlaneadas}
-            onChange={(e) => setHorasPlaneadas(parseInt(e.target.value))}
+            value={hoursPurchased} // Changed from horasPlaneadas
+            onChange={(e) => setHoursPurchased(parseInt(e.target.value))} // Changed from setHorasPlaneadas
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
@@ -189,8 +189,8 @@ const CrearEditarEstudiante = ({ data }) => {
           </label>
           <input
             type="number"
-            value={horasRestantes}
-            onChange={(e) => setHorasRestantes(parseInt(e.target.value))}
+            value={hoursSpent} // Changed from horasRestantes
+            onChange={(e) => setHoursSpent(parseInt(e.target.value))} // Changed from setHorasRestantes
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
@@ -202,8 +202,8 @@ const CrearEditarEstudiante = ({ data }) => {
           </label>
           <input
             type="text"
-            value={lastRegister}
-            onChange={(e) => setLastRegister(e.target.value)}
+            value={lastLog} // Changed from lastRegister
+            onChange={(e) => setLastLog(e.target.value)} // Changed from setLastRegister
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>

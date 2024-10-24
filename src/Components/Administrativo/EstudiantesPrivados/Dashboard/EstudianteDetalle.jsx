@@ -19,12 +19,13 @@ import { DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "./Calendar";
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
-
+  const [date,setDate]=useState([]);
   useEffect(() => {
     const data = localStorage.getItem("selected_student");
     if (data) {
       setStudentData(JSON.parse(data));
     }
+    setDate({month: parseInt(new Date().getMonth().toString() )+1, year: new Date().getFullYear().toString()});
   }, []);
 
   if (!studentData) {
@@ -32,7 +33,7 @@ const StudentDetail = () => {
   }
 
   return (
-    <div className="min-h-screen flex" style={{ overflowY: 'hidden', height: '100vh', }}>
+    <div className="flex" style={{ overflowY: 'hidden', height: '100vh', }}>
       <NavMobile />
       <NavWeb />
       <div className="dashboard">
@@ -48,9 +49,17 @@ const StudentDetail = () => {
               <Button>Back</Button>
             </a>
             <div className="actions">
-              <Calendar />
+              <Calendar setDate={(date)=> setDate(date)} date={date}/>
 
-              <Button>limpiar filtros</Button>
+              <Button onClick={() => {
+                const currentDate = new Date();
+                const dateObj = {
+                  month: (currentDate.getMonth() + 1).toString(),
+                  year: currentDate.getFullYear().toString(),
+                };
+                console.log(dateObj); 
+                setDate(dateObj);
+              }}>limpiar filtros</Button>
               <Button>
                 <DownloadIcon />
                 Exportar

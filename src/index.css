@@ -67,3 +67,8 @@
     @apply bg-background text-foreground;
   }
 }
+html {
+  scroll-behavior: smooth;
+  overflow-y: hidden;
+  height: 100vh;
+}
