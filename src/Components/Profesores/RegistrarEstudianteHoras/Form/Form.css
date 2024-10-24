@@ -1,0 +1,87 @@
+
+.dashboard{
+    display:grid;
+    width: 100vw;
+    grid-template-areas: 
+    "tituloynotificaciones"
+    "actividad_academica"
+    "form"
+    "personal_information"
+    "last_classes";
+    overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
+    max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
+    overflow-x: auto; /* Agregar scroll lateral */
+    background-color: #D1D9E2;
+    padding: 10px;
+
+    & div.dashboardcontainer{
+        display: grid;
+        margin-bottom: 50px;
+        grid-template:
+        "tituloynotificaciones tituloynotificaciones"10% 
+        "actividad_academica personal_information" 15%
+        "form personal_information" auto
+        "last_classes personal_information" 20%/
+         auto auto; 
+        gap: 10px;
+        & div.tituloynotificaciones{
+            background-color: white;
+            grid-area: tituloynotificaciones;
+            border-radius: 10px;
+            display: flex;
+            float: right;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            & div{
+                display: flex;
+                float: right;
+                gap: 50px;
+            }
+        }
+        & div.resumenDeActividadAcademica{
+            border-radius: 10px;
+            background-color: white;
+            grid-area: actividad_academica;
+        }
+        & div.form{
+            border-radius: 10px;
+            background-color: white;
+            grid-area: form;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        & div.informacionDetalladaEstudiante{
+            padding: 50px;
+            background-color: white;
+            border-radius: 10px;
+            grid-area: personal_information;
+        }
+        & div.ultimasclasesvistas{
+            background-color: white;
+            border-radius: 10px;
+            grid-area: last_classes;
+        }
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .dashboard {
+        overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
+        overflow-x: auto; /* Agregar scroll lateral */
+        & div.dashboardcontainer{
+            height: auto;
+            grid-template:
+            "tituloynotificaciones"auto
+            "actividad_academica" 15%
+            "form" auto
+            "last_classes" auto
+            "personal_information" auto/
+            100%; 
+        }
+    }
+
+}

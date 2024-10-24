@@ -102,7 +102,7 @@ export function DataTableDemo() {
       return;
     }
     // Navigate to the detail page
-    navigate("/studentdetail");
+    navigate("/profesor/registrarhoras/estudianteindividual/estudiante");
   };
 
   const itemsPerPage = 8;

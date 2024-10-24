@@ -8,8 +8,18 @@ import {
   SheetTrigger,
 } from "../../ui/sheet";
 import Nav from "./Nav";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../provider/auth/authProvider";
 
 const NavMobile = () => {
+  const { setToken, setUserType } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    setToken("");
+    setUserType(""); 
+    navigate("/login");
+  }
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -35,7 +45,7 @@ const NavMobile = () => {
             />
             <div>
               <p className="font-semibold">Gustavo Xavier</p>
-              <Button variant="ghost" className="text-red-500">
+              <Button variant="ghost" className="text-red-500" onClick={()=> handleLogout() }>
                 Log out
               </Button>
             </div>
