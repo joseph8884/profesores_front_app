@@ -226,7 +226,7 @@ const GruposEmpresas = () => {
       <div className="flex-1 p-6" style={{ overflowY: 'scroll'}}>
       <div className="bg-white rounded-lg flex justify-between items-center p-5">
             <h2 className="text-xl font-bold text-gray-900">
-              Lista de estudiantes individuales
+              Lista de grupos
             </h2>
             <BellIcon className="h-6 w-6" />
       </div>
@@ -276,6 +276,7 @@ const GruposEmpresas = () => {
               name={item.name}
               category={item.category}
               nit={item.nit}
+              status={item.status}
               onClick={() => handleRowClick(item)}
             />
           ))}

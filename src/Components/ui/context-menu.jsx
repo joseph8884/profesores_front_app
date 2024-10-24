@@ -59,7 +59,7 @@ const ContextMenuContent = React.forwardRef(({ className, ...props }, ref) => (
 ))
 ContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName
 
-const ContextMenuItem = React.forwardRef(({ className, inset, ...props }, ref) => (
+const ContextMenuItem = React.forwardRef(({ className, inset, onClick,...props }, ref) => (
   <ContextMenuPrimitive.Item
     ref={ref}
     className={cn(
@@ -67,6 +67,13 @@ const ContextMenuItem = React.forwardRef(({ className, inset, ...props }, ref) =
       inset && "pl-8",
       className
     )}
+    onClick={(event) => {
+      event.preventDefault(); // Previene el comportamiento predeterminado
+      event.stopPropagation(); // Detiene la propagación del evento
+      if (onClick) {
+        onClick(event);
+      }
+    }}
     {...props} />
 ))
 ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName

@@ -192,11 +192,18 @@ const filteredData = useMemo(() => {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <span className={row.original.status === "activo" ? "text-green-500" : "text-red-500"}>
-          {row.getValue("status")}
-        </span>
+        <div className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${row.original.status === "activo" ? "bg-green-500" : "bg-red-500"}`}>
+          {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+          <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+          {/* Texto del estado */}
+          <span>
+            {row.original.status === "activo" ? "Activo" : "Inactivo"}
+          </span>
+        </div>
       ),
     },
+    
+    
     {
       id: "actions",
       enableHiding: false,
