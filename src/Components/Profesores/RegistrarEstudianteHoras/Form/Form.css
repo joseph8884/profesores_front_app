@@ -14,15 +14,15 @@
     background-color: #D1D9E2;
     padding: 10px;
 
-    & div.dashboardcontainer{
+    & div.dashboardcontainerform{
         display: grid;
         margin-bottom: 50px;
         grid-template:
         "tituloynotificaciones tituloynotificaciones"10% 
-        "actividad_academica personal_information" 15%
+        "actividad_academica personal_information" auto
         "form personal_information" auto
-        "last_classes personal_information" 20%/
-         auto auto; 
+        "last_classes personal_information" auto/
+        auto auto; 
         gap: 10px;
         & div.tituloynotificaciones{
             background-color: white;
@@ -37,6 +37,7 @@
                 display: flex;
                 float: right;
                 gap: 50px;
+                align-items: center;
             }
         }
         & div.resumenDeActividadAcademica{
@@ -48,9 +49,46 @@
             border-radius: 10px;
             background-color: white;
             grid-area: form;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px 50px 20px 50px;
+            display: grid;
+            grid-template-areas: 
+            "hours"
+            "reson"
+            "cancelation"
+            "button";
+            & form{
+                display: grid;
+                grid-template: 
+                "hours reson" auto
+                "cancelation cancelation" auto 
+                "button button" auto/
+                30% auto;
+                gap: 20px;
+                & div.hours{
+                    grid-area: hours;
+                    float: left;
+                    gap: 20px;
+                    align-items: center;
+                }
+                & div.reson{
+                    grid-area: reson;
+                    float: left;
+                    gap: 20px;
+                    align-items: center;
+                }
+                & div.cancelation{
+                    grid-area: cancelation;
+                    float: left;
+                    gap: 20px;
+                    align-items: center;
+                }
+                div.button{
+                    grid-area: button;
+                    & Button{
+                        width: 100%;
+                    }
+                }
+            }
         }
         
         & div.informacionDetalladaEstudiante{
@@ -81,6 +119,22 @@
             "last_classes" auto
             "personal_information" auto/
             100%; 
+            & div.form{
+                grid-template-areas: 
+                "hours"
+                "reson"
+                "cancelation"
+                "button";
+                & form{
+                    grid-template: 
+                    "hours" auto
+                    "reson" auto
+                    "cancelation" auto 
+                    "button" auto/
+                    auto;
+                    gap: 20px;
+                }
+            }
         }
     }
 

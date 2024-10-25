@@ -35,6 +35,7 @@ import {
 } from "../../ui/pagination";
 import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
+import { BellIcon } from "@radix-ui/react-icons";
 
 
 const data = [{"id":203,"photo":102,"name":"Caldwell Alflatt","email":"calflatt0@examiner.com","countryCode":"GR","virtual":"01","phoneNumber":"627-794-5382","presencial":"02","lastRegister":"12/9/2024","horasPlaneadas":"3H","horasRestantes":"01","canceladosTarde":"03","canceladosATiempo":"02","action":"View","horasCanceladas":"03","horasCanceladasProfesor":2},
@@ -323,6 +324,12 @@ export function DataTableDemo() {
 
   return (
     <div className="w-full">
+            <div className="bg-white rounded-lg flex justify-between items-center p-5">
+            <h2 className="text-xl font-bold text-gray-900">
+              Lista de estudiantes individuales
+            </h2>
+            <BellIcon className="h-6 w-6" />
+      </div>
       <div className="flex items-center py-4 justify-between">
         <Input
           placeholder="Search by name, email or ID"

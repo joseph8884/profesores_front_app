@@ -33,14 +33,14 @@ const Form = () => {
       <NavMobile />
       <NavWeb />
       <div className="dashboard">
-        <div className="dashboardcontainer">
+        <div className="dashboardcontainerform">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
               Registrar Horas
             </h2>
             <div>
             <BellIcon className="h-6 w-6" />
-            <a href="/admin/tablaestudiantes/estudiantesprivados">
+            <a href="/profesor/registrarhoras/estudianteindividual">
               <Button>Back</Button>
             </a>
             

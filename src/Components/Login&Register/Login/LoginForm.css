@@ -98,4 +98,22 @@
     background: #333;
   }
 
+  @media screen and (max-width: 600px) {
+    .login {
+      grid-template-areas: 
+      "logo"
+      "logincard";
+      & div.login-container{
+        grid-template: 
+        "logo" auto
+        "logincard" auto/
+        auto; 
+        justify-items: center;
+      }
+      & div.login-container::after {
+        display: none;
+    }
+
+}
+  }
   

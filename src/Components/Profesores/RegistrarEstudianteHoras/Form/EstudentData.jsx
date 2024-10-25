@@ -99,7 +99,6 @@ const EstudentData = ({ studentData }) => {
           <input
             type="text"
             value={fullName} // Changed from name to fullName
-            onChange={(e) => setFullName(e.target.value)} // Changed from setName to setFullName
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter full name"
           />
@@ -113,7 +112,6 @@ const EstudentData = ({ studentData }) => {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter email"
           />
@@ -127,7 +125,6 @@ const EstudentData = ({ studentData }) => {
           <input
             type="text"
             value={countryCode}
-            onChange={(e) => setCountryCode(e.target.value)}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter country code"
           />
@@ -141,7 +138,6 @@ const EstudentData = ({ studentData }) => {
           <input
             type="text"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter phone number"
           />
@@ -155,7 +151,6 @@ const EstudentData = ({ studentData }) => {
           <input
             type="number"
             value={hoursPurchased} // Changed from horasPlaneadas
-            onChange={(e) => setHoursPurchased(parseInt(e.target.value))} // Changed from setHorasPlaneadas
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
@@ -168,7 +163,6 @@ const EstudentData = ({ studentData }) => {
           <input
             type="number"
             value={hoursSpent} // Changed from horasRestantes
-            onChange={(e) => setHoursSpent(parseInt(e.target.value))} // Changed from setHorasRestantes
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
@@ -181,33 +175,8 @@ const EstudentData = ({ studentData }) => {
           <input
             type="text"
             value={lastLog} // Changed from lastRegister
-            onChange={(e) => setLastLog(e.target.value)} // Changed from setLastRegister
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Status{" "}
-          </label>
-          <Select defaultValue={status} onValueChange={(value) => setStatus(value)}>
-            <SelectTrigger className="text-sm font-medium text-gray-700">
-              <SelectValue placeholder="status"/>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="activo">Activo</SelectItem>
-              <SelectItem value="inactivo">Inactivo</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Save Button */}
-        <div className="pt-4">
-          <Button
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md"
-            onClick={handleSave}
-          >
-            Save Changes
-          </Button>
         </div>
       </form>
 </>
