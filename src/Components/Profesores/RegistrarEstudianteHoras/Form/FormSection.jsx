@@ -36,7 +36,7 @@ const FormSection = () => {
   const [cancellationReason, setCancellationReason] = useState("");
   const [showCancellation, setShowCancellation] = useState(false);
 
-  // Manejo de cambios en los inputs
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -59,16 +59,16 @@ const FormSection = () => {
 
   const handleAttendanceChange = (value) => {
     setClassHeld(value);
-    setShowCancellation(value === "false"); // Mostrar sección de cancelación si no se realizó la clase
+    setShowCancellation(value === "false"); // Show cancellation section if class was not held
   };
 
-  // Función para convertir la duración a horas
+  // Function to convert duration to hours
   const convertDurationToHours = (duration) => {
     if (duration === "30min") return 0.5;
     if (duration === "1hr") return 1;
     if (duration === "2hr") return 2;
     if (duration === "3hr") return 3;
-    return 0; // Valor por defecto si no coincide
+    return 0; // Default value if it doesn't match
   };
 
   const handleSubmit = (e) => {
@@ -76,7 +76,7 @@ const FormSection = () => {
     const formData = {
       date,
       classType,
-      hours: convertDurationToHours(hours), // Convertir a horas numéricas
+      hours: convertDurationToHours(hours), // Convert to numeric hours
       comments,
       topics,
       cancellationTiming,
@@ -84,16 +84,16 @@ const FormSection = () => {
       cancellationReason,
       classHeld: classHeld === "true",
     };
-    console.log(JSON.stringify(formData, null, 2)); // Imprimir en consola
+    console.log(JSON.stringify(formData, null, 2)); // Print to console
   };
 
   return (
     <div className="form">
       <form onSubmit={handleSubmit}>
         <div className="hours">
-          <div className="attandance">
+          <div className="attendance">
             <label className="mb-2 font-semibold">
-              ¿Se hizo la clase?
+              Was the class held?
               <Select
                 onValueChange={handleAttendanceChange}
                 value={classHeld}
@@ -102,7 +102,7 @@ const FormSection = () => {
                   <SelectValue placeholder="" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="true">Sí</SelectItem>
+                  <SelectItem value="true">Yes</SelectItem>
                   <SelectItem value="false">No</SelectItem>
                 </SelectContent>
               </Select>
@@ -111,7 +111,7 @@ const FormSection = () => {
 
           <div className="flex flex-col">
             <label className="mb-2 font-semibold">
-              Fecha y hora de inicio:
+              Start date and time:
               <Input
                 type="datetime-local"
                 name="date"
@@ -123,7 +123,7 @@ const FormSection = () => {
 
           <div className="flex flex-col">
             <label className="mb-2 font-semibold">
-              Tipo de clase:
+              Class type:
               <Select
                 name="classType"
                 onValueChange={setClassType}
@@ -134,7 +134,7 @@ const FormSection = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Virtual">Virtual</SelectItem>
-                  <SelectItem value="Presencial">Presencial</SelectItem>
+                  <SelectItem value="In-person">In-person</SelectItem>
                 </SelectContent>
               </Select>
             </label>
@@ -142,30 +142,30 @@ const FormSection = () => {
 
           <div className="flex flex-col">
             <label className="mb-2 font-semibold">
-              Duración (horas):
+              Duration (hours):
               <Select
                 name="hours"
                 onValueChange={setHours}
                 value={hours}
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Duratio" />
+                  <SelectValue placeholder="Duration" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="30min">30 minutos</SelectItem>
-                  <SelectItem value="1hr">1 hora</SelectItem>
-                  <SelectItem value="2hr">2 horas</SelectItem>
-                  <SelectItem value="3hr">3 horas</SelectItem>
+                  <SelectItem value="30min">30 minutes</SelectItem>
+                  <SelectItem value="1hr">1 hour</SelectItem>
+                  <SelectItem value="2hr">2 hours</SelectItem>
+                  <SelectItem value="3hr">3 hours</SelectItem>
                 </SelectContent>
               </Select>
             </label>
           </div>
         </div>
 
-        <div className="reson">
+        <div className="reason">
           <div className="flex flex-col">
             <label className="mb-2 font-semibold">
-              Comentarios:
+              Comments:
               <Textarea
                 name="comments"
                 value={comments}
@@ -176,7 +176,7 @@ const FormSection = () => {
 
           <div className="flex flex-col">
             <label className="mb-2 font-semibold">
-              Temática vista:
+              Topics covered:
               <Textarea
                 name="topics"
                 value={topics}
@@ -186,25 +186,23 @@ const FormSection = () => {
           </div>
         </div>
 
-        {/* Mostrar sección de cancelación solo si classHeld es "false" */}
+        {/* Show cancellation section only if classHeld is "false" */}
         {classHeld === "false" && (
-          <div className="cancelation">
+          <div className="cancellation">
             <div className="flex flex-col">
               <label className="mb-2 font-semibold">
-                ¿Cancelación a tiempo?
+                Was the cancellation timely?
                 <Select
                   name="cancellationTiming"
                   onValueChange={setCancellationTiming}
                   value={cancellationTiming}
                 >
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Cancelation type" />
+                    <SelectValue placeholder="Cancellation type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="A tiempo">A tiempo</SelectItem>
-                    <SelectItem value="Sobre el tiempo">
-                      Sobre el tiempo
-                    </SelectItem>
+                    <SelectItem value="On time">On time</SelectItem>
+                    <SelectItem value="Late">Late</SelectItem>
                   </SelectContent>
                 </Select>
               </label>
@@ -212,7 +210,7 @@ const FormSection = () => {
 
             <div className="flex flex-col">
               <label className="mb-2 font-semibold">
-                ¿Quién canceló?
+                Who canceled?
                 <Select
                   name="cancelledBy"
                   onValueChange={setCancelledBy}
@@ -222,8 +220,8 @@ const FormSection = () => {
                     <SelectValue placeholder="Cancelled by" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Estudiante">Estudiante</SelectItem>
-                    <SelectItem value="Profesor">Profesor</SelectItem>
+                    <SelectItem value="Student">Student</SelectItem>
+                    <SelectItem value="Teacher">Teacher</SelectItem>
                   </SelectContent>
                 </Select>
               </label>
@@ -231,7 +229,7 @@ const FormSection = () => {
 
             <div className="flex flex-col">
               <label className="mb-2 font-semibold">
-                Motivo de la cancelación:
+                Reason for cancellation:
                 <Textarea
                   name="cancellationReason"
                   value={cancellationReason}
@@ -244,7 +242,7 @@ const FormSection = () => {
         
         <div className="button">
           <Button type="submit">
-            Enviar
+            Submit
           </Button>
         </div>
       </form>

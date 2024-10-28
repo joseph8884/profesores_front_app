@@ -6,8 +6,7 @@
     "tituloynotificaciones"
     "actividad_academica"
     "form"
-    "personal_information"
-    "last_classes";
+    "personal_information";
     overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
     max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
     overflow-x: auto; /* Agregar scroll lateral */
@@ -20,8 +19,7 @@
         grid-template:
         "tituloynotificaciones tituloynotificaciones"10% 
         "actividad_academica personal_information" auto
-        "form personal_information" auto
-        "last_classes personal_information" auto/
+        "form personal_information" 70%/
         auto auto; 
         gap: 10px;
         & div.tituloynotificaciones{

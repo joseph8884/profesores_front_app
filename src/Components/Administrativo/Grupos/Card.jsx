@@ -10,18 +10,11 @@ import SheetContentGrupo from "./CrearModGrupo";
 import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
 import { Button } from "../../ui/button";
 
-
-const Card = ({ image, name, category, nit, status, onClick }) => {
+const Card = ({ image, name, category, nit, status, onClick, data }) => {
   // Determinar el color del encabezado y del círculo según el estado
-  const statusColor = status === "activo" ? "bg-green-500" : "bg-red-500";
-  const statusText = status === "activo" ? "Activo" : "Inactivo";
-  const data = {
-    profileImage: image,
-    name: name,
-    category: category,
-    nit: nit,
-    status: status,
-  };
+  const statusColor = status ? "bg-green-500" : "bg-red-500";
+  const statusText = status ? "Activo" : "Inactivo";
+
   return (
     <ContextMenu>
       <ContextMenuTrigger>
@@ -50,14 +43,14 @@ const Card = ({ image, name, category, nit, status, onClick }) => {
       {/* Menú contextual */}
       <ContextMenuContent>
         <ContextMenuItem>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>Editar</Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetContentGrupo data={data} />
-          </SheetContent>
-        </Sheet>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>Editar</Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetContentGrupo initialData={data} />
+            </SheetContent>
+          </Sheet>
         </ContextMenuItem>
         <ContextMenuItem>Eliminar</ContextMenuItem>
       </ContextMenuContent>

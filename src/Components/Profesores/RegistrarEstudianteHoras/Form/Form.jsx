@@ -86,32 +86,6 @@ const Form = () => {
           <div className="informacionDetalladaEstudiante">
             <EstudentData studentData={studentData} />
           </div>
-          <div className="ultimasclasesvistas">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Photo</TableHead>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Teacher</TableHead>
-                  <TableHead>Mode</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Photo</TableCell>
-                  <TableCell>#12306</TableCell>
-                  <TableCell>Nov 02, 2023</TableCell>
-                  <TableCell>Carlos David Perez Rocha</TableCell>
-                  <TableCell>Presencial</TableCell>
-                  <TableCell>3H</TableCell>
-                  <TableCell>Completed</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
         </div>
       </div>
 
