@@ -37,7 +37,7 @@ import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import CrearEditarEstudiante from "./CrearEstudiante";
 import {getStudents} from "../../../provider/adm/EstudiantePersonalizado/getStudents";
-const data = [{"id":1,"fullName":"Diane Goodbarr","email":"dgoodbarr0@comsenz.com","countryCode":"CZ","phoneNumber":"154-733-4291","photo":"Maecenas.xls","hoursPurchased":85,"hoursSpented":78,"lastLog":"2024-10-17T00:00:00Z","status":false,"idUser":9,"individualClasses":[]},
+const data1 = [{"id":1,"fullName":"Diane Goodbarr","email":"dgoodbarr0@comsenz.com","countryCode":"CZ","phoneNumber":"154-733-4291","photo":"Maecenas.xls","hoursPurchased":85,"hoursSpented":78,"lastLog":"2024-10-17T00:00:00Z","status":false,"idUser":9,"individualClasses":[]},
 {"id":2,"fullName":"Gan Lytle","email":"glytle1@instagram.com","countryCode":"CN","phoneNumber":"932-589-9053","photo":"PotentiCras.ppt","hoursPurchased":100,"hoursSpented":14,"lastLog":"2024-10-17T00:00:00Z","status":false,"idUser":5,"individualClasses":[]},
 {"id":3,"fullName":"Logan Snazle","email":"lsnazle2@latimes.com","countryCode":"CN","phoneNumber":"324-316-6701","photo":"Lacinia.avi","hoursPurchased":3,"hoursSpented":20,"lastLog":"2024-10-17T00:00:00Z","status":true,"idUser":7,"individualClasses":[]},
 {"id":4,"fullName":"Niven MacIlhagga","email":"nmacilhagga3@webeden.co.uk","countryCode":"US","phoneNumber":"202-486-3573","photo":"PedeMorbi.avi","hoursPurchased":3,"hoursSpented":60,"lastLog":"2024-10-17T00:00:00Z","status":true,"idUser":6,"individualClasses":[]},
@@ -68,7 +68,7 @@ export function DataTableDemo() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null); 
-  /*
+
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchStudents = async () => {
@@ -77,7 +77,7 @@ export function DataTableDemo() {
     };
     fetchStudents();
   }, []);
-*/
+
   const handleRowClick = (row, event) => {
     localStorage.setItem("selected_student", JSON.stringify(row.original));
     if (event.target.closest(".dropdown-menu")) {

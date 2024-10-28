@@ -17,6 +17,8 @@ const LoginButton = ({ username, password }) => {
         setToken(data.token); // Guardar el token en el estado
         const userType = parseJwt(data.token).role; // Decodificar el token para obtener el tipo de usuario
         setUserType(userType); // Establecer el tipo de usuario
+        
+
 
         // Navegar según el tipo de usuario
         if (userType === "ADMINISTRADOR") {
@@ -25,6 +27,7 @@ const LoginButton = ({ username, password }) => {
             navigate("/profesor/home");
         }
         window.location.reload();
+        
     } else {
         console.error('Error al iniciar sesión');
     }
