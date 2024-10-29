@@ -1,6 +1,6 @@
 export async function createCompany(companyData) {
     const url = 'https://profesoresbackend.onrender.com/admin/equipo/empresa/crear';
-    const token = sessionStorage.getItem('jwtToken'); // Retrieve the JWT token from session storage
+    const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
         const response = await fetch(url, {
@@ -26,7 +26,7 @@ export async function createCompany(companyData) {
 
 export async function createTeam(teamData) {
     const url = 'https://profesoresbackend.onrender.com/admin/equipo/crear';
-    const token = sessionStorage.getItem('jwtToken'); // Retrieve the JWT token from session storage
+    const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
         const response = await fetch(url, {
