@@ -15,9 +15,12 @@ import {
 } from "../../ui/select";
 import PhoneInput from "react-phone-input-2";
 import { createEstudent } from "../../../provider/adm/EstudiantePersonalizado/postStudent";
+import { updateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/putStudent";
 import Loader from "../../Loader/Loader";
 
 const CrearEditarEstudiante = ({ data, context }) => {
+  const [file, setFile] = useState(null);
+  const [fileError, setFileError] = useState("");
   const [fullName, setFullName] = useState(data.fullName || "");
   const [email, setEmail] = useState(data.email || "");
   const [countryCode, setCountryCode] = useState("");
@@ -35,7 +38,24 @@ const CrearEditarEstudiante = ({ data, context }) => {
   );
   const [status, setStatus] = useState(data.status ? "activo" : "inactivo"); // Adjusted for boolean status
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
-  const [flagStatus, setFlagStatus] = useState(false); //Cuando este activa, es por que se cambio el estado 
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            console.log("Preview result:", reader.result); // Verificación
+            setFile(reader.result); // Actualiza la vista previa
+            setFileError("");
+        };
+        reader.readAsDataURL(selectedFile);
+    } else {
+        setFile("");
+        setFileError("Please select a valid image file (jpg, jpeg, or png).");
+    }
+};
+  
   const validateFields = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
@@ -64,32 +84,47 @@ const CrearEditarEstudiante = ({ data, context }) => {
       alert("Hours spent cannot be negative.");
       return false;
     }
+    if (fileError) {
+      alert(fileError);
+      return false;
+    }
     return true;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!validateFields()) return;
 
     if (window.confirm("Are you sure you want to save the changes?")) {
-      setLoading(true); // Activa el loader
+      setLoading(true);
 
       const updatedData = {
-        fullName, // Changed from name to fullName
+        fullName,
         email,
         countryCode: 1,
         phoneNumber,
-        hoursPurchased, // Changed from horasPlaneadas
-        hoursSpented: hoursSpent, // Changed from horasRestantes
-        lastLog: "2024-10-17T17:22:48.123456Z", // Changed from lastRegister
-        //status: status === "activo", // Convert back to boolean
-        photo: "phot2o.jpeg",
+        hoursPurchased,
+        hoursSpented: hoursSpent,
+        lastLog: "2024-10-17T17:22:48.123456Z",
+        //status: status === "activo",
+        photo: file || data.photo, // Aquí envías la imagen como base64
       };
       if (context === "create") {
-        createEstudent(updatedData);
-        setTimeout(() => {
-          setLoading(false); 
-          window.location.reload(); 
-        }, 2000); 
+        try {
+          await createEstudent(updatedData);
+        } catch (error) {
+          console.error("Error creating student:", error);
+        } finally {
+          setLoading(false);
+          window.location.reload();
+        }
+      } else {
+        try {
+          await updateStudentAPI(data.idUser, updatedData);
+        } catch (error) {
+          console.error("Error updating student:", error);
+        } finally {
+          setLoading(false);
+        }
       }
     }
   };
@@ -112,19 +147,30 @@ const CrearEditarEstudiante = ({ data, context }) => {
               : "Fill in the details to create a new student."}
           </SheetDescription>
         </SheetHeader>
-        {/* Profile Image */}
-        <div className="flex justify-center mb-6">
-          <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
-            <img
-              src={data.photo || "/profilephoto.jpeg"}
-              alt="User"
-              className="h-32 w-32 object-cover rounded-full"
-            />
-          </div>
-        </div>
 
         {/* Form */}
         <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+      {/* Vista previa de la imagen */}
+      <div
+        className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer"
+        onClick={() => document.getElementById("fileInput").click()}
+      >
+        
+          <img
+            src={file || data.photo}
+            alt="uploadimage"
+            className="h-32 w-32 object-cover rounded-full"
+          />
+        
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/jpeg, image/jpg, image/png"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
+      </div>
+
           {/* Full Name Field */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -204,7 +250,6 @@ const CrearEditarEstudiante = ({ data, context }) => {
             <input
               type="text"
               value={lastLog} // Changed from lastRegister
-              onChange={(e) => setLastLog(e.target.value)} // Changed from setLastRegister
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>

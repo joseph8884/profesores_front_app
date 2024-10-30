@@ -37,6 +37,8 @@ import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import CrearEditarEstudiante from "./CrearEstudiante";
 import { getStudents } from "../../../provider/adm/EstudiantePersonalizado/getStudents";
+import {delateStudentAPI} from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
+import Loader from "../../Loader/Loader";
 
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
@@ -46,6 +48,8 @@ export function DataTableDemo() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false); // Estado para manejar el loading
+
   //Pagination variables
   const itemsPerPage = 10;
   const navigate = useNavigate();
@@ -349,9 +353,17 @@ export function DataTableDemo() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
-                  // Aquí iría la lógica para eliminar el estudiante
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  setLoading(true);
+                  try {
+                    await delateStudentAPI(student.idUser);
+                  } catch (error) {
+                    console.error("Error creating student:", error);
+                  } finally {
+                    setLoading(false);
+                    window.location.reload();
+                  }
                 }}
               >
                 <Button variant="ghost">Eliminar</Button>
@@ -379,7 +391,9 @@ export function DataTableDemo() {
   });
 
   return (
-    <div className="w-full" style={{ overflowY: "scroll" }}>
+    <>
+    {loading && <Loader />} 
+     <div className="w-full" style={{ overflowY: "scroll" }}>
       <div className="bg-white rounded-lg flex justify-between items-center p-5">
         <h2 className="text-xl font-bold text-gray-900">
           Lista de estudiantes individuales
@@ -493,5 +507,8 @@ export function DataTableDemo() {
         </PaginationContent>
       </Pagination>
     </div>
+    
+    </>
+   
   );
 }
