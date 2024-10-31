@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { creaCompany } from "../../../provider/adm/Grupos/crearTeam&Company";
+import {putCompany} from "../../../provider/adm/Grupos/putCompany";
 import { Button } from "../../ui/button";
 import {
   DialogDescription,
@@ -10,9 +11,9 @@ import {
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import Loader from "../../Loader/Loader";
-const CrearCompany = () => {
-  const [name, setName] = useState("");
-  const [nit, setNIT] = useState("");
+const CrearCompany = ({data, context}) => {
+  const [name, setName] = useState(data.name||"");
+  const [nit, setNIT] = useState(data.nit||"");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
 
   const handleCreateCompany = async () => {
@@ -28,8 +29,11 @@ const CrearCompany = () => {
     }
 
     try {
-      const response = await creaCompany(companyData);
-      console.log("Company created:", response);
+      if (context === "crear") {
+        await creaCompany(companyData);
+      } else{
+        await putCompany(companyData, data.id);
+      }
     } catch (error) {
       console.error("Error creating student:", error);
     } finally {
@@ -42,7 +46,7 @@ const CrearCompany = () => {
     <>
       {loading && <Loader />}
       <DialogHeader>
-        <DialogTitle>Crear compañia</DialogTitle>
+        <DialogTitle>{context}</DialogTitle>
         <DialogDescription>
           Ingrese el nombre y el nit de la empresa
         </DialogDescription>

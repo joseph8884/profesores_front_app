@@ -1,32 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {
-  createTeam,
-} from "../../../provider/adm/Grupos/crearTeam&Company";
-import { getCompanys } from "../../../provider/adm/Grupos/getCompany";
+import { createTeam } from "../../../provider/adm/Grupos/crearTeam&Company";
 import { Button } from "../../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "../../ui/dialog";
-import CrearCompany from "./CrearCompany.jsx";
-import { TrashIcon } from "@radix-ui/react-icons";
 import Loader from "../../Loader/Loader";
-import { delateCompany } from "../../../provider/adm/Grupos/deleteCompany";
-
-
+import CompanyCRUD from "./CompanyCRUD.jsx";
+import { getCompanys } from "../../../provider/adm/Grupos/getCompany";
 const CrearModGrupo = ({ initialData }) => {
   const [companies, setCompanies] = useState([]);
   const [nit, setNit] = useState("");
   const [idCompany, setidCompany] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [teamData, setTeamData] = useState({
     name: "",
@@ -46,6 +29,7 @@ const CrearModGrupo = ({ initialData }) => {
     };
     fetchCompanies();
   }, []);
+  
 
   useEffect(() => {
     if (initialData) {
@@ -88,73 +72,18 @@ const CrearModGrupo = ({ initialData }) => {
         </SheetHeader>
 
         {/* Company Form */}
-        <form className="space-y-4 mb-6">
-          <h3 className="text-lg font-semibold">Select Company</h3>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Company Name
-            </label>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Select
-                onValueChange={(value) => {
-                  const selectedCompany = companies.find(
-                    (company) => company.name === value
-                  );
-                  if (selectedCompany) {
-                    setNit(selectedCompany.nit); // Autocompletar el NIT
-                    setidCompany(selectedCompany.id);
-                  }
-                }}
-              >
-                <SelectTrigger className="w-[280px]">
-                  <SelectValue placeholder="Select a company" />
-                </SelectTrigger>
-                <SelectContent>
-                  {companies.map((company) => (
-                    <SelectItem key={company.id} value={company.name}>
-                      {company.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <TrashIcon
-                className="w-6 h-6 text-gray-400 col-span-3"
-                onClick={async () => {
-                  setLoading(true);
-                  try {
-                    await delateCompany(idCompany);
-                  } catch (error) {
-                    console.error("Error creating student:", error);
-                  } finally {
-                    setLoading(false);
-                    window.location.reload();
-                  }
-                }}
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              NIT
-            </label>
-            <input
-              type="text"
-              name="nit"
-              value={nit}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Enter NIT"
-              readOnly
-            />
-          </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="ghost">Create Company +</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <CrearCompany />
-            </DialogContent>
-          </Dialog>
-        </form>
+        <CompanyCRUD 
+          companies={companies}
+          setCompanies={setCompanies}
+          nit={nit}
+          setNit={setNit}
+          idCompany={idCompany}
+          setidCompany={setidCompany}
+          name={name}
+          setName={setName}
+          loading={loading}
+          setLoading={setLoading}
+        />
 
         {/* Team Form */}
         <form className="space-y-4">
