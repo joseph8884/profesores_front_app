@@ -5,19 +5,22 @@ import { SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet";
 import Loader from "../../Loader/Loader";
 import CompanyCRUD from "./CompanyCRUD.jsx";
 import { getCompanys } from "../../../provider/adm/Grupos/getCompany";
+import TeamCRUD from "./TeamCRUD.jsx"; // Importa el nuevo componente
+
 const CrearModGrupo = ({ initialData }) => {
   const [companies, setCompanies] = useState([]);
   const [nit, setNit] = useState("");
   const [idCompany, setidCompany] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [teamData, setTeamData] = useState({
-    name: "",
-    companyID: "",
-    hoursPurchased: 0,
-    hoursSpented: 0,
-    photo: "",
-  });
+
+  // Variables de estado para el equipo
+  const [teamName, setTeamName] = useState("");
+  const [teamCompanyID, setTeamCompanyID] = useState("");
+  const [hoursPurchased, setHoursPurchased] = useState(0);
+  const [hoursSpented, setHoursSpented] = useState(0);
+  const [photo, setPhoto] = useState("");
+
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -29,50 +32,33 @@ const CrearModGrupo = ({ initialData }) => {
     };
     fetchCompanies();
   }, []);
-  
 
-  useEffect(() => {
-    if (initialData) {
-      // Pre-fill the form with the initial data
-      setTeamData({
-        name: initialData.name,
-        companyID: initialData.companyID.id,
-        hoursPurchased: initialData.hoursPurchased,
-        hoursSpented: initialData.hoursSpented,
-        photo: initialData.photo,
-      });
-    }
-  }, [initialData]);
-
-  const handleTeamChange = (e) => {
-    const { name, value } = e.target;
-    setTeamData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleCreateTeam = async () => {
-    try {
-      const response = await createTeam(teamData);
-      console.log("Team created:", response);
-    } catch (error) {
-      console.error("Error creating team:", error);
-    }
+  const handleSubmit = () => {
+    const combinedData = {
+      company: {
+        nit,
+        idCompany,
+        name,
+      },
+      team: {
+        name: teamName,
+        companyID: teamCompanyID,
+        hoursPurchased,
+        hoursSpented,
+        photo,
+      },
+    };
+    console.log("Combined Data:", JSON.stringify(combinedData, null, 2));
   };
 
   return (
     <>
       {loading && <Loader />}
-      <SheetContent
-        side="right"
-        className="w-full md:w-1/3 bg-gray-100 text-black min-h-screen p-6 overflow-y-auto"
-      >
-        <SheetHeader>
-          <SheetTitle className="text-xl font-bold mb-4">
-            Create or Modify Group
-          </SheetTitle>
-        </SheetHeader>
+      <div>
+        
 
         {/* Company Form */}
-        <CompanyCRUD 
+        <CompanyCRUD
           companies={companies}
           setCompanies={setCompanies}
           nit={nit}
@@ -85,69 +71,25 @@ const CrearModGrupo = ({ initialData }) => {
           setLoading={setLoading}
         />
 
-        {/* Team Form */}
-        <form className="space-y-4">
-          <h3 className="text-lg font-semibold">Create Team</h3>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Team Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={teamData.name}
-              onChange={handleTeamChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Enter team name"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Company ID
-            </label>
-            <input
-              type="number"
-              name="companyID"
-              value={teamData.companyID}
-              onChange={handleTeamChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Enter company ID"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Hours Purchased
-            </label>
-            <input
-              type="number"
-              name="hoursPurchased"
-              value={teamData.hoursPurchased}
-              onChange={handleTeamChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Enter hours purchased"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Photo
-            </label>
-            <input
-              type="text"
-              name="photo"
-              value={teamData.photo}
-              onChange={handleTeamChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Enter photo URL"
-            />
-          </div>
-          <Button
-            onClick={handleCreateTeam}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md"
-          >
-            Create Team
-          </Button>
-        </form>
-      </SheetContent>
+        <TeamCRUD
+          teamName={teamName}
+          setTeamName={setTeamName}
+          teamCompanyID={teamCompanyID}
+          setTeamCompanyID={setTeamCompanyID}
+          hoursPurchased={hoursPurchased}
+          setHoursPurchased={setHoursPurchased}
+          hoursSpented={hoursSpented}
+          setHoursSpented={setHoursSpented}
+          photo={photo}
+          setPhoto={setPhoto}
+        />
+        <Button
+          onClick={handleSubmit}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md"
+        >
+          Submit
+        </Button>
+      </div>
     </>
   );
 };

@@ -4,6 +4,7 @@ import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
 import "./GrupoDetalle.css";
+import CrearModGrupo from "../CrearModGrupo";
 
 const GroupDetail = () => {
   const [groupData, setGroupData] = useState(null);
@@ -21,11 +22,14 @@ const GroupDetail = () => {
 
 
   return (
-    <div className="min-h-screen flex">
+    <div
+      className="min-h-screen flex"
+      style={{ overflowY: "hidden", height: "100vh" }}
+    >
       <NavMobile />
       <NavWeb />
-      <div className="dashboard">
-        <div className="dashboardcontainer">
+      <div className="dashboardgroup">
+        <div className="dashboardcontainergroup">
           <div className="filtrosandbackbtn">
             <a href="/admin/gruposvista/grupos"><Button>Back</Button></a>
             {
@@ -42,7 +46,7 @@ const GroupDetail = () => {
             grafica
           </div>
           <div className="informacionDetalladaEstudiante">
-            info del estudiante
+            <CrearModGrupo initialData={groupData} />
           </div>
           <div className="ultimasclasesvistas">
             clases vistas
