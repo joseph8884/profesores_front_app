@@ -9,6 +9,7 @@ import HomeAdministrativo from '../Components/Administrativo/Home/Home.jsx';
 import TablaEstudiantesProvados from '../Components/Administrativo/EstudiantesPrivados/EstudiantesPrivados.jsx';
 import GruposEmpresas from '../Components/Administrativo/Grupos/Grupos.jsx';
 import StudentDetail from '../Components/Administrativo/EstudiantesPrivados/Dashboard/EstudianteDetalle.jsx';
+import StudentsGroupCRUD from '../Components/Administrativo/Grupos/Dashboard/AllStudents.jsx';
 import GroupDetail from '../Components/Administrativo/Grupos/Dashboard/GrupoDetalle.jsx';
 
 //Profesor components
@@ -72,6 +73,11 @@ const Routes = () => {
             element: <GroupDetail />,
             errorElement: <ErrorBoundary />
           },
+          {
+            path: "/admin/gruposvista/grupos/groupdetail/studentsgroupcrud",
+            element: <StudentsGroupCRUD />,
+            errorElement: <ErrorBoundary />
+          }
         ] : []),
         ...(userType === 'PROFESOR' ? [
           {

@@ -46,7 +46,7 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
         <ContextMenuItem>
           <Sheet>
             <SheetTrigger asChild>
-              <Button>Editar</Button>
+              <Button variant={"ghost"}>Editar</Button>
             </SheetTrigger>
             <SheetContent
               side="right"
@@ -61,7 +61,9 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
             </SheetContent>
           </Sheet>
         </ContextMenuItem>
-        <ContextMenuItem>Eliminar</ContextMenuItem>
+        <ContextMenuItem>
+        <Button variant={"ghost"}>Eliminar</Button>
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   );
