@@ -47,6 +47,7 @@ const CompanyCRUD = ({
           </label>
           <div className="grid grid-cols-3 items-center gap-4">
             <Select
+              defaultValue={name}
               onValueChange={(value) => {
                 const selectedCompany = companies.find(
                   (company) => company.name === value

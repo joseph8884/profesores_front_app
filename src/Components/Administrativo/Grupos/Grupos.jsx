@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
@@ -21,237 +21,33 @@ import {
   SheetTitle,
 } from "../../ui/sheet";
 import ManageTeamCompany from "./CrearModGrupo";
+import Loader from "../../Loader/Loader";
 import { BellIcon } from "@radix-ui/react-icons";
-
-const data = [
-  {
-    id: 1,
-    name: "Honorable",
-    companyID: { id: 1, name: "Buzzshare", nit: "787-09-1144" },
-    hoursPurchased: 60,
-    hoursSpented: 3,
-    photo: "RhoncusDui.tiff",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 2,
-    name: "Dr",
-    companyID: { id: 2, name: "Mydeo", nit: "584-54-1305" },
-    hoursPurchased: 62,
-    hoursSpented: 64,
-    photo: "AliquetMassaId.ppt",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 3,
-    name: "Mrs",
-    companyID: { id: 3, name: "Feedspan", nit: "643-27-0148" },
-    hoursPurchased: 94,
-    hoursSpented: 11,
-    photo: "Id.avi",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 4,
-    name: "Dr",
-    companyID: { id: 4, name: "Jabberstorm", nit: "372-49-3343" },
-    hoursPurchased: 11,
-    hoursSpented: 36,
-    photo: "NuncViverra.avi",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 5,
-    name: "Mrs",
-    companyID: { id: 5, name: "Jabbercube", nit: "888-07-4300" },
-    hoursPurchased: 69,
-    hoursSpented: 60,
-    photo: "Curabitur.ppt",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 6,
-    name: "Honorable",
-    companyID: { id: 6, name: "Photospace", nit: "875-49-5892" },
-    hoursPurchased: 48,
-    hoursSpented: 37,
-    photo: "IaculisJusto.avi",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 7,
-    name: "Ms",
-    companyID: { id: 7, name: "Avaveo", nit: "378-24-0104" },
-    hoursPurchased: 46,
-    hoursSpented: 52,
-    photo: "AnteIpsum.mov",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 8,
-    name: "Mr",
-    companyID: { id: 8, name: "Livefish", nit: "299-38-9370" },
-    hoursPurchased: 78,
-    hoursSpented: 65,
-    photo: "PosuereNonummyInteger.png",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 9,
-    name: "Rev",
-    companyID: { id: 9, name: "Wikivu", nit: "147-45-4949" },
-    hoursPurchased: 40,
-    hoursSpented: 90,
-    photo: "Vestibulum.xls",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 10,
-    name: "Mr",
-    companyID: { id: 10, name: "Oyope", nit: "288-28-0321" },
-    hoursPurchased: 75,
-    hoursSpented: 92,
-    photo: "VolutpatEleifend.png",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 11,
-    name: "Dr",
-    companyID: { id: 11, name: "Edgeclub", nit: "149-26-8477" },
-    hoursPurchased: 43,
-    hoursSpented: 30,
-    photo: "Hac.ppt",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 12,
-    name: "Dr",
-    companyID: { id: 12, name: "Dynava", nit: "144-21-4627" },
-    hoursPurchased: 72,
-    hoursSpented: 43,
-    photo: "VolutpatSapienArcu.mpeg",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 13,
-    name: "Honorable",
-    companyID: { id: 13, name: "Viva", nit: "795-42-8157" },
-    hoursPurchased: 62,
-    hoursSpented: 65,
-    photo: "Cubilia.mp3",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 14,
-    name: "Ms",
-    companyID: { id: 14, name: "Pixonyx", nit: "220-07-8439" },
-    hoursPurchased: 53,
-    hoursSpented: 62,
-    photo: "AmetJustoMorbi.tiff",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 15,
-    name: "Honorable",
-    companyID: { id: 15, name: "Brainlounge", nit: "347-47-9399" },
-    hoursPurchased: 93,
-    hoursSpented: 5,
-    photo: "Nulla.mp3",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 16,
-    name: "Ms",
-    companyID: { id: 16, name: "Blognation", nit: "862-44-6932" },
-    hoursPurchased: 33,
-    hoursSpented: 7,
-    photo: "VelitNecNisi.pdf",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 17,
-    name: "Mr",
-    companyID: { id: 17, name: "Twinte", nit: "109-30-1209" },
-    hoursPurchased: 27,
-    hoursSpented: 43,
-    photo: "InFaucibusOrci.tiff",
-    status: false,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 18,
-    name: "Honorable",
-    companyID: { id: 18, name: "Eabox", nit: "340-01-1278" },
-    hoursPurchased: 56,
-    hoursSpented: 8,
-    photo: "CuraeMaurisViverra.xls",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 19,
-    name: "Rev",
-    companyID: { id: 19, name: "Trilith", nit: "497-19-0051" },
-    hoursPurchased: 42,
-    hoursSpented: 49,
-    photo: "VariusInteger.pdf",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-  {
-    id: 20,
-    name: "Ms",
-    companyID: { id: 20, name: "Wordpedia", nit: "790-81-7773" },
-    hoursPurchased: 18,
-    hoursSpented: 4,
-    photo: "NamNulla.avi",
-    status: true,
-    studentsTeams: [],
-    teamClasses: [],
-  },
-];
+import { getAllTeams } from "../../../provider/adm/Grupos/getAllTeams";
 
 const GruposEmpresas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true); // Estado para manejar el loading
+
   const itemsPerPage = 6; // Ajusta este valor según sea necesario
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const data_fromAPI = await getAllTeams();
+        setData(data_fromAPI);
+      } catch (error) {
+        console.error("Error fetching students:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGroups();
+  }, []);
 
   const handleRowClick = (row) => {
     // Store data in local storage
@@ -268,6 +64,7 @@ const GruposEmpresas = () => {
   };
 
   const filteredData = useMemo(() => {
+    if (loading) return [];
     let filtered = data;
 
     if (searchTerm) {
@@ -282,19 +79,22 @@ const GruposEmpresas = () => {
       );
     }
 
-    if (statusFilter) {
+    if (statusFilter !== null) {
+      // Ensure statusFilter is checked correctly
       filtered = filtered.filter((item) => item.status === statusFilter);
     }
 
     return filtered;
-  }, [searchTerm, statusFilter]);
+  }, [data, searchTerm, statusFilter, loading]);
+
   const toggleStatusFilter = (status) => {
     if (statusFilter === status) {
       setStatusFilter(null); // Si el filtro ya está activo, se desactiva
     } else {
-      setStatusFilter(status.toLowerCase()); // Convertir a minúsculas para coincidir con los datos
+      setStatusFilter(status === "Activo"); // Set to true for "Activo" and false for "Inactivo"
     }
   };
+
   // Datos para la página actual
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const currentItems = useMemo(() => {
@@ -302,6 +102,7 @@ const GruposEmpresas = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     return filteredData.slice(indexOfFirstItem, indexOfLastItem);
   }, [currentPage, filteredData]);
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
     const maxPagesToShow = 9;
@@ -406,19 +207,13 @@ const GruposEmpresas = () => {
     }
     return pageNumbers;
   };
-  const dataprueba = {
-    profileImage: "profilephoto.jpeg",
-    name: "",
-    email: "",
-    dob: "",
-    country: "",
-  };
 
   return (
     <div
       className="min-h-screen flex"
       style={{ overflowY: "hidden", height: "100vh" }}
     >
+      {loading && <Loader />}
       <NavMobile />
       <NavWeb />
 
@@ -436,20 +231,16 @@ const GruposEmpresas = () => {
           />
           {/* Botones de filtros */}
           <Button
-            variant={statusFilter === "activo" ? "solid" : "outline"}
+            variant={statusFilter === true ? "solid" : "outline"} // Check for true for "Activo"
             onClick={() => toggleStatusFilter("Activo")}
-            className={
-              statusFilter === "activo" ? "bg-green-500 text-white" : ""
-            }
+            className={statusFilter === true ? "bg-green-500 text-white" : ""}
           >
             Activo
           </Button>
           <Button
-            variant={statusFilter === "inactivo" ? "solid" : "outline"}
+            variant={statusFilter === false ? "solid" : "outline"} // Check for false for "Inactivo"
             onClick={() => toggleStatusFilter("Inactivo")}
-            className={
-              statusFilter === "inactivo" ? "bg-red-500 text-white" : ""
-            }
+            className={statusFilter === false ? "bg-red-500 text-white" : ""}
           >
             Inactivo
           </Button>
@@ -460,7 +251,7 @@ const GruposEmpresas = () => {
               setSearchTerm("");
             }}
           >
-            Borrar filtros
+            Clear filters
           </Button>
           <Sheet>
             <SheetTrigger asChild>
@@ -476,21 +267,22 @@ const GruposEmpresas = () => {
                   Create or Modify Group
                 </SheetTitle>
               </SheetHeader>
-              <ManageTeamCompany data={dataprueba} />
+              <ManageTeamCompany initialData={{}} />
             </SheetContent>
           </Sheet>
         </div>
 
         {/* Sección de Cartas */}
         <div className="grid grid-cols-3 gap-4 mb-6">
-          {currentItems.map((item, index) => (
+          {filteredData.map((item, index) => (
             <Card
               key={index}
-              image={item.image}
+              image={item.photo}
               name={item.name}
-              category={item.category}
-              nit={item.nit}
+              companyName={item.companyName}
+              nit={item.companyNIT}
               status={item.status}
+              data={item}
               onClick={() => handleRowClick(item)}
             />
           ))}

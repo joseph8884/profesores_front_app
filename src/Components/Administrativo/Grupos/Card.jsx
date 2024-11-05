@@ -7,10 +7,10 @@ import {
 } from "../../ui/context-menu"
 import SheetContentGrupo from "./CrearModGrupo";
 
-import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle} from "../../ui/sheet";
 import { Button } from "../../ui/button";
 
-const Card = ({ image, name, category, nit, status, onClick, data }) => {
+const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
   // Determinar el color del encabezado y del círculo según el estado
   const statusColor = status ? "bg-green-500" : "bg-red-500";
   const statusText = status ? "Activo" : "Inactivo";
@@ -34,8 +34,9 @@ const Card = ({ image, name, category, nit, status, onClick, data }) => {
           {/* Información */}
           <div className="mt-4">
             <h3 className="text-lg font-bold">{name}</h3>
-            <p className="text-sm text-gray-500">{category}</p>
+            <p className="text-sm text-gray-500">Nombre de la empresa: {companyName}</p>
             <p className="text-sm text-gray-400">NIT: {nit}</p>
+            <p className='text-sm text-gray-400'>Id Team: {data.ID}</p>
           </div>
         </div>
       </ContextMenuTrigger>
@@ -47,7 +48,15 @@ const Card = ({ image, name, category, nit, status, onClick, data }) => {
             <SheetTrigger asChild>
               <Button>Editar</Button>
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent
+              side="right"
+              className="w-full md:w-1/3 bg-gray-100 text-black min-h-screen p-6 overflow-y-auto"
+            >
+              <SheetHeader>
+                <SheetTitle className="text-xl font-bold mb-4">
+                  Create or Modify Group
+                </SheetTitle>
+              </SheetHeader>
               <SheetContentGrupo initialData={data} />
             </SheetContent>
           </Sheet>

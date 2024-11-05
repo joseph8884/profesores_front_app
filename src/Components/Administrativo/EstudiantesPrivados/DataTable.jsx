@@ -37,7 +37,7 @@ import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import CrearEditarEstudiante from "./CrearEstudiante";
 import { getStudents } from "../../../provider/adm/EstudiantePersonalizado/getStudents";
-import {delateStudentAPI} from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
+import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
 import Loader from "../../Loader/Loader";
 
 export function DataTableDemo() {
@@ -229,7 +229,6 @@ export function DataTableDemo() {
     }
   };
 
-
   //Tabla config
   const columns = [
     {
@@ -348,7 +347,7 @@ export function DataTableDemo() {
                     {/* Este botón será visible solo en pantallas pequeñas */}
                     <Button variant="ghost">Editar</Button>
                   </SheetTrigger>
-                  <CrearEditarEstudiante data={student} context={"edit"}/>
+                  <CrearEditarEstudiante data={student} context={"edit"} />
                 </Sheet>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -392,123 +391,119 @@ export function DataTableDemo() {
 
   return (
     <>
-    {loading && <Loader />} 
-     <div className="w-full" style={{ overflowY: "scroll" }}>
-      <div className="bg-white rounded-lg flex justify-between items-center p-5">
-        <h2 className="text-xl font-bold text-gray-900">
-          Lista de estudiantes individuales
-        </h2>
-        <BellIcon className="h-6 w-6" />
-      </div>
-      <div className="flex items-center py-4 justify-between">
-        <Input
-          placeholder="Search by name, email or ID"
-          className="w-96"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        {/* Botones de filtros */}
-        <Button
-          variant={statusFilter === true ? "solid" : "outline"} // Check for true for "Activo"
-          onClick={() => toggleStatusFilter("Activo")}
-          className={statusFilter === true ? "bg-green-500 text-white" : ""}
-        >
-          Activo
-        </Button>
-        <Button
-          variant={statusFilter === false ? "solid" : "outline"} // Check for false for "Inactivo"
-          onClick={() => toggleStatusFilter("Inactivo")}
-          className={statusFilter === false ? "bg-red-500 text-white" : ""}
-        >
-          Inactivo
-        </Button>
-        <Button
-          variant="ghost"
-          onClick={() => {
-            setStatusFilter(null);
-            setSearchTerm("");
-          }}
-        >
-          Clear filters
-        </Button>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>Create new student +</Button>
-          </SheetTrigger>
-          <SheetContent>
-            <CrearEditarEstudiante data={{}} context={"create"}/>
-          </SheetContent>
-        </Sheet>
-      </div>
+      {loading && <Loader />}
+      <div className="w-full" style={{ overflowY: "scroll" }}>
+        <div className="bg-white rounded-lg flex justify-between items-center p-5">
+          <h2 className="text-xl font-bold text-gray-900">
+            Lista de estudiantes individuales
+          </h2>
+          <BellIcon className="h-6 w-6" />
+        </div>
+        <div className="flex items-center py-4 justify-between">
+          <Input
+            placeholder="Search by name, email or ID"
+            className="w-96"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {/* Botones de filtros */}
+          <Button
+            variant={statusFilter === true ? "solid" : "outline"} // Check for true for "Activo"
+            onClick={() => toggleStatusFilter("Activo")}
+            className={statusFilter === true ? "bg-green-500 text-white" : ""}
+          >
+            Activo
+          </Button>
+          <Button
+            variant={statusFilter === false ? "solid" : "outline"} // Check for false for "Inactivo"
+            onClick={() => toggleStatusFilter("Inactivo")}
+            className={statusFilter === false ? "bg-red-500 text-white" : ""}
+          >
+            Inactivo
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setStatusFilter(null);
+              setSearchTerm("");
+            }}
+          >
+            Clear filters
+          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>Create new student +</Button>
+            </SheetTrigger>
+            <CrearEditarEstudiante data={{}} context={"create"} />
+          </Sheet>
+        </div>
 
-      <div className="rounded-md border">
-        <Table key={`table-page-${currentPage}`}>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-
-          <TableBody>
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  onClick={(event) => handleRowClick(row, event)}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+        <div className="rounded-md border">
+          <Table key={`table-page-${currentPage}`}>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id}>
                       {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+                        header.column.columnDef.header,
+                        header.getContext()
                       )}
-                    </TableCell>
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="text-center">
-                  No results found.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              ))}
+            </TableHeader>
 
-      {/* Pagination */}
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              href="#"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-          </PaginationItem>
-          {renderPageNumbers()}
-          <PaginationItem>
-            <PaginationNext
-              href="#"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    </div>
-    
+            <TableBody>
+              {table.getRowModel().rows.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    onClick={(event) => handleRowClick(row, event)}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="text-center">
+                    No results found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* Pagination */}
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+            </PaginationItem>
+            {renderPageNumbers()}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </>
-   
   );
 }

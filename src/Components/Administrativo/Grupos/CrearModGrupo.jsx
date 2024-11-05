@@ -9,16 +9,16 @@ import TeamCRUD from "./TeamCRUD.jsx"; // Importa el nuevo componente
 
 const CrearModGrupo = ({ initialData }) => {
   const [companies, setCompanies] = useState([]);
-  const [nit, setNit] = useState("");
-  const [idCompany, setidCompany] = useState("");
-  const [name, setName] = useState("");
+  const [nit, setNit] = useState(initialData.companyNIT || "");
+  const [idCompany, setidCompany] = useState(initialData.companyID||"");
+  const [name, setName] = useState(initialData.companyName||"");
   const [loading, setLoading] = useState(false);
 
   // Variables de estado para el equipo
-  const [teamName, setTeamName] = useState("");
-  const [teamCompanyID, setTeamCompanyID] = useState("");
-  const [hoursPurchased, setHoursPurchased] = useState(0);
-  const [hoursSpented, setHoursSpented] = useState(0);
+  const [teamName, setTeamName] = useState( initialData.name||"");
+  const [hoursPurchased, setHoursPurchased] = useState(initialData.hoursPurchased || 0);
+  const [hoursSpented, setHoursSpented] = useState(initialData.hoursSpented||0);
+  const [status, setStatus] = useState(initialData.status ? "activo" : "inactivo"); // Adjusted for boolean status
   const [photo, setPhoto] = useState("");
 
   useEffect(() => {
@@ -34,27 +34,22 @@ const CrearModGrupo = ({ initialData }) => {
   }, []);
 
   const handleSubmit = () => {
-    const combinedData = {
-      company: {
-        nit,
+    const combinedData = 
+      {
+        teamName,
         idCompany,
-        name,
-      },
-      team: {
-        name: teamName,
-        companyID: teamCompanyID,
         hoursPurchased,
         hoursSpented,
-        photo,
-      },
-    };
+        photo: "phoyo.png", 
+    }
+    
     console.log("Combined Data:", JSON.stringify(combinedData, null, 2));
   };
 
   return (
     <>
       {loading && <Loader />}
-      <div>
+      <div style={{overflowY: 'auto' }}>
         
 
         {/* Company Form */}
@@ -74,13 +69,13 @@ const CrearModGrupo = ({ initialData }) => {
         <TeamCRUD
           teamName={teamName}
           setTeamName={setTeamName}
-          teamCompanyID={teamCompanyID}
-          setTeamCompanyID={setTeamCompanyID}
           hoursPurchased={hoursPurchased}
           setHoursPurchased={setHoursPurchased}
           hoursSpented={hoursSpented}
           setHoursSpented={setHoursSpented}
           photo={photo}
+          status={status}
+          setStatus={setStatus}
           setPhoto={setPhoto}
         />
         <Button

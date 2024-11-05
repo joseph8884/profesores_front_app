@@ -1,12 +1,16 @@
 import React from "react";
 import { Button } from "../../ui/button";
 import Loader from "../../Loader/Loader";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../ui/select";
 const TeamCRUD = ({
   teamName,
   setTeamName,
-  teamCompanyID,
-  setTeamCompanyID,
   hoursPurchased,
   setHoursPurchased,
   hoursSpented,
@@ -14,6 +18,8 @@ const TeamCRUD = ({
   photo,
   setPhoto,
   loading,
+  status,
+  setStatus,
   setLoading,
 }) => {
 
@@ -33,21 +39,21 @@ const TeamCRUD = ({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Company ID</label>
+          <label className="block text-sm font-medium text-gray-700">Hours Purchased</label>
           <input
             type="number"
-            value={teamCompanyID}
-            onChange={(e) => setTeamCompanyID(e.target.value)}
+            value={hoursPurchased}
+            onChange={(e) => setHoursPurchased(e.target.value)}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            placeholder="Enter company ID"
+            placeholder="Enter hours purchased"
           />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Hours Purchased</label>
           <input
             type="number"
-            value={hoursPurchased}
-            onChange={(e) => setHoursPurchased(e.target.value)}
+            value={hoursSpented}
+            onChange={(e) => setHoursSpented(e.target.value)}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             placeholder="Enter hours purchased"
           />
@@ -62,6 +68,23 @@ const TeamCRUD = ({
             placeholder="Enter photo URL"
           />
         </div>
+        <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Status{" "}
+            </label>
+            <Select
+              defaultValue={status}
+              onValueChange={(value) => setStatus(value)}
+            >
+              <SelectTrigger className="text-sm font-medium text-gray-700">
+                <SelectValue placeholder="status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="activo">Activo</SelectItem>
+                <SelectItem value="inactivo">Inactivo</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
       </form>
     </>
   );
