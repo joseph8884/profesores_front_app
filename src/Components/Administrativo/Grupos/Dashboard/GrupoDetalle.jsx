@@ -45,7 +45,9 @@ const GroupDetail = () => {
       <div className="dashboardgroup">
         <div className="dashboardcontainergroup">
           <div className="tituloynotificaciones">
-            <h2 className="text-xl font-bold text-gray-900">Grupo {groupData.name}</h2>
+            <h2 className="text-xl font-bold text-gray-900">
+              Grupo {groupData.name}
+            </h2>
             <BellIcon className="h-6 w-6" />
           </div>
           <div className="filtrosandbackbtn">
@@ -75,7 +77,7 @@ const GroupDetail = () => {
               <a
                 href={`/admin/gruposvista/grupos/groupdetail/studentsgroupcrud?nameGroup=${encodeURIComponent(
                   groupData.name
-                )}`}
+                )}&idGroup=${groupData.ID}`}
               >
                 <Button>
                   <PersonIcon />

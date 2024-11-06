@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createTeam } from "../../../provider/adm/Grupos/crearTeam&Company";
+import { createTeam, editTeam } from "../../../provider/adm/Grupos/crearTeam&Company";
 import { Button } from "../../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet";
 import Loader from "../../Loader/Loader";
@@ -7,7 +7,7 @@ import CompanyCRUD from "./CompanyCRUD.jsx";
 import { getCompanys } from "../../../provider/adm/Grupos/getCompany";
 import TeamCRUD from "./TeamCRUD.jsx"; // Importa el nuevo componente
 
-const CrearModGrupo = ({ initialData }) => {
+const CrearModGrupo = ({ initialData, context }) => {
   const [companies, setCompanies] = useState([]);
   const [nit, setNit] = useState(initialData.companyNIT || "");
   const [idCompany, setidCompany] = useState(initialData.companyID||"");
@@ -33,17 +33,38 @@ const CrearModGrupo = ({ initialData }) => {
     fetchCompanies();
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setLoading(true);
     const combinedData = 
       {
-        teamName,
-        idCompany,
-        hoursPurchased,
-        hoursSpented,
+        name:teamName,
+        companyID:idCompany,
+        hoursPurchased:hoursPurchased,
+        hoursSpented:hoursSpented,
         photo: "phoyo.png", 
     }
-    
-    console.log("Combined Data:", JSON.stringify(combinedData, null, 2));
+
+    if (context === "create") {
+      try {
+        console.log("Data on create",combinedData);
+        await createTeam(combinedData);
+      } catch (error) {
+        console.error("Error creating student:", error);
+      } finally {
+        setLoading(false);
+        //window.location.reload();
+      }
+    } else {
+      try {
+     
+        await editTeam(initialData.ID, combinedData);
+      } catch (error) {
+        console.error("Error updating student:", error);
+      } finally {
+        setLoading(false);
+        //window.location.reload();
+      }
+    }
   };
 
   return (

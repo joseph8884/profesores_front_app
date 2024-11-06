@@ -57,7 +57,7 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
                   Create or Modify Group
                 </SheetTitle>
               </SheetHeader>
-              <SheetContentGrupo initialData={data} />
+              <SheetContentGrupo initialData={data} context={"editar"} />
             </SheetContent>
           </Sheet>
         </ContextMenuItem>

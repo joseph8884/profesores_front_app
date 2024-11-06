@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useNavigate,  useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { BellIcon } from "@radix-ui/react-icons";
@@ -36,13 +36,14 @@ import {
 import { Sheet, SheetTrigger, SheetContent } from "../../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 //import CrearEditarEstudiante from "./CreaEditStudentCustom";
-import { getStudentsCustom } from "../../../../provider/adm/Grupos/students/getStudetsCustom";
+import { getStudentsCustom } from "../../../../provider/adm/Grupos/students/getStudetsCustombyTeamid";
 //import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
 import Loader from "../../../Loader/Loader";
 import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
+import CrearEditarEstudianteCustom from "./CreaEditStudentCustom";
 
-const StudentsGroupCRUD = ({idGroup}) => {
+const StudentsGroupCRUD = () => {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
@@ -54,14 +55,14 @@ const StudentsGroupCRUD = ({idGroup}) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const nameGroup = params.get("nameGroup");
+  const idGroup = params.get("idGroup");
   //Pagination variables
   const itemsPerPage = 10;
-  const navigate = useNavigate();
   //TraerData
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const data_fromAPI = await getStudentsCustom();
+        const data_fromAPI = await getStudentsCustom(idGroup);
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -87,11 +88,8 @@ const StudentsGroupCRUD = ({idGroup}) => {
       );
     }
 
-
     return filtered;
   }, [data, searchTerm]);
-
-
 
   // Pagination logic
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -212,7 +210,7 @@ const StudentsGroupCRUD = ({idGroup}) => {
     }
   };
 
-  const columns = tableConfig();  
+  const columns = tableConfig();
   const table = useReactTable({
     data: currentItems,
     columns,
@@ -228,8 +226,10 @@ const StudentsGroupCRUD = ({idGroup}) => {
     },
   });
   return (
-
-    <div className="flex" style={{ overflowY: 'hidden', height: '100vh', maxWidth:'100%' }}>
+    <div
+      className="flex"
+      style={{ overflowY: "hidden", height: "100vh", maxWidth: "100%" }}
+    >
       <NavMobile />
       <NavWeb />
 
@@ -261,8 +261,7 @@ const StudentsGroupCRUD = ({idGroup}) => {
             <SheetTrigger asChild>
               <Button>Create new student +</Button>
             </SheetTrigger>
-            {//<CrearEditarEstudiante data={{}} context={"create"} />
-            }
+            <CrearEditarEstudianteCustom data={{}} context={"create"} idGroup={idGroup}/>
           </Sheet>
         </div>
 
@@ -286,10 +285,7 @@ const StudentsGroupCRUD = ({idGroup}) => {
             <TableBody>
               {table.getRowModel().rows.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    
-                  >
+                  <TableRow key={row.id}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(
@@ -332,102 +328,104 @@ const StudentsGroupCRUD = ({idGroup}) => {
           </PaginationContent>
         </Pagination>
       </div>
-      </div>
+    </div>
   );
 };
 
 export default StudentsGroupCRUD;
 
-const tableConfig = (setLoading) =>{
-    //Tabla config
-    return [
-      {
-        accessorKey: "id",
-        header: "ID",
-        cell: ({ row }) => <div>{row.getValue("id")}</div>,
+const tableConfig = (setLoading) => {
+  //Tabla config
+  return [
+    {
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div>{row.getValue("id")}</div>,
+    },
+    {
+      accessorKey: "teamID",
+      header: "Team ID",
+      cell: ({ row }) => <div>{row.getValue("teamID")}</div>,
+    },
+    {
+      accessorKey: "fullName",
+      header: "Full Name",
+      cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
+    },
+    {
+      accessorKey: "phoneNumber",
+      header: "Phone Number",
+      cell: ({ row }) => <div>{row.getValue("phoneNumber")}</div>,
+    },
+    {
+      accessorKey: "email",
+      header: "Email",
+      cell: ({ row }) => <div>{row.getValue("email")}</div>,
+    },
+    {
+      accessorKey: "attendancePercentage",
+      header: "Attendance Percentage",
+      cell: ({ row }) => <div>{row.getValue("attendancePercentage")}%</div>,
+    },
+    {
+      accessorKey: "attendedClassesCount",
+      header: "Attended Classes Count",
+      cell: ({ row }) => <div>{row.getValue("attendedClassesCount")}</div>,
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const student = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
+                }}
+              >
+                <Sheet>
+                  <SheetTrigger asChild>
+                    {/* Este botón será visible solo en pantallas pequeñas */}
+                    <Button variant="ghost">Editar</Button>
+                  </SheetTrigger>
+                  <CrearEditarEstudianteCustom
+                    data={student}
+                    context={"edit"}
+                    idGroup={student.teamID}
+                  />
+                </Sheet>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  setLoading(true);
+                  try {
+                    //await delateStudentAPI(student.idUser);
+                  } catch (error) {
+                    console.error("Error creating student:", error);
+                  } finally {
+                    setLoading(false);
+                    window.location.reload();
+                  }
+                }}
+              >
+                <Button variant="ghost">Eliminar</Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
       },
-      {
-        accessorKey: "teamID",
-        header: "Team ID",
-        cell: ({ row }) => <div>{row.getValue("teamID")}</div>,
-      },
-      {
-        accessorKey: "fullName",
-        header: "Full Name",
-        cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
-      },
-      {
-        accessorKey: "phoneNumber",
-        header: "Phone Number",
-        cell: ({ row }) => <div>{row.getValue("phoneNumber")}</div>,
-      },
-      {
-        accessorKey: "email",
-        header: "Email",
-        cell: ({ row }) => <div>{row.getValue("email")}</div>,
-      },
-      {
-        accessorKey: "attendancePercentage",
-        header: "Attendance Percentage",
-        cell: ({ row }) => <div>{row.getValue("attendancePercentage")}%</div>,
-      },
-      {
-        accessorKey: "attendedClassesCount",
-        header: "Attended Classes Count",
-        cell: ({ row }) => <div>{row.getValue("attendedClassesCount")}</div>,
-      },
-      {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-          const student = row.original;
-    
-          return (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={(e) => {
-                    e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
-                  }}
-                >
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      {/* Este botón será visible solo en pantallas pequeñas */}
-                      <Button variant="ghost">Editar</Button>
-                    </SheetTrigger>
-                    {//<CrearEditarEstudiante data={student} context={"edit"} />
-                    }
-                  </Sheet>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    setLoading(true);
-                    try {
-                      //await delateStudentAPI(student.idUser);
-                    } catch (error) {
-                      console.error("Error creating student:", error);
-                    } finally {
-                      setLoading(false);
-                      window.location.reload();
-                    }
-                  }}
-                >
-                  <Button variant="ghost">Eliminar</Button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          );
-        },
-      },
-    ];
-    
+    },
+  ];
 };

@@ -267,7 +267,7 @@ const GruposEmpresas = () => {
                   Create or Modify Group
                 </SheetTitle>
               </SheetHeader>
-              <ManageTeamCompany initialData={{}} />
+              <ManageTeamCompany initialData={{}} context={"create"} />
             </SheetContent>
           </Sheet>
         </div>
