@@ -37,12 +37,16 @@ const Nav = () => {
             Profesores
           </AccordionTrigger>
           <AccordionContent>
+            <a href="/admin/profesores/activos">
             <Button variant="ghost">
               <li>Profesores Activos</li>
             </Button>
+            </a>
+            <a href="/admin/profesores/inactivos">
             <Button variant="ghost">
               <li>Profesores Inactivos</li>
             </Button>
+            </a>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

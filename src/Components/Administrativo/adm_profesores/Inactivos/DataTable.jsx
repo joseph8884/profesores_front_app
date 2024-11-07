@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
+import { Button } from "../../../ui/button";
+import { Input } from "../../../ui/input";
 import { BellIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
+} from "../../../ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../ui/table";
+} from "../../../ui/table";
 import {
   flexRender,
   getCoreRowModel,
@@ -32,14 +32,12 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../../ui/pagination";
-import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
+} from "../../../ui/pagination";
+import { Sheet, SheetTrigger } from "../../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
-import CrearEditarEstudiante from "./CrearEstudiante";
-import { getStudents } from "../../../provider/adm/EstudiantePersonalizado/getStudents";
-import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
-import Loader from "../../Loader/Loader";
-import { changeStatusStudent } from "../../../provider/adm/EstudiantePersonalizado/changeStatus";
+import Loader from "../../../Loader/Loader";
+import { getAllProfesoresInactivos } from "../../../../provider/adm/profesores/getProfesoresInactivos";
+
 
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
@@ -47,7 +45,6 @@ export function DataTableDemo() {
   const [rowSelection, setRowSelection] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
   //Pagination variables
@@ -57,7 +54,7 @@ export function DataTableDemo() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const data_fromAPI = await getStudents();
+        const data_fromAPI = await getAllProfesoresInactivos();
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -83,23 +80,9 @@ export function DataTableDemo() {
         })
       );
     }
-
-    if (statusFilter !== null) {
-      // Ensure statusFilter is checked correctly
-      filtered = filtered.filter((item) => item.status === statusFilter);
-    }
-
     return filtered;
-  }, [data, searchTerm, statusFilter]);
+  }, [data, searchTerm]);
 
-  // Manejador para cambiar el filtro de estado
-  const toggleStatusFilter = (status) => {
-    if (statusFilter === status) {
-      setStatusFilter(null); // Si el filtro ya está activo, se desactiva
-    } else {
-      setStatusFilter(status === "Activo"); // Set to true for "Activo" and false for "Inactivo"
-    }
-  };
 
   //ROWCLICK
   const handleRowClick = (row, event) => {
@@ -229,77 +212,46 @@ export function DataTableDemo() {
     }
   };
 
-  //Tabla config
   const columns = [
     {
-      accessorKey: "ID",
+      accessorKey: "id",
       header: "ID",
-      cell: ({ row }) => <div>{row.getValue("ID")}</div>,
+      cell: ({ row }) => <div>{row.getValue("id")}</div>,
     },
     {
-      accessorKey: "photo",
-      header: "Photo",
-      cell: ({ row }) => (
-        <img
-          src={row.original.photo || "/profilephoto.jpeg"}
-          alt="User"
-          className="h-10 w-10 object-cover rounded-full"
-        />
-      ),
+      accessorKey: "idUser",
+      header: "idUser",
+      cell: ({ row }) => <div>{row.getValue("id")}</div>,
     },
     {
-      accessorKey: "fullName", // Changed from "name" to "fullName"
+      accessorKey: "fullName",
       header: "Name",
       cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
     },
     {
-      accessorKey: "virtual",
-      header: "Virtual",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("virtual")}</div>
-      ),
+      accessorKey: "countryCode",
+      header: "Country Code",
+      cell: ({ row }) => <div>{row.getValue("countryCode")}</div>,
     },
     {
-      accessorKey: "presencial",
-      header: "Presencial",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("presencial")}</div>
-      ),
+      accessorKey: "phoneNumber",
+      header: "Phone Number",
+      cell: ({ row }) => <div>{row.getValue("phoneNumber")}</div>,
     },
     {
-      accessorKey: "lastLog",
-      header: "Ultimo registro de clase",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("lastLog")}</div>
-      ),
+      accessorKey: "emergencyContact",
+      header: "Emergency Contact",
+      cell: ({ row }) => <div>{row.getValue("emergencyContact")}</div>,
     },
     {
-      accessorKey: "hoursPurchased",
-      header: "Horas Compradas",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("hoursPurchased")}</div>
-      ),
+      accessorKey: "identificationType",
+      header: "Identification Type",
+      cell: ({ row }) => <div>{row.getValue("identificationType")}</div>,
     },
     {
-      accessorKey: "hoursSpented",
-      header: "Horas consumidas",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("hoursSpented")}</div>
-      ),
-    },
-    {
-      accessorKey: "canceladosATiempo",
-      header: "Canceladas a tiempo",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("canceladosATiempo")}</div>
-      ),
-    },
-    {
-      accessorKey: "canceladosTarde",
-      header: "Cancelados tarde",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("canceladosTarde")}</div>
-      ),
+      accessorKey: "identificationNumber",
+      header: "Identification Number",
+      cell: ({ row }) => <div>{row.getValue("identificationNumber")}</div>,
     },
     {
       accessorKey: "status", // No change needed here
@@ -342,13 +294,6 @@ export function DataTableDemo() {
                   e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
                 }}
               >
-                <Sheet>
-                  <SheetTrigger asChild>
-                    {/* Este botón será visible solo en pantallas pequeñas */}
-                    <Button variant="ghost">Editar</Button>
-                  </SheetTrigger>
-                  <CrearEditarEstudiante data={student} context={"edit"} />
-                </Sheet>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -356,7 +301,7 @@ export function DataTableDemo() {
                   e.stopPropagation();
                   setLoading(true);
                   try {
-                    await delateStudentAPI(student.ID);
+                    //await delateStudentAPI(student.ID);
                   } catch (error) {
                     console.error("Error creating student:", error);
                   } finally {
@@ -371,7 +316,7 @@ export function DataTableDemo() {
                onClick={async (value) => {
                 setLoading(true)  
                 try { 
-                await changeStatusStudent(student.ID) 
+                //await changeStatusStudent(student.ID) 
                 }catch (error) {
                   console.error("Error updating student:", error);
                 } finally {
@@ -409,7 +354,7 @@ export function DataTableDemo() {
       <div className="w-full" style={{ overflowY: "scroll" }}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
           <h2 className="text-xl font-bold text-gray-900">
-            Lista de estudiantes individuales
+            Lista de profesores inactivos
           </h2>
           <BellIcon className="h-6 w-6" />
         </div>
@@ -420,36 +365,17 @@ export function DataTableDemo() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {/* Botones de filtros */}
-          <Button
-            variant={statusFilter === true ? "solid" : "outline"} // Check for true for "Activo"
-            onClick={() => toggleStatusFilter("Activo")}
-            className={statusFilter === true ? "bg-green-500 text-white" : ""}
-          >
-            Activo
-          </Button>
-          <Button
-            variant={statusFilter === false ? "solid" : "outline"} // Check for false for "Inactivo"
-            onClick={() => toggleStatusFilter("Inactivo")}
-            className={statusFilter === false ? "bg-red-500 text-white" : ""}
-          >
-            Inactivo
-          </Button>
+
+
           <Button
             variant="ghost"
             onClick={() => {
-              setStatusFilter(null);
               setSearchTerm("");
             }}
           >
             Clear filters
           </Button>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button>Create new student +</Button>
-            </SheetTrigger>
-            <CrearEditarEstudiante data={{}} context={"create"} />
-          </Sheet>
+          
         </div>
 
         <div className="rounded-md border">

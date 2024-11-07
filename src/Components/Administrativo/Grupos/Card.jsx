@@ -1,15 +1,22 @@
-import React from 'react';
+import React from "react";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "../../ui/context-menu"
+} from "../../ui/context-menu";
 import SheetContentGrupo from "./CrearModGrupo";
 
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle} from "../../ui/sheet";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "../../ui/sheet";
 import { Button } from "../../ui/button";
-
+import { changeStatusGroup } from "../../../provider/adm/Grupos/changeStatusTeam";
+import {delateTeamAPI} from "../../../provider/adm/Grupos/deleteTeam";
 const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
   // Determinar el color del encabezado y del círculo según el estado
   const statusColor = status ? "bg-green-500" : "bg-red-500";
@@ -18,29 +25,40 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div className="bg-white shadow-lg rounded-lg p-4 relative" onClick={onClick}>
+        <div
+          className="bg-white shadow-lg rounded-lg p-4 relative"
+          onClick={onClick}
+        >
           {/* Encabezado de estado */}
-          <div className={`absolute top-0 left-0 w-full p-2 text-white font-semibold ${statusColor} rounded-t-lg flex items-center`}>
+          <div
+            className={`absolute top-0 left-0 w-full p-2 text-white font-semibold ${statusColor} rounded-t-lg flex items-center`}
+          >
             {/* Círculo del indicador */}
             <span className={`w-3 h-3 rounded-full mr-2 ${statusColor}`}></span>
             {statusText}
           </div>
-          
+
           {/* Imagen */}
           <div className="mt-8">
-            <img src={image} alt={name} className="h-32 w-full object-cover rounded-md" />
+            <img
+              src={image}
+              alt={name}
+              className="h-32 w-full object-cover rounded-md"
+            />
           </div>
-          
+
           {/* Información */}
           <div className="mt-4">
             <h3 className="text-lg font-bold">{name}</h3>
-            <p className="text-sm text-gray-500">Nombre de la empresa: {companyName}</p>
+            <p className="text-sm text-gray-500">
+              Nombre de la empresa: {companyName}
+            </p>
             <p className="text-sm text-gray-400">NIT: {nit}</p>
-            <p className='text-sm text-gray-400'>Id Team: {data.ID}</p>
+            <p className="text-sm text-gray-400">Id Team: {data.ID}</p>
           </div>
         </div>
       </ContextMenuTrigger>
-      
+
       {/* Menú contextual */}
       <ContextMenuContent>
         <ContextMenuItem>
@@ -61,8 +79,31 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
             </SheetContent>
           </Sheet>
         </ContextMenuItem>
-        <ContextMenuItem>
-        <Button variant={"ghost"}>Eliminar</Button>
+        <ContextMenuItem
+          onClick={async (value) => {
+            try {
+              await delateTeamAPI(data.ID);
+            } catch (error) {
+              console.error("Error updating student:", error);
+            } finally {
+              window.location.reload();
+            }
+          }}
+        >
+          <Button variant={"ghost"}>Eliminar</Button>
+        </ContextMenuItem>
+        <ContextMenuItem
+          onClick={async (value) => {
+            try {
+              await changeStatusGroup(data.ID);
+            } catch (error) {
+              console.error("Error updating student:", error);
+            } finally {
+              window.location.reload();
+            }
+          }}
+        >
+          <Button variant={"ghost"}>Cambiar estado</Button>
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
