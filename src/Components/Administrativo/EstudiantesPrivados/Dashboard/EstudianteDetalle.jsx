@@ -17,23 +17,78 @@ import {
 import { BellIcon } from "@radix-ui/react-icons";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "./Calendar";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
-  const [date,setDate]=useState([]);
+  const [date, setDate] = useState([]);
   useEffect(() => {
     const data = localStorage.getItem("selected_student");
     if (data) {
       setStudentData(JSON.parse(data));
     }
-    setDate({month: parseInt(new Date().getMonth().toString() )+1, year: new Date().getFullYear().toString()});
+    setDate({
+      month: parseInt(new Date().getMonth().toString()) + 1,
+      year: new Date().getFullYear().toString(),
+    });
   }, []);
+  
+  const exportToExcel = () => {
+    if (!studentData) {
+      console.error("No student data available to export.");
+      return;
+    }
+
+    // Asegurar que studentData es un array
+    const data = Array.isArray(studentData) ? studentData : [studentData];
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Formatear encabezados: negrita y centrado
+    const headers = Object.keys(data[0]);
+    headers.forEach((header, index) => {
+      const cellAddress = XLSX.utils.encode_cell({ c: index, r: 0 });
+      if (!worksheet[cellAddress]) return;
+      worksheet[cellAddress].s = {
+        font: { bold: true },
+        alignment: { horizontal: "center" },
+      };
+    });
+
+    // Ajustar ancho de columnas
+    const columnWidths = headers.map(() => ({ wpx: 150 }));
+    worksheet["!cols"] = columnWidths;
+
+    // Alternar color de filas
+    for (let i = 1; i <= data.length; i++) {
+      headers.forEach((_, j) => {
+        const cellAddress = XLSX.utils.encode_cell({ c: j, r: i });
+        if (!worksheet[cellAddress]) return;
+        worksheet[cellAddress].s = {
+          fill: {
+            patternType: "solid",
+            fgColor: { rgb: i % 2 === 0 ? "FFFFDDDD" : "FFFFFFFF" },
+          },
+        };
+      });
+    }
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "DatosEstudiante");
+    const excelBuffer = XLSX.write(workbook, {
+      type: "array",
+      bookType: "xlsx",
+    });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(blob, "DatosEstudiante.xlsx");
+  };
 
   if (!studentData) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="flex" style={{ overflowY: 'hidden', height: '100vh', }}>
+    <div className="flex" style={{ overflowY: "hidden", height: "100vh" }}>
       <NavMobile />
       <NavWeb />
       <div className="dashboard">
@@ -49,18 +104,22 @@ const StudentDetail = () => {
               <Button>Back</Button>
             </a>
             <div className="actions">
-              <Calendar setDate={(date)=> setDate(date)} date={date}/>
+              <Calendar setDate={(date) => setDate(date)} date={date} />
 
-              <Button onClick={() => {
-                const currentDate = new Date();
-                const dateObj = {
-                  month: (currentDate.getMonth() + 1).toString(),
-                  year: currentDate.getFullYear().toString(),
-                };
-                console.log(dateObj); 
-                setDate(dateObj);
-              }}>limpiar filtros</Button>
-              <Button>
+              <Button
+                onClick={() => {
+                  const currentDate = new Date();
+                  const dateObj = {
+                    month: (currentDate.getMonth() + 1).toString(),
+                    year: currentDate.getFullYear().toString(),
+                  };
+                  console.log(dateObj);
+                  setDate(dateObj);
+                }}
+              >
+                limpiar filtros
+              </Button>
+              <Button onClick={exportToExcel}>
                 <DownloadIcon />
                 Exportar
               </Button>

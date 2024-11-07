@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "file-saver": "^2.0.5",
     "lucide-react": "^0.451.0",
     "querystring": "^0.2.1",
     "react": "^18.3.1",
@@ -36,6 +37,7 @@
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
     "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5",
     "zod": "^3.23.8"
   },
   "scripts": {

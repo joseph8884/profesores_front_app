@@ -39,6 +39,7 @@ import CrearEditarEstudiante from "./CrearEstudiante";
 import { getStudents } from "../../../provider/adm/EstudiantePersonalizado/getStudents";
 import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
 import Loader from "../../Loader/Loader";
+import { changeStatusStudent } from "../../../provider/adm/EstudiantePersonalizado/changeStatus";
 
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
@@ -49,7 +50,6 @@ export function DataTableDemo() {
   const [statusFilter, setStatusFilter] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
-
   //Pagination variables
   const itemsPerPage = 10;
   const navigate = useNavigate();
@@ -366,6 +366,20 @@ export function DataTableDemo() {
                 }}
               >
                 <Button variant="ghost">Eliminar</Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+               onClick={async (value) => {
+                setLoading(true)  
+                try { 
+                await changeStatusStudent(student.ID) 
+                }catch (error) {
+                  console.error("Error updating student:", error);
+                } finally {
+                  window.location.reload();
+                  setLoading(false);
+                }
+              }}>
+                <Button variant="ghost">Cambiar estado</Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

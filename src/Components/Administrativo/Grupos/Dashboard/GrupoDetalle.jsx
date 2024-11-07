@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
@@ -30,6 +31,56 @@ const GroupDetail = () => {
       year: new Date().getFullYear().toString(),
     });
   }, []);
+
+  const exportToExcel = () => {
+    if (!groupData) {
+      console.error("No student data available to export.");
+      return;
+    }
+
+    // Asegurar que studentData es un array
+    const data = Array.isArray(groupData) ? groupData : [groupData];
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Formatear encabezados: negrita y centrado
+    const headers = Object.keys(data[0]);
+    headers.forEach((header, index) => {
+      const cellAddress = XLSX.utils.encode_cell({ c: index, r: 0 });
+      if (!worksheet[cellAddress]) return;
+      worksheet[cellAddress].s = {
+        font: { bold: true },
+        alignment: { horizontal: "center" },
+      };
+    });
+
+    // Ajustar ancho de columnas
+    const columnWidths = headers.map(() => ({ wpx: 150 }));
+    worksheet["!cols"] = columnWidths;
+
+    // Alternar color de filas
+    for (let i = 1; i <= data.length; i++) {
+      headers.forEach((_, j) => {
+        const cellAddress = XLSX.utils.encode_cell({ c: j, r: i });
+        if (!worksheet[cellAddress]) return;
+        worksheet[cellAddress].s = {
+          fill: {
+            patternType: "solid",
+            fgColor: { rgb: i % 2 === 0 ? "FFFFDDDD" : "FFFFFFFF" },
+          },
+        };
+      });
+    }
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "DatosEstudiante");
+    const excelBuffer = XLSX.write(workbook, {
+      type: "array",
+      bookType: "xlsx",
+    });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(blob, "DatosEstudiante.xlsx");
+  };
 
   if (!groupData) {
     return <div>Loading...</div>;
@@ -70,7 +121,7 @@ const GroupDetail = () => {
               >
                 limpiar filtros
               </Button>
-              <Button>
+              <Button onClick={exportToExcel}>
                 <DownloadIcon />
                 Exportar
               </Button>

@@ -6,13 +6,6 @@ import {
   SheetTitle,
   SheetDescription,
 } from "../../ui/sheet";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../ui/select";
 import PhoneInput from "react-phone-input-2";
 import { createEstudent } from "../../../provider/adm/EstudiantePersonalizado/postStudent";
 import { updateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/putStudent";
@@ -104,8 +97,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
         phoneNumber,
         hoursPurchased,
         hoursSpented: hoursSpent,
-        lastLog: "2024-10-17T17:22:48.123456Z",
-        //status: status === "activo",
+        lastLog: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
         photo: file || data.photo, // Aquí envías la imagen como base64
       };
       if (context === "create") {
@@ -253,24 +245,6 @@ const CrearEditarEstudiante = ({ data, context }) => {
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Status{" "}
-            </label>
-            <Select
-              defaultValue={status}
-              onValueChange={(value) => setStatus(value)}
-            >
-              <SelectTrigger className="text-sm font-medium text-gray-700">
-                <SelectValue placeholder="status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="activo">Activo</SelectItem>
-                <SelectItem value="inactivo">Inactivo</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           {/* Save Button */}
           <div className="pt-4">
             <Button
