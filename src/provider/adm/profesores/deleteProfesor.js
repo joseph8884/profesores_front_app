@@ -1,5 +1,5 @@
-export async function delateTeamAPI(idUser) {
-    const url = `https://profesoresbackend.onrender.com/admin/equipo/eliminar/${idUser}`; // URL de la API para crear un estudiante personalizado};
+export async function deleteProfesor(idUser) {
+    const url = `https://profesoresbackend.onrender.com/admin/profesor/eliminar/${idUser}`; // URL de la API para crear un estudiante personalizado};
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

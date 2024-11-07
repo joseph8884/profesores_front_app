@@ -20,22 +20,6 @@ export async function getAllTeams() {
             hoursSpented: team.hoursSpented,
             photo: team.photo,
             status: team.status,
-            studentsTeams: team.studentsTeams.map((student) => ({
-                ID: student.id,
-                teamID: student.teamID,
-                fullName: student.fullName,
-                phoneNumber: student.phoneNumber,
-                email: student.email,
-                attendancePercentage: student.attendancePercentage,
-                attendedClassesCount: student.attendedClassesCount,
-                attendances: student.attendances.map((attendance) => ({
-                    ID: attendance.id,
-                    classID: attendance.classID,
-                    studentTeamID: attendance.studentTeamID,
-                    attended: attendance.attended
-                }))
-            })),
-            teamClasses: team.teamClasses
         }));
         return teamsList;
     } catch (error) {  

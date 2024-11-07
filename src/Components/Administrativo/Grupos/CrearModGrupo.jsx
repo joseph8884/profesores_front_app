@@ -52,7 +52,7 @@ const CrearModGrupo = ({ initialData, context }) => {
         console.error("Error creating student:", error);
       } finally {
         setLoading(false);
-        //window.location.reload();
+        window.location.reload();
       }
     } else {
       try {
@@ -62,7 +62,7 @@ const CrearModGrupo = ({ initialData, context }) => {
         console.error("Error updating student:", error);
       } finally {
         setLoading(false);
-        //window.location.reload();
+        window.location.reload();
       }
     }
   };

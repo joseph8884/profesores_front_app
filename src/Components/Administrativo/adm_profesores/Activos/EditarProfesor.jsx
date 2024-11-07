@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Button } from "../../ui/button";
+import { Button } from "../../../ui/button";
 import {
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from "../../ui/sheet";
+} from "../../../ui/sheet";
 import PhoneInput from "react-phone-input-2";
-import { createEstudent } from "../../../provider/adm/EstudiantePersonalizado/postStudent";
-import { updateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/putStudent";
-import Loader from "../../Loader/Loader";
+import { createEstudent } from "../../../../provider/adm/EstudiantePersonalizado/postStudent";
+import { updateStudentAPI } from "../../../../provider/adm/EstudiantePersonalizado/putStudent";
+import Loader from "../../../Loader/Loader";
 
-const CrearEditarEstudiante = ({ data, context }) => {
+const EditarProfesor = ({ data, context }) => {
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState("");
   const [fullName, setFullName] = useState(data.fullName || "");
@@ -261,4 +261,4 @@ const CrearEditarEstudiante = ({ data, context }) => {
   );
 };
 
-export default CrearEditarEstudiante;
+export default EditarProfesor;

@@ -11,6 +11,8 @@ import GruposEmpresas from '../Components/Administrativo/Grupos/Grupos.jsx';
 import StudentDetail from '../Components/Administrativo/EstudiantesPrivados/Dashboard/EstudianteDetalle.jsx';
 import StudentsGroupCRUD from '../Components/Administrativo/Grupos/Dashboard/AllStudents.jsx';
 import GroupDetail from '../Components/Administrativo/Grupos/Dashboard/GrupoDetalle.jsx';
+import ProfesoresActivos from '../Components/Administrativo/adm_profesores/Activos/ProfesoresActivos.jsx';
+import ProfesoresInactivos from '../Components/Administrativo/adm_profesores/Inactivos/ProfesoresInactivos.jsx';
 
 //Profesor components
 import HomeProfesores from '../Components/Profesores/Home/Home.jsx';
@@ -18,6 +20,7 @@ import EstudianteTableAll from '../Components/Profesores/RegistrarEstudianteHora
 import EstudianteForm from '../Components/Profesores/RegistrarEstudianteHoras/Form/Form.jsx';
 import GruposEmpresasProfesor from '../Components/Profesores/RegistrarGruposHoras/GruposAllview.jsx';
 import FormGroup from '../Components/Profesores/RegistrarGruposHoras/Form/Form.jsx';
+
 //ErrorBoundary
 import ErrorBoundary from '../Components/ErrorBoundary/ErrorBoundary.jsx';
 
@@ -76,6 +79,16 @@ const Routes = () => {
           {
             path: "/admin/gruposvista/grupos/groupdetail/studentsgroupcrud",
             element: <StudentsGroupCRUD />,
+            errorElement: <ErrorBoundary />
+          },
+          {
+            path: "/admin/profesores/activos",
+            element: <ProfesoresActivos />,
+            errorElement: <ErrorBoundary />
+          },
+          {
+            path: "/admin/profesores/inactivos",
+            element: <ProfesoresInactivos />,
             errorElement: <ErrorBoundary />
           }
         ] : []),

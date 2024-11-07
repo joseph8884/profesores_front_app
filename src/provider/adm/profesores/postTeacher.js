@@ -1,22 +1,25 @@
-export async function changeStatusGroup(id) {
-    const url = `https://profesoresbackend.onrender.com/admin/equipo/status/${id}`; // URL de la API para crear un estudiante personalizado};
+export async function postTeacher(teacherData) {
+    const url = 'https://profesoresbackend.onrender.com/admin/profesor/crear';
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
         const response = await fetch(url, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
                 'Content-Type': 'application/json'
             },
+            body: JSON.stringify(teacherData) // Convert the team data to JSON
         });
 
         if (!response.ok) {
-            throw new Error('Failed to create student');
+            throw new Error('Failed to create team');
         }
-        return await response.json(); // Retorna la respuesta en formato JSON si es exitosa
+
+        const data = await response.json();
+        return data; // Return the response data
     } catch (error) {
-        console.error('Error creating student:', error);
+        console.error('Error creating team:', error);
         throw error;
     }
 }

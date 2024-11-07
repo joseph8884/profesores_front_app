@@ -1,14 +1,14 @@
-export async function delateTeamAPI(idUser) {
-    const url = `https://profesoresbackend.onrender.com/admin/equipo/eliminar/${idUser}`; // URL de la API para crear un estudiante personalizado};
+export async function changeStatusProfesor(id) {
+    const url = `https://profesoresbackend.onrender.com/admin/profesor/estado/${id}`; // URL de la API para crear un estudiante personalizado};
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
         const response = await fetch(url, {
-            method: 'DELETE',
+            method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
                 'Content-Type': 'application/json'
-            }            
+            },
         });
 
         if (!response.ok) {
