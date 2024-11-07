@@ -16,7 +16,7 @@ import GroupDetail from '../Components/Administrativo/Grupos/Dashboard/GrupoDeta
 import HomeProfesores from '../Components/Profesores/Home/Home.jsx';
 import EstudianteTableAll from '../Components/Profesores/RegistrarEstudianteHoras/EstudianteTable.jsx';
 import EstudianteForm from '../Components/Profesores/RegistrarEstudianteHoras/Form/Form.jsx';
-import GruposAllView from '../Components/Profesores/RegistrarGruposHoras/GruposAllview.jsx';
+import GruposEmpresasProfesor from '../Components/Profesores/RegistrarGruposHoras/GruposAllview.jsx';
 
 //ErrorBoundary
 import ErrorBoundary from '../Components/ErrorBoundary/ErrorBoundary.jsx';
@@ -97,7 +97,7 @@ const Routes = () => {
           },
           {
             path: "/profesor/registrarhoras/grupos",
-            element: <GruposAllView />,
+            element: <GruposEmpresasProfesor />,
             errorElement: <ErrorBoundary />
           }
         ] : []),

@@ -41,7 +41,7 @@ const CrearModGrupo = ({ initialData, context }) => {
         companyID:idCompany,
         hoursPurchased:hoursPurchased,
         hoursSpented:hoursSpented,
-        photo: "phoyo.png", 
+        photo: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=", 
     }
 
     if (context === "create") {
