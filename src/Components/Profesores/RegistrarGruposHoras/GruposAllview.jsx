@@ -78,11 +78,6 @@ const GruposEmpresasProfesor = () => {
   }, [data, searchTerm, loading]);
   // Datos para la página actual
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const currentItems = useMemo(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    return filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  }, [currentPage, filteredData]);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import NavMobile from "../../Nav/NavMobile";
-import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
 import {
   Table,
@@ -9,10 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableFooter,
 } from "../../../ui/table";
-import { BellIcon } from "@radix-ui/react-icons";
-import { DownloadIcon } from "@radix-ui/react-icons";
 import { Input } from "../../../ui/input";
 import { Textarea } from "../../../ui/textarea";
 import {
@@ -23,7 +18,6 @@ import {
   SelectValue,
 } from "../../../ui/select";
 import { Checkbox } from "../../../ui/checkbox";
-import { set } from "date-fns";
 
 const FormSection = () => {
   const [classHeld, setClassHeld] = useState("true");
@@ -35,8 +29,6 @@ const FormSection = () => {
   const [cancellationTiming, setCancellationTiming] = useState("");
   const [cancelledBy, setCancelledBy] = useState("");
   const [cancellationReason, setCancellationReason] = useState("");
-  const [showCancellation, setShowCancellation] = useState(false);
-
   // Lista de estudiantes
   const students = [
     { id: 1, name: "Student A" },
@@ -83,7 +75,6 @@ const FormSection = () => {
 
   const handleAttendanceChange = (value) => {
     setClassHeld(value);
-    setShowCancellation(value === "false");
   };
 
   const convertDurationToHours = (duration) => {
