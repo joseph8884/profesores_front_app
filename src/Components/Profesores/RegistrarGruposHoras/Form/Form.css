@@ -1,0 +1,145 @@
+
+.dashboard{
+    display:grid;
+    width: 100vw;
+    grid-template-areas: 
+    "tituloynotificaciones"
+    "actividad_academica"
+    "form"
+    "personal_information";
+    
+    overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
+    max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
+    overflow-x: auto; /* Agregar scroll lateral */
+    background-color: #D1D9E2;
+    padding: 10px;
+
+    & div.dashboardcontainerform{
+        display: grid;
+        margin-bottom: 50px;
+        grid-template:
+        "tituloynotificaciones tituloynotificaciones"10% 
+        "actividad_academica personal_information" auto
+        "form personal_information" 70%/
+        auto auto; 
+        gap: 10px;
+        & div.tituloynotificaciones{
+            background-color: white;
+            grid-area: tituloynotificaciones;
+            border-radius: 10px;
+            display: flex;
+            float: right;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            & div{
+                display: flex;
+                float: right;
+                gap: 50px;
+                align-items: center;
+            }
+        }
+        & div.resumenDeActividadAcademica{
+            border-radius: 10px;
+            background-color: white;
+            grid-area: actividad_academica;
+        }
+        & div.form{
+            border-radius: 10px;
+            background-color: white;
+            grid-area: form;
+            padding: 20px 50px 20px 50px;
+            display: grid;
+            grid-template-areas: 
+            "hours"
+            "reson"
+            "cancelation"
+            "button"
+            "student-attendance";
+            & form{
+                display: grid;
+                grid-template: 
+                "hours reson" auto
+                "student-attendance student-attendance" auto
+                "cancelation cancelation" auto 
+                "button button" auto/
+                30% auto;
+                gap: 20px;
+                & div.hours{
+                    grid-area: hours;
+                    float: left;
+                    gap: 20px;
+                    align-items: center;
+                }
+                & div.reson{
+                    grid-area: reson;
+                    float: left;
+                    gap: 20px;
+                    align-items: center;
+                }
+                & div.cancelation{
+                    grid-area: cancelation;
+                    float: left;
+                    gap: 20px;
+                    align-items: center;
+                }
+                div.student-attendance{
+                    grid-area: student-attendance;
+                }
+                div.button{
+                    grid-area: button;
+                    & Button{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        
+        & div.informacionDetalladaEstudiante{
+            padding: 50px;
+            background-color: white;
+            border-radius: 10px;
+            grid-area: personal_information;
+        }
+        & div.ultimasclasesvistas{
+            background-color: white;
+            border-radius: 10px;
+            grid-area: last_classes;
+        }
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .dashboard {
+        overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
+        overflow-x: auto; /* Agregar scroll lateral */
+        & div.dashboardcontainer{
+            height: auto;
+            grid-template:
+            "tituloynotificaciones"auto
+            "actividad_academica" 15%
+            "form" auto
+            "last_classes" auto
+            "personal_information" auto/
+            100%; 
+            & div.form{
+                grid-template-areas: 
+                "hours"
+                "reson"
+                "cancelation"
+                "button";
+                & form{
+                    grid-template: 
+                    "hours" auto
+                    "reson" auto
+                    "cancelation" auto 
+                    "button" auto/
+                    auto;
+                    gap: 20px;
+                }
+            }
+        }
+    }
+
+}

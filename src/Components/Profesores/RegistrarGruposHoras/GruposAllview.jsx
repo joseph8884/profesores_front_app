@@ -42,9 +42,9 @@ const GruposEmpresasProfesor = () => {
 
   const handleRowClick = (row) => {
     // Store data in local storage
-    localStorage.setItem("groupData", JSON.stringify(row));
+    localStorage.setItem("groupData_profesor", JSON.stringify(row));
     // Navigate to the detail page
-    navigate("/admin/gruposvista/grupos/groupdetail");
+    navigate("/profesor/registrarhoras/grupos/grupo");
   };
 
   // Función para cambiar de página

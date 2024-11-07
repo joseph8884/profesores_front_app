@@ -1,81 +1,4 @@
-import { useState } from "react";
-import { Button } from "../../../ui/button";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "../../../ui/select";
 const EstudentData = ({ studentData }) => {
-    // Initialize state for each field with new variable names
-  const [fullName, setFullName] = useState(studentData.fullName || ""); // Changed from name to fullName
-  const [email, setEmail] = useState(studentData.email || "");
-  const [countryCode, setCountryCode] = useState(studentData.countryCode || "");
-  const [phoneNumber, setPhoneNumber] = useState(studentData.phoneNumber || "");
-  const [hoursPurchased, setHoursPurchased] = useState( // Changed from horasPlaneadas
-    parseInt(studentData.hoursPurchased) || 0
-  );
-  const [hoursSpent, setHoursSpent] = useState( // Changed from horasRestantes
-    parseInt(studentData.hoursSpented) || 0
-  );
-  const [lastLog, setLastLog] = useState( // Changed from lastRegister
-    studentData.lastLog ? new Date(studentData.lastLog).toLocaleString() : "N/A"
-  );
-  const [status, setStatus] = useState(studentData.status ? "activo" : "inactivo"); // Adjusted for boolean status
-
-  // Validation function
-  const validateFields = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-    const phoneRegex = /^[0-9]+$/;
-
-    if (!fullName || !nameRegex.test(fullName)) { // Changed from name to fullName
-      alert("Please enter a valid name.");
-      return false;
-    }
-    if (!email || !emailRegex.test(email)) {
-      alert("Please enter a valid email.");
-      return false;
-    }
-    if (!countryCode || !phoneRegex.test(countryCode)) {
-      alert("Please enter a valid country code.");
-      return false;
-    }
-    if (!phoneNumber || !phoneRegex.test(phoneNumber)) {
-      alert("Please enter a valid phone number.");
-      return false;
-    }
-    if (hoursPurchased < 0) { // Changed from horasPlaneadas
-      alert("Hours purchased cannot be negative.");
-      return false;
-    }
-    if (hoursSpent < 0) { // Changed from horasRestantes
-      alert("Hours spent cannot be negative.");
-      return false;
-    }
-    return true;
-  };
-
-  const handleSave = () => {
-    if (!validateFields()) return;
-
-    if (window.confirm("Are you sure you want to save the changes?")) {
-      const updatedData = {
-        fullName, // Changed from name to fullName
-        email,
-        countryCode,
-        phoneNumber,
-        hoursPurchased, // Changed from horasPlaneadas
-        hoursSpented: hoursSpent, // Changed from horasRestantes
-        lastLog, // Changed from lastRegister
-        status: status === "activo", // Convert back to boolean
-      };
-      console.log("Saved Data:", updatedData);
-      // Aquí puedes agregar la lógica para guardar los datos actualizados
-    }
-  };
-
   return (
     <>
       {/* Profile Image */}
@@ -98,7 +21,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="text"
-            value={fullName} // Changed from name to fullName
+            value={studentData.fullName} // Changed from name to fullName
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter full name"
           />
@@ -111,7 +34,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="email"
-            value={email}
+            value={studentData.email}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter email"
           />
@@ -124,7 +47,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="text"
-            value={countryCode}
+            value={studentData.countryCode}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter country code"
           />
@@ -137,7 +60,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="text"
-            value={phoneNumber}
+            value={studentData.phoneNumber }
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter phone number"
           />
@@ -150,7 +73,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="number"
-            value={hoursPurchased} // Changed from horasPlaneadas
+            value={studentData.hoursPurchased} // Changed from horasPlaneadas
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
@@ -162,7 +85,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="number"
-            value={hoursSpent} // Changed from horasRestantes
+            value={studentData.hoursSpented} // Changed from horasRestantes
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
@@ -174,7 +97,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="text"
-            value={lastLog} // Changed from lastRegister
+            value={studentData.lastLog ? new Date(studentData.lastLog).toLocaleString() : "N/A"} // Changed from lastRegister
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
