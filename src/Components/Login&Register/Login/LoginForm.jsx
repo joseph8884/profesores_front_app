@@ -44,7 +44,7 @@ const LoginForm = () => {
                   autoComplete="current-password"
                 />
                 <span onClick={togglePasswordVisibility} className="password-toggle">
-                  {showPassword ? <EyeClosedIcon className="icon" /> : <EyeOpenIcon className="icon" />}
+                  {showPassword ? <EyeClosedIcon className="icon" width={"20px"} height={"20px"} /> : <EyeOpenIcon className="icon" width={"20px"} height={"20px"}/>}
                 </span>
               </div>
             </div>

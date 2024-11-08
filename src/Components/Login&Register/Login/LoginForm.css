@@ -1,55 +1,68 @@
 .login {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(180deg, #1C4E89 0%, #0D98D5 100%);
-    margin: 0;
-    display: grid;
-    grid-template-areas: 
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(180deg, #1C4E89 0%, #0D98D5 100%);
+  margin: 0;
+  display: grid;
+  grid-template-areas:
     "logo"
     "logincard";
-    & div.login-container{
-      height: 100vh;
-      padding: 5%;
-      display: grid;
-      grid-template: 
+
+  & div.login-container {
+    height: 100vh;
+    padding: 5%;
+    display: grid;
+    grid-template:
       "logo logincard" auto/
-      60% 40%; 
-      position: relative; /* Necesario para posicionar la línea */
-    }
-    & div.login-container::after {
-        content: '';
-        position: absolute;
-        top: 5%;
-        bottom: 5%;
-        left: 50%;
-        width: 1px;
-        background-color: white;
-    }
-    & img{
-      margin: 15%;
-      width: 50%;
-      height: auto;
-      grid-area: logo;
-    }
+      60% 40%;
+    position: relative;
+    /* Necesario para posicionar la línea */
+  }
+
+  & div.login-container::after {
+    content: '';
+    position: absolute;
+    top: 5%;
+    bottom: 5%;
+    left: 50%;
+    width: 1px;
+    background-color: white;
+  }
+
+  & img {
+    margin: 15%;
+    width: 50%;
+    height: auto;
+    grid-area: logo;
+  }
 }
 
-  .login-card {
-    z-index: 2;
-    grid-area: logincard;
-    padding: 3rem;
-    border-radius: 40px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.10) 100%);
-    box-shadow: 10px 10px 24px -1px rgba(0, 0, 0, 0.20);
-    backdrop-filter: blur(20px);
-    & h2{
-      color: #fff;
-      font-size: var(--Display-Small-Size, 36px);
-      font-style: normal;
-      font-weight: 700;
-      line-height: 40px;
-      margin-bottom: 1.5rem;
-    }
+.login-card {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  grid-area: logincard;
+  padding: 3rem;
+  border-radius: 40px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.10) 100%);
+  box-shadow: 10px 10px 24px -1px rgba(0, 0, 0, 0.20);
+  backdrop-filter: blur(20px);
+
+  & h2 {
+    color: #fff;
+    font-size: var(--Display-Small-Size, 36px);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;
+    margin-bottom: 1.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
     & div.input-group {
       margin-bottom: 1rem;
+
       & label {
         color: #FFF;
         display: block;
@@ -59,36 +72,40 @@
         line-height: normal;
         letter-spacing: 1.6px;
       }
+
       & input {
         width: 100%;
         padding: 0.8rem;
         border-radius: 5px;
         border: none;
         font-size: 1rem;
-        
       }
-      & div.password-input{
+
+      & div.password-input {
         display: flex;
-        float: left;
         align-items: center;
-        & span{
-          height: 30px;
-          width: 30px;
-          z-index: 3;
+        width: 100%;
+        flex-direction: row-reverse;
+        & span {
+          margin-right: 10px;
+          z-index: 2;
           position: absolute;
           cursor: pointer;
         }
       }
     }
-    &  div.forgot-password {
+
+    & div.forgot-password {
       text-align: right;
       margin-bottom: 1rem;
+
       & a {
         color: #fff;
         text-decoration: none;
         font-size: 0.9rem;
       }
     }
+
     & .login-button {
       background: black;
       color: white;
@@ -98,35 +115,41 @@
       border: none;
       cursor: pointer;
     }
-    &  div.signup-link {
+
+    & div.signup-link {
       margin-top: 1.5rem;
+
       & a {
         color: white;
         text-decoration: none;
         font-weight: bold;
       }
     }
-  } 
-  .login-button:hover {
-    background: #333;
   }
-
-  @media screen and (max-width: 600px) {
-    .login {
-      grid-template-areas: 
-      "logo"
-      "logincard";
-      & div.login-container{
-        grid-template: 
-        "logo" auto
-        "logincard" auto/
-        auto; 
-        justify-items: center;
-      }
-      & div.login-container::after {
-        display: none;
-    }
 
 }
+
+.login-button:hover {
+  background: #333;
+}
+
+@media screen and (max-width: 600px) {
+  .login {
+    grid-template-areas:
+      "logo"
+      "logincard";
+
+    & div.login-container {
+      grid-template:
+        "logo" auto
+        "logincard" auto/
+        auto;
+      justify-items: center;
+    }
+
+    & div.login-container::after {
+      display: none;
+    }
+
   }
-  
+}
