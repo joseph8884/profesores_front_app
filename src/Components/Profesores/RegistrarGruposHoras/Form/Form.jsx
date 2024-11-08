@@ -73,7 +73,7 @@ const FormGroup = () => {
               </div>
             </div>
           </div>
-          < FormSection />
+          < FormSection groupDATA={groupDATA}/>
           <div className="informacionDetalladaEstudiante">
             <GroupData groupData={groupDATA} />
           </div>

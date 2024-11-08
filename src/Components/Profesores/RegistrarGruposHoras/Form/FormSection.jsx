@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../../../ui/button";
 import {
   Table,
@@ -10,6 +10,7 @@ import {
 } from "../../../ui/table";
 import { Input } from "../../../ui/input";
 import { Textarea } from "../../../ui/textarea";
+import Loader from "../../../Loader/Loader";
 import {
   Select,
   SelectContent,
@@ -18,8 +19,9 @@ import {
   SelectValue,
 } from "../../../ui/select";
 import { Checkbox } from "../../../ui/checkbox";
+import {getStudentsCustomByTeamID} from "../../../../provider/profesor/Grupos/getstudentTeamByTeamId";
 
-const FormSection = () => {
+const FormSection = ({groupDATA}) => {
   const [classHeld, setClassHeld] = useState("true");
   const [date, setDate] = useState("");
   const [classType, setClassType] = useState("Virtual");
@@ -29,14 +31,22 @@ const FormSection = () => {
   const [cancellationTiming, setCancellationTiming] = useState("");
   const [cancelledBy, setCancelledBy] = useState("");
   const [cancellationReason, setCancellationReason] = useState("");
-  // Lista de estudiantes
-  const students = [
-    { id: 1, name: "Student A" },
-    { id: 2, name: "Student B" },
-    { id: 3, name: "Student C" },
-    // Añadir más estudiantes si es necesario
-  ];
+  const [loading, setLoading] = useState(true); // Estado para manejar el loading
+  const [students, setStudents] = useState([]);
 
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const data_fromAPI = await getStudentsCustomByTeamID(groupDATA.id);
+        setStudents(data_fromAPI);
+      } catch (error) {
+        console.error("Error fetching students:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGroups();
+  }, []);  
 
   const [attendance, setAttendance] = useState(
     students.reduce((acc, student) => {
@@ -102,7 +112,7 @@ const FormSection = () => {
       cancelledBy,
       cancellationReason,
       classHeld: classHeld === "true",
-      attendance: attendedStudents.map((student) => student.name),
+      attendance: attendedStudents.map((student) => student.fullName),
     };
 
     console.log("Submitted Form Data:", JSON.stringify(formData, null, 2));
@@ -110,6 +120,7 @@ const FormSection = () => {
 
   return (
     <div className="form">
+      {loading && <Loader />}
       <form onSubmit={handleSubmit}>
         <div className="hours">
           <div className="attendance">
@@ -210,7 +221,7 @@ const FormSection = () => {
               {students.map((student) => (
                 <TableRow key={student.id}>
                   <TableCell>{student.id}</TableCell>
-                  <TableCell className="font-medium">{student.name}</TableCell>
+                  <TableCell className="font-medium">{student.fullName}</TableCell>
                   <TableCell>
                     <Checkbox
                       checked={attendance[student.id]}

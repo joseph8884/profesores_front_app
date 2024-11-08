@@ -42,6 +42,7 @@ import Loader from "../../../Loader/Loader";
 import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import CrearEditarEstudianteCustom from "./CreaEditStudentCustom";
+import { deleteTeamStudent } from "../../../../provider/adm/Grupos/students/deleteTeamStudent";
 
 const StudentsGroupCRUD = () => {
   const [sorting, setSorting] = useState([]);
@@ -51,7 +52,6 @@ const StudentsGroupCRUD = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
-
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const nameGroup = params.get("nameGroup");
@@ -60,6 +60,7 @@ const StudentsGroupCRUD = () => {
   const itemsPerPage = 10;
   //TraerData
   useEffect(() => {
+    setLoading(true);
     const fetchStudents = async () => {
       try {
         const data_fromAPI = await getStudentsCustom(idGroup);
@@ -69,6 +70,7 @@ const StudentsGroupCRUD = () => {
       }
     };
     fetchStudents();
+    setLoading(false);
   }, []);
   //Filter
 
@@ -237,11 +239,14 @@ const StudentsGroupCRUD = () => {
       <div className="w-full" style={{ overflowY: "scroll" }}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
           <h2 className="text-xl font-bold text-gray-900">
-            Lista de estudiantes del grupo {nameGroup}
+            Lista de estudiantes del grupo <u>{nameGroup}</u>
           </h2>
           <BellIcon className="h-6 w-6" />
         </div>
         <div className="flex items-center py-4 justify-between">
+          <a href="/admin/gruposvista/grupos/groupdetail">
+            <Button>Back</Button>
+          </a>
           <Input
             placeholder="Search by name, email or ID"
             className="w-96"
@@ -261,7 +266,11 @@ const StudentsGroupCRUD = () => {
             <SheetTrigger asChild>
               <Button>Create new student +</Button>
             </SheetTrigger>
-            <CrearEditarEstudianteCustom data={{}} context={"create"} idGroup={idGroup}/>
+            <CrearEditarEstudianteCustom
+              data={{}}
+              context={"create"}
+              idGroup={idGroup}
+            />
           </Sheet>
         </div>
 
@@ -409,13 +418,11 @@ const tableConfig = (setLoading) => {
               <DropdownMenuItem
                 onClick={async (e) => {
                   e.stopPropagation();
-                  setLoading(true);
                   try {
-                    //await delateStudentAPI(student.idUser);
+                    await deleteTeamStudent(student.id);
                   } catch (error) {
                     console.error("Error creating student:", error);
                   } finally {
-                    setLoading(false);
                     window.location.reload();
                   }
                 }}

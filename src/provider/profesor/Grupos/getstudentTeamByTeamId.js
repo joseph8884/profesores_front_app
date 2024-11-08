@@ -19,7 +19,6 @@ export async function getStudentsCustomByTeamID(id) {
             attendancePercentage: student.attendancePercentage,
             attendedClassesCount: student.attendedClassesCount
         }));
-        console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;
     } catch (error) {
         console.error('Error al obtener los estudiantes:', error);

@@ -10,6 +10,11 @@ import {
 import Nav from "./Nav";
 
 const NavMobile = () => {
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("userType");
+    window.location.href = "/login";
+  }
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -35,7 +40,7 @@ const NavMobile = () => {
             />
             <div>
               <p className="font-semibold">Gustavo Xavier</p>
-              <Button variant="ghost" className="text-red-500">
+              <Button variant="ghost" className="text-red-500" onClick={handleLogout}>
                 Log out
               </Button>
             </div>

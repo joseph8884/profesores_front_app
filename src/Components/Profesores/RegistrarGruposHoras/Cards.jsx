@@ -15,7 +15,7 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
             <h3 className="text-lg font-bold">{name}</h3>
             <p className="text-sm text-gray-500">Nombre de la empresa: {companyName}</p>
             <p className="text-sm text-gray-400">NIT: {nit}</p>
-            <p className='text-sm text-gray-400'>Id Team: {data.company.id}</p>
+            <p className='text-sm text-gray-400'>Id Team: {data.id}</p>
           </div>
         </div>
   );

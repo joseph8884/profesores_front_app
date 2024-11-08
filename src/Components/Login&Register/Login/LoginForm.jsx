@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
 import "./LoginForm.css";
 import LoginButton from "./LoginButton.jsx";
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
     <div className="login">
@@ -17,10 +20,10 @@ const LoginForm = () => {
           <h2>Login</h2>
           <form autoComplete="on">
             <div className="input-group">
-              <label htmlFor="name">Your Name</label>
+              <label htmlFor="username">Username</label>
               <input
                 type="text"
-                id="name"
+                id="username"
                 name="username"
                 placeholder="Enter your name"
                 value={username}
@@ -30,15 +33,20 @@ const LoginForm = () => {
             </div>
             <div className="input-group">
               <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={handlePasswordChange}
-                autoComplete="current-password"
-              />
+              <div className="password-input">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  autoComplete="current-password"
+                />
+                <span onClick={togglePasswordVisibility} className="password-toggle">
+                  {showPassword ? <EyeClosedIcon className="icon" /> : <EyeOpenIcon className="icon" />}
+                </span>
+              </div>
             </div>
             <div className="forgot-password">
               <a href="#">Forgot Password?</a>

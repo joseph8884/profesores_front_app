@@ -12,13 +12,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../provider/auth/authProvider";
 
 const NavMobile = () => {
-  const { setToken, setUserType } = useAuth();
-  const navigate = useNavigate();
   const handleLogout = () => {
-    setToken("");
-    setUserType(""); 
-    navigate("/login");
-  }
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("userType");
+      window.location.href = "/login";
+    }
 
   return (
     <Sheet>
@@ -45,7 +43,7 @@ const NavMobile = () => {
             />
             <div>
               <p className="font-semibold">Gustavo Xavier</p>
-              <Button variant="ghost" className="text-red-500" onClick={()=> handleLogout() }>
+              <Button variant="ghost" className="text-red-500" onClick={handleLogout}>
                 Log out
               </Button>
             </div>

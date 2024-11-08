@@ -17,13 +17,7 @@ export async function getStudentsCustom(id) {
             phoneNumber: student.phoneNumber,
             email: student.email,
             attendancePercentage: student.attendancePercentage,
-            attendedClassesCount: student.attendedClassesCount,
-            attendances: student.attendances.map((attendance) => ({
-                id: attendance.id,
-                classID: attendance.classID,
-                studentTeamID: attendance.studentTeamID,
-                attended: attendance.attended
-            }))
+            attendedClassesCount: student.attendedClassesCount
         }));
         console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;

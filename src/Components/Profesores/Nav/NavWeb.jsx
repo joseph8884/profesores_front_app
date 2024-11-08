@@ -2,6 +2,11 @@ import React from "react";
 import { Button } from "../../ui/button";
 import Nav from "./Nav";
 const NavWeb = ()=>{
+  const logout = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("userType");
+    window.location.href = "/login";
+  }
     return(  
         <div className="hidden md:flex flex-col w-64 bg-blue-900 text-white min-h-screen">
         <div className="p-4">
@@ -21,7 +26,7 @@ const NavWeb = ()=>{
             />
             <div>
               <p className="font-semibold">Gustavo Xavier</p>
-              <Button variant="ghost" className="text-red-500">
+              <Button variant="ghost" className="text-red-500" onClick={logout}>
                 Log out
               </Button>
             </div>
