@@ -88,10 +88,10 @@ const StudentDetail = () => {
   }
 
   return (
-    <div className="flex" style={{ overflowY: "hidden", height: "100vh" }}>
+    <div className="flex" style={{ overflowY: "hidden", height: "100vh", width:"100vw" }}>
       <NavMobile />
       <NavWeb />
-      <div className="dashboard">
+      <div className="dashboard-studiantesadm">
         <div className="dashboardcontainer">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">

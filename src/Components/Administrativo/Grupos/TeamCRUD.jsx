@@ -11,8 +11,6 @@ import {
 const TeamCRUD = ({
   teamName,
   setTeamName,
-  hoursPurchased,
-  setHoursPurchased,
   hoursSpented,
   setHoursSpented,
   photo,
@@ -39,23 +37,14 @@ const TeamCRUD = ({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Hours Purchased</label>
-          <input
-            type="number"
-            value={hoursPurchased}
-            onChange={(e) => setHoursPurchased(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            placeholder="Enter hours purchased"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Hours Purchased</label>
+          <label className="block text-sm font-medium text-gray-700">Hours Spend</label>
           <input
             type="number"
             value={hoursSpented}
             onChange={(e) => setHoursSpented(e.target.value)}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             placeholder="Enter hours purchased"
+            readOnly
           />
         </div>
         <div>
@@ -68,23 +57,6 @@ const TeamCRUD = ({
             placeholder="Enter photo URL"
           />
         </div>
-        <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Status{" "}
-            </label>
-            <Select
-              defaultValue={status}
-              onValueChange={(value) => setStatus(value)}
-            >
-              <SelectTrigger className="text-sm font-medium text-gray-700">
-                <SelectValue placeholder="status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="activo">Activo</SelectItem>
-                <SelectItem value="inactivo">Inactivo</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
       </form>
     </>
   );

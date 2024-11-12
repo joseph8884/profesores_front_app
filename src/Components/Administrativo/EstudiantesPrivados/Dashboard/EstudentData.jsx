@@ -1,36 +1,59 @@
 import { useState } from "react";
 import { Button } from "../../../ui/button";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "../../../ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../ui/select";
+import PhoneInput from "react-phone-input-2";
+import { updateStudentAPI } from "../../../../provider/adm/EstudiantePersonalizado/putStudent";
 const EstudentData = ({ studentData }) => {
-    // Initialize state for each field with new variable names
+  const [file, setFile] = useState(null);
+  const [fileError, setFileError] = useState("");
   const [fullName, setFullName] = useState(studentData.fullName || ""); // Changed from name to fullName
   const [email, setEmail] = useState(studentData.email || "");
   const [countryCode, setCountryCode] = useState(studentData.countryCode || "");
   const [phoneNumber, setPhoneNumber] = useState(studentData.phoneNumber || "");
-  const [hoursPurchased, setHoursPurchased] = useState( // Changed from horasPlaneadas
+  const [hoursPurchased, setHoursPurchased] = useState(
+    // Changed from horasPlaneadas
     parseInt(studentData.hoursPurchased) || 0
   );
-  const [hoursSpent, setHoursSpent] = useState( // Changed from horasRestantes
+  const [hoursSpent, setHoursSpent] = useState(
+    // Changed from horasRestantes
     parseInt(studentData.hoursSpented) || 0
   );
-  const [lastLog, setLastLog] = useState( // Changed from lastRegister
+  const [lastLog, setLastLog] = useState(
+    // Changed from lastRegister
     studentData.lastLog ? new Date(studentData.lastLog).toLocaleString() : "N/A"
   );
-  const [status, setStatus] = useState(studentData.status ? "activo" : "inactivo"); // Adjusted for boolean status
-
+  const [loading, setLoading] = useState(false); // Estado para manejar el loading
   // Validation function
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        console.log("Preview result:", reader.result); // Verificación
+        setFile(reader.result); // Actualiza la vista previa
+        setFileError("");
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setFile("");
+      setFileError("Please select a valid image file (jpg, jpeg, or png).");
+    }
+  };
+
   const validateFields = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     const phoneRegex = /^[0-9]+$/;
 
-    if (!fullName || !nameRegex.test(fullName)) { // Changed from name to fullName
+    if (!fullName || !nameRegex.test(fullName)) {
+      // Changed from name to fullName
       alert("Please enter a valid name.");
       return false;
     }
@@ -38,59 +61,75 @@ const EstudentData = ({ studentData }) => {
       alert("Please enter a valid email.");
       return false;
     }
-    if (!countryCode || !phoneRegex.test(countryCode)) {
-      alert("Please enter a valid country code.");
-      return false;
-    }
     if (!phoneNumber || !phoneRegex.test(phoneNumber)) {
       alert("Please enter a valid phone number.");
       return false;
     }
-    if (hoursPurchased < 0) { // Changed from horasPlaneadas
-      alert("Hours purchased cannot be negative.");
+    if (hoursPurchased < 0 || isNaN(hoursPurchased)) {
+      // Changed from horasPlaneadas
+      alert("Hours purchased is invalid.");
       return false;
     }
-    if (hoursSpent < 0) { // Changed from horasRestantes
-      alert("Hours spent cannot be negative.");
+    if (fileError) {
+      alert(fileError);
       return false;
     }
     return true;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!validateFields()) return;
 
     if (window.confirm("Are you sure you want to save the changes?")) {
+      setLoading(true);
+
       const updatedData = {
-        fullName, // Changed from name to fullName
+        fullName,
         email,
-        countryCode,
+        countryCode: "1",
         phoneNumber,
-        hoursPurchased, // Changed from horasPlaneadas
-        hoursSpented: hoursSpent, // Changed from horasRestantes
-        lastLog, // Changed from lastRegister
-        status: status === "activo", // Convert back to boolean
+        hoursPurchased,
+        hoursSpented: hoursSpent,
+        lastLog: "2024-10-17T17:22:48.123456Z",
+        photo:
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
       };
-      console.log("Saved Data:", updatedData);
-      // Aquí puedes agregar la lógica para guardar los datos actualizados
+      try {
+        await updateStudentAPI(studentData.ID, updatedData);
+      } catch (error) {
+        console.error("Error updating student:", error);
+      } finally {
+        setLoading(false);
+        window.location.reload();
+        window.location.href = "/admin/tablaestudiantes/estudiantesprivados";
+      }
     }
   };
 
   return (
     <>
-      {/* Profile Image */}
-      <div className="flex justify-center mb-6">
-        <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
-          <img
-            src={studentData.photo || "/profilephoto.jpeg"}
-            alt="User"
-            className="h-32 w-32 object-cover rounded-full"
-          />
-        </div>
-      </div>
-
       {/* Form */}
       <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+        {/* Vista previa de la imagen */}
+        <div
+          className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer"
+          onClick={() => document.getElementById("fileInput").click()}
+        >
+          <img
+            src={file || studentData.photo}
+            alt="uploadimage"
+            className="h-32 w-32 object-cover rounded-full"
+          />
+
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/jpeg, image/jpg, image/png"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+        </div>
+
         {/* Full Name Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -124,25 +163,14 @@ const EstudentData = ({ studentData }) => {
           <label className="block text-sm font-medium text-gray-700">
             Country Code
           </label>
-          <input
-            type="text"
-            value={countryCode}
-            onChange={(e) => setCountryCode(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Enter country code"
-          />
-        </div>
-
-        {/* Phone Number Field */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Phone Number
-          </label>
-          <input
-            type="text"
+          <PhoneInput
+            country={"co"} // Default country
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            onChange={(value, country) => {
+              setPhoneNumber(value); // Guarda el número completo
+              setCountryCode(country.countryCode); // Guarda el código del país
+            }}
+            className="phone mt-1 block w-64 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter phone number"
           />
         </div>
@@ -170,6 +198,7 @@ const EstudentData = ({ studentData }) => {
             value={hoursSpent} // Changed from horasRestantes
             onChange={(e) => setHoursSpent(parseInt(e.target.value))} // Changed from setHorasRestantes
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            readOnly
           />
         </div>
 
@@ -181,25 +210,9 @@ const EstudentData = ({ studentData }) => {
           <input
             type="text"
             value={lastLog} // Changed from lastRegister
-            onChange={(e) => setLastLog(e.target.value)} // Changed from setLastRegister
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Status{" "}
-          </label>
-          <Select defaultValue={status} onValueChange={(value) => setStatus(value)}>
-            <SelectTrigger className="text-sm font-medium text-gray-700">
-              <SelectValue placeholder="status"/>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="activo">Activo</SelectItem>
-              <SelectItem value="inactivo">Inactivo</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
         {/* Save Button */}
         <div className="pt-4">
           <Button
@@ -210,7 +223,7 @@ const EstudentData = ({ studentData }) => {
           </Button>
         </div>
       </form>
-</>
+    </>
   );
 };
 

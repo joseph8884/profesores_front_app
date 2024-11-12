@@ -19,7 +19,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
   const [countryCode, setCountryCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
   const [hoursPurchased, setHoursPurchased] = useState(
-    parseInt(data.hoursPurchased) || 0
+    parseInt(data.hoursPurchased) || ""
   );
   const [hoursSpent, setHoursSpent] = useState(
     // Changed from horasRestantes
@@ -27,7 +27,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
   );
   const [lastLog, setLastLog] = useState(
     // Changed from lastRegister
-    data.lastLog ? new Date(data.lastLog).toLocaleString() : "N/A"
+    data.lastLog ? new Date(data.lastLog).toLocaleString() : "No colocar fecha"
   );
   const [status, setStatus] = useState(data.status ? "activo" : "inactivo"); // Adjusted for boolean status
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
@@ -67,14 +67,9 @@ const CrearEditarEstudiante = ({ data, context }) => {
       alert("Please enter a valid phone number.");
       return false;
     }
-    if (hoursPurchased < 0) {
+    if (hoursPurchased < 0 || isNaN(hoursPurchased)) {
       // Changed from horasPlaneadas
-      alert("Hours purchased cannot be negative.");
-      return false;
-    }
-    if (hoursSpent < 0) {
-      // Changed from horasRestantes
-      alert("Hours spent cannot be negative.");
+      alert("Hours purchased is invalid.");
       return false;
     }
     if (fileError) {
@@ -232,6 +227,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
               value={hoursSpent} // Changed from horasRestantes
               onChange={(e) => setHoursSpent(parseInt(e.target.value))} // Changed from setHorasRestantes
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              readOnly
             />
           </div>
 
