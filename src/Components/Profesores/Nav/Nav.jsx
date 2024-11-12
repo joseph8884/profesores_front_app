@@ -37,12 +37,11 @@ const Nav = () => {
             Dashboard
           </AccordionTrigger>
           <AccordionContent>
+            <a href="/profesor/dashboard">
             <Button variant="ghost">
-              <li>Profesores Activos</li>
+              <li>Ver Dashboard</li>
             </Button>
-            <Button variant="ghost">
-              <li>Profesores Inactivos</li>
-            </Button>
+            </a>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
