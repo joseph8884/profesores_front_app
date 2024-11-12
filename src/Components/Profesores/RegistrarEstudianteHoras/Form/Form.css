@@ -1,5 +1,5 @@
 
-.dashboard{
+.dashboard-student{
     display:grid;
     width: 100vw;
     grid-template-areas: 
@@ -19,7 +19,7 @@
         grid-template:
         "tituloynotificaciones tituloynotificaciones"10% 
         "actividad_academica personal_information" auto
-        "form personal_information" 70%/
+        "form personal_information" auto/
         auto auto; 
         gap: 10px;
         & div.tituloynotificaciones{
@@ -42,6 +42,9 @@
             border-radius: 10px;
             background-color: white;
             grid-area: actividad_academica;
+            & h3 {
+                font-size: clamp(1rem, 2vw, 1.5rem);
+            }
         }
         & div.form{
             border-radius: 10px;
@@ -60,7 +63,7 @@
                 "hours reson" auto
                 "cancelation cancelation" auto 
                 "button button" auto/
-                30% auto;
+                50% 50%;
                 gap: 20px;
                 & div.hours{
                     grid-area: hours;
@@ -103,36 +106,31 @@
     }
 }
 
+@media screen and (max-width: 1050px) {
+.dashboard-student div.dashboardcontainerform div.form form{
+    display: grid;
+    grid-template: 
+    "hours" auto
+    "reson" auto
+    "cancelation" auto 
+    "button" auto/
+    auto;
+}
+}
 
-@media screen and (max-width: 600px) {
-    .dashboard {
+@media screen and (max-width: 900px) {
+    .dashboard-student {
         overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
         overflow-x: auto; /* Agregar scroll lateral */
-        & div.dashboardcontainer{
-            height: auto;
+        & div.dashboardcontainerform{
+            display: grid;
+            margin-bottom: 50px;
             grid-template:
-            "tituloynotificaciones"auto
-            "actividad_academica" 15%
+            "tituloynotificaciones"10% 
+            "actividad_academica" auto
             "form" auto
-            "last_classes" auto
             "personal_information" auto/
-            100%; 
-            & div.form{
-                grid-template-areas: 
-                "hours"
-                "reson"
-                "cancelation"
-                "button";
-                & form{
-                    grid-template: 
-                    "hours" auto
-                    "reson" auto
-                    "cancelation" auto 
-                    "button" auto/
-                    auto;
-                    gap: 20px;
-                }
-            }
+            auto; 
         }
     }
 

@@ -32,7 +32,7 @@ const Form = () => {
     <div className="flex" style={{ overflowY: 'hidden', height: '100vh', }}>
       <NavMobile />
       <NavWeb />
-      <div className="dashboard">
+      <div className="dashboard-student">
         <div className="dashboardcontainerform">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
@@ -49,7 +49,7 @@ const Form = () => {
           <div className="resumenDeActividadAcademica">
             <div className="grid grid-cols-4 gap-4 mb-6">
               <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
+                <h3>
                   Horas Compradas
                 </h3>
                 <p className="mt-2 text-3xl font-bold">
@@ -57,7 +57,7 @@ const Form = () => {
                 </p>
               </div>
               <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
+                <h3>
                   Horas Restantes
                 </h3>
                 <p className="mt-2 text-3xl font-bold">
@@ -65,7 +65,7 @@ const Form = () => {
                 </p>
               </div>
               <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
+                <h3>
                   Horas Canceladas
                 </h3>
                 <p className="mt-2 text-3xl font-bold">
@@ -73,7 +73,7 @@ const Form = () => {
                 </p>
               </div>
               <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
+                <h3>
                   Canceladas por profesor
                 </h3>
                 <p className="mt-2 text-3xl font-bold">
