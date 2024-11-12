@@ -37,7 +37,7 @@ import { Sheet, SheetTrigger } from "../../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import Loader from "../../../Loader/Loader";
 import { getAllProfesoresInactivos } from "../../../../provider/adm/profesores/getProfesoresInactivos";
-
+import { changeStatusProfesor } from "../../../../provider/adm/profesores/changeStatus";
 
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
@@ -316,7 +316,7 @@ export function DataTableDemo() {
                onClick={async (value) => {
                 setLoading(true)  
                 try { 
-                //await changeStatusStudent(student.ID) 
+                await changeStatusProfesor(student.id) 
                 }catch (error) {
                   console.error("Error updating student:", error);
                 } finally {
