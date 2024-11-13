@@ -39,13 +39,13 @@ const CompanyCRUD = ({
   return (
     <>
       {loading && <Loader />}
-      <form className="space-y-4 mb-6">
+      <form className="space-y-4 mb-6 w-[100%]">
         <h3 className="text-lg font-semibold">Select Company</h3>
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Company Name
           </label>
-          <div className="grid grid-cols-3 items-center gap-4">
+          <div className="grid grid-cols-[1fr_auto_auto] items-center gap-4">
             <Select
               defaultValue={name}
               onValueChange={(value) => {
@@ -59,7 +59,7 @@ const CompanyCRUD = ({
                 }
               }}
             >
-              <SelectTrigger className="w-[280px]">
+              <SelectTrigger className="w-[100%]">
                 <SelectValue placeholder="Select a company" />
               </SelectTrigger>
               <SelectContent>
@@ -71,12 +71,12 @@ const CompanyCRUD = ({
               </SelectContent>
             </Select>
             <TrashIcon
-              className="w-6 h-6 text-gray-400 col-span-3"
+              className="w-6 h-6 text-gray-400"
               onClick={async () => handleDeleteCompany()}
             />
             <Dialog>
               <DialogTrigger asChild>
-                <Pencil1Icon className="w-6 h-6 text-gray-400 col-span-3" />
+                <Pencil1Icon className="w-6 h-6 text-gray-400" />
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <CrearCompany

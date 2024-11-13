@@ -10,17 +10,14 @@ import TeamCRUD from "./TeamCRUD.jsx"; // Importa el nuevo componente
 const CrearModGrupo = ({ initialData, context }) => {
   const [companies, setCompanies] = useState([]);
   const [nit, setNit] = useState(initialData.companyNIT || "");
-  const [idCompany, setidCompany] = useState(initialData.companyID||"");
-  const [name, setName] = useState(initialData.companyName||"");
+  const [idCompany, setidCompany] = useState(initialData.companyID || "");
+  const [name, setName] = useState(initialData.companyName || "");
   const [loading, setLoading] = useState(false);
 
   // Variables de estado para el equipo
-  const [teamName, setTeamName] = useState( initialData.name||"");
-  const [hoursPurchased, setHoursPurchased] = useState(initialData.hoursPurchased || 0);
-  const [hoursSpented, setHoursSpented] = useState(initialData.hoursSpented||0);
-  const [status, setStatus] = useState(initialData.status ? "activo" : "inactivo"); // Adjusted for boolean status
+  const [teamName, setTeamName] = useState(String(initialData.name) );
   const [photo, setPhoto] = useState("");
-
+  const [ciudad, setCiudad] = useState(initialData.city || "");
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -35,18 +32,18 @@ const CrearModGrupo = ({ initialData, context }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const combinedData = 
-      {
-        name:teamName,
-        companyID:idCompany,
-        hoursPurchased:hoursPurchased,
-        hoursSpented:hoursSpented,
-        photo: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=", 
-    }
+    console.log("ciuadad seleccionada", ciudad);
+    const combinedData = {
+      name: teamName,
+      companyID: idCompany,
+      hoursPurchased: 0, // Este dato no existe en la lógica
+      hoursSpented: initialData.hoursSpented,
+      photo: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
+    };
 
     if (context === "create") {
       try {
-        console.log("Data on create",combinedData);
+        console.log("Data on create", combinedData);
         await createTeam(combinedData);
       } catch (error) {
         console.error("Error creating student:", error);
@@ -56,7 +53,6 @@ const CrearModGrupo = ({ initialData, context }) => {
       }
     } else {
       try {
-     
         await editTeam(initialData.ID, combinedData);
       } catch (error) {
         console.error("Error updating student:", error);
@@ -67,12 +63,25 @@ const CrearModGrupo = ({ initialData, context }) => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        console.log("Preview result:", reader.result); // Verificación
+        setPhoto(reader.result); // Actualiza la vista previa
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setPhoto("");
+    }
+  };
+
   return (
     <>
       {loading && <Loader />}
-      <div style={{overflowY: 'auto' }}>
-        
-
+      <div style={{ overflowY: 'auto' }}>
         {/* Company Form */}
         <CompanyCRUD
           companies={companies}
@@ -90,14 +99,12 @@ const CrearModGrupo = ({ initialData, context }) => {
         <TeamCRUD
           teamName={teamName}
           setTeamName={setTeamName}
-          hoursPurchased={hoursPurchased}
-          setHoursPurchased={setHoursPurchased}
-          hoursSpented={hoursSpented}
-          setHoursSpented={setHoursSpented}
+          hoursSpented={initialData.hoursSpented || ""}
           photo={photo}
-          status={status}
-          setStatus={setStatus}
           setPhoto={setPhoto}
+          ciudad={ciudad}
+          setCiudad={setCiudad}
+          handleFileChange={handleFileChange}
         />
         <Button
           onClick={handleSubmit}

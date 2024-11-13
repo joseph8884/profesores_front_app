@@ -11,6 +11,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../../ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../ui/select";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import {
@@ -29,6 +36,7 @@ const GruposEmpresas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
+  const [ciudadFilter, setCiudadFilter] = useState("Seleccione una ciudad");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
 
@@ -229,6 +237,20 @@ const GruposEmpresas = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <Select
+            value={ciudadFilter}
+            onValueChange={(value) => setCiudadFilter(value)}
+          >
+            <SelectTrigger className="w-[100%]">
+              <SelectValue placeholder="Seleccione una cuidad" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
+              <SelectItem value="BOGOTÁ">BOGOTÁ</SelectItem>
+              <SelectItem value="CALI">CALI</SelectItem>
+              <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
+            </SelectContent>
+          </Select>
           {/* Botones de filtros */}
           <Button
             variant={statusFilter === true ? "solid" : "outline"} // Check for true for "Activo"
@@ -249,6 +271,7 @@ const GruposEmpresas = () => {
             onClick={() => {
               setStatusFilter(null);
               setSearchTerm("");
+              setCiudadFilter("Seleccione una ciudad");
             }}
           >
             Clear filters

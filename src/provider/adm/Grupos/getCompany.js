@@ -15,7 +15,6 @@ export async function getCompanys() {
             name: company.name,
             nit: company.nit,
         }));
-        console.log('compañias obtenidos:', companyList);
         return companyList;
     } catch (error) {  
         console.error('Error al obtener compañias:', error);
