@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createTeam, editTeam } from "../../../provider/adm/Grupos/crearTeam&Company";
 import { Button } from "../../ui/button";
-import { SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet";
 import Loader from "../../Loader/Loader";
 import CompanyCRUD from "./CompanyCRUD.jsx";
 import { getCompanys } from "../../../provider/adm/Grupos/getCompany";
@@ -15,7 +14,7 @@ const CrearModGrupo = ({ initialData, context }) => {
   const [loading, setLoading] = useState(false);
 
   // Variables de estado para el equipo
-  const [teamName, setTeamName] = useState(String(initialData.name) );
+  const [teamName, setTeamName] = useState(String(initialData.name)||"" );
   const [photo, setPhoto] = useState("");
   const [ciudad, setCiudad] = useState(initialData.city || "");
   useEffect(() => {

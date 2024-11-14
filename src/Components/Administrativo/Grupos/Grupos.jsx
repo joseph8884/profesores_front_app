@@ -36,11 +36,10 @@ const GruposEmpresas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
-  const [ciudadFilter, setCiudadFilter] = useState("Seleccione una ciudad");
+  const [ciudadFilter, setCiudadFilter] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
-
-  const itemsPerPage = 6; // Ajusta este valor según sea necesario
+  const itemsPerPage = 2; // Ajusta este valor según sea necesario
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,6 +94,8 @@ const GruposEmpresas = () => {
     return filtered;
   }, [data, searchTerm, statusFilter, loading]);
 
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
   const toggleStatusFilter = (status) => {
     if (statusFilter === status) {
       setStatusFilter(null); // Si el filtro ya está activo, se desactiva
@@ -103,13 +104,6 @@ const GruposEmpresas = () => {
     }
   };
 
-  // Datos para la página actual
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const currentItems = useMemo(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    return filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  }, [currentPage, filteredData]);
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -242,7 +236,7 @@ const GruposEmpresas = () => {
             onValueChange={(value) => setCiudadFilter(value)}
           >
             <SelectTrigger className="w-[100%]">
-              <SelectValue placeholder="Seleccione una cuidad" />
+              <SelectValue placeholder="Seleccione una cuidad para filtrar" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
@@ -271,7 +265,7 @@ const GruposEmpresas = () => {
             onClick={() => {
               setStatusFilter(null);
               setSearchTerm("");
-              setCiudadFilter("Seleccione una ciudad");
+              setCiudadFilter("");
             }}
           >
             Clear filters
