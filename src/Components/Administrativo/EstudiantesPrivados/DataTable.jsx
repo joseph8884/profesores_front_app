@@ -4,6 +4,13 @@ import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { BellIcon } from "@radix-ui/react-icons";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../ui/select";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -33,7 +40,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../../ui/pagination";
-import { Sheet, SheetTrigger, SheetContent } from "../../ui/sheet";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import CrearEditarEstudiante from "./CrearEstudiante";
 import { getStudents } from "../../../provider/adm/EstudiantePersonalizado/getStudents";
@@ -48,6 +62,7 @@ export function DataTableDemo() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
+  const [ciudadFilter, setCiudadFilter] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
   //Pagination variables
@@ -347,7 +362,21 @@ export function DataTableDemo() {
                     {/* Este botón será visible solo en pantallas pequeñas */}
                     <Button variant="ghost">Editar</Button>
                   </SheetTrigger>
-                  <CrearEditarEstudiante data={student} context={"edit"} />
+                  <SheetContent
+                    side="right"
+                    className="w-full md:w-1/3 bg-gray-100 text-black min-h-screen p-6 overflow-y-auto"
+                  >
+                    <SheetHeader>
+                      <SheetTitle className="text-xl font-bold mb-4">
+                        Editar estudiante individual
+                      </SheetTitle>
+                      <SheetDescription>
+                        Llena los datos para editar un estudiante{" "}
+                        {student.fullName}.
+                      </SheetDescription>
+                    </SheetHeader>
+                    <CrearEditarEstudiante data={student} context={"edit"} />
+                  </SheetContent>
                 </Sheet>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -368,17 +397,18 @@ export function DataTableDemo() {
                 <Button variant="ghost">Eliminar</Button>
               </DropdownMenuItem>
               <DropdownMenuItem
-               onClick={async (value) => {
-                setLoading(true)  
-                try { 
-                await changeStatusStudent(student.ID) 
-                }catch (error) {
-                  console.error("Error updating student:", error);
-                } finally {
-                  window.location.reload();
-                  setLoading(false);
-                }
-              }}>
+                onClick={async (value) => {
+                  setLoading(true);
+                  try {
+                    await changeStatusStudent(student.ID);
+                  } catch (error) {
+                    console.error("Error updating student:", error);
+                  } finally {
+                    window.location.reload();
+                    setLoading(false);
+                  }
+                }}
+              >
                 <Button variant="ghost">Cambiar estado</Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -420,7 +450,20 @@ export function DataTableDemo() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {/* Botones de filtros */}
+          <Select
+            value={ciudadFilter}
+            onValueChange={(value) => setCiudadFilter(value)}
+          >
+            <SelectTrigger className="w-[100%]">
+              <SelectValue placeholder="Seleccione una cuidad para filtrar" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
+              <SelectItem value="BOGOTÁ">BOGOTÁ</SelectItem>
+              <SelectItem value="CALI">CALI</SelectItem>
+              <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
+            </SelectContent>
+          </Select>
           <Button
             variant={statusFilter === true ? "solid" : "outline"} // Check for true for "Activo"
             onClick={() => toggleStatusFilter("Activo")}
@@ -440,6 +483,7 @@ export function DataTableDemo() {
             onClick={() => {
               setStatusFilter(null);
               setSearchTerm("");
+              setCiudadFilter("");
             }}
           >
             Clear filters
@@ -448,7 +492,20 @@ export function DataTableDemo() {
             <SheetTrigger asChild>
               <Button>Create new student +</Button>
             </SheetTrigger>
-            <CrearEditarEstudiante data={{}} context={"create"} />
+            <SheetContent
+              side="right"
+              className="w-full md:w-1/3 bg-gray-100 text-black min-h-screen p-6 overflow-y-auto"
+            >
+              <SheetHeader>
+                <SheetTitle className="text-xl font-bold mb-4">
+                  Crear estudiante individual
+                </SheetTitle>
+                <SheetDescription>
+                  Llena los datos para crear un estudiante nuevo.
+                </SheetDescription>
+              </SheetHeader>
+              <CrearEditarEstudiante data={{}} context={"create"} />
+            </SheetContent>
           </Sheet>
         </div>
 

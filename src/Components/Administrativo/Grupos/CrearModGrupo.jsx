@@ -57,7 +57,7 @@ const CrearModGrupo = ({ initialData, context }) => {
         console.error("Error updating student:", error);
       } finally {
         setLoading(false);
-        window.location.reload();
+        window.location.href = "/admin/gruposvista/grupos";
       }
     }
   };

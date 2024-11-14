@@ -3,7 +3,7 @@ import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
 import "./EstudianteDetalle.css";
-import EstudentData from "./EstudentData";
+import ModifircarEstudiante from "../CrearEstudiante";
 import Chart from "./Chart";
 import PieChart from "./Chart2";
 import {
@@ -172,7 +172,7 @@ const StudentDetail = () => {
             <Chart />
           </div>
           <div className="informacionDetalladaEstudiante">
-            <EstudentData studentData={studentData} />
+            <ModifircarEstudiante data={studentData} context={"editar"}/>
           </div>
           <div className="ultimasclasesvistas">
             <Table>
@@ -202,18 +202,6 @@ const StudentDetail = () => {
           </div>
         </div>
       </div>
-
-      {/**
-         *       <h1>Student Detail</h1>
-      <p>Name: {studentData.name}</p>
-      <p>Virtual: {studentData.virtual}</p>
-      <p>Presencial: {studentData.presencial}</p>
-      <p>Last Register: {studentData.lastRegister}</p>
-      <p>Horas Planeadas: {studentData.horasPlaneadas}</p>
-      <p>Horas Restantes: {studentData.horasRestantes}</p>
-      <p>Cancelados Tarde: {studentData.canceladosTarde}</p>
-      <p>Cancelados A Tiempo: {studentData.canceladosATiempo}</p>
-         */}
     </div>
   );
 };
