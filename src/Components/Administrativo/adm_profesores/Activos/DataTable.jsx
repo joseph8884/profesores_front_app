@@ -33,15 +33,23 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../../../ui/pagination";
-import { Sheet, SheetTrigger } from "../../../ui/sheet";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "../../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
-import EditarProfesor from "./EditarProfesor";
 import Loader from "../../../Loader/Loader";
 import { getAllProfesoresActivos } from "../../../../provider/adm/profesores/getProfesoresActivos";
 import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import CrearProfesorDialog from "./CrearProfesor";
 import {deleteProfesor} from "../../../../provider/adm/profesores/deleteProfesor";
 import {changeStatusProfesor} from "../../../../provider/adm/profesores/changeStatus";
+import CrearEditarProfesorPersonalInfo from "../CrearEditProfesoresInfoPersonal";
+
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -280,7 +288,7 @@ export function DataTableDemo() {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const student = row.original;
+        const profesor = row.original;
 
         return (
           <DropdownMenu>
@@ -300,9 +308,23 @@ export function DataTableDemo() {
                 <Sheet>
                   <SheetTrigger asChild>
                     {/* Este botón será visible solo en pantallas pequeñas */}
-                    <Button variant="ghost">Editar</Button>
+                    <Button variant="ghost">Editar informacion personal</Button>
                   </SheetTrigger>
-                  <EditarProfesor data={student} context={"edit"} />
+                  <SheetContent
+                    side="right"
+                    className="w-full md:w-1/3 bg-gray-100 text-black min-h-screen p-6 overflow-y-auto"
+                  >
+                    <SheetHeader>
+                      <SheetTitle className="text-xl font-bold mb-4">
+                        Editar estudiante individual
+                      </SheetTitle>
+                      <SheetDescription>
+                        Llena los datos para editar un estudiante{" "}
+                        {profesor.fullName}.
+                      </SheetDescription>
+                    </SheetHeader>
+                  <CrearEditarProfesorPersonalInfo data={profesor} context={"edit"} />
+                  </SheetContent>
                 </Sheet>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -311,7 +333,7 @@ export function DataTableDemo() {
                   e.stopPropagation();
                   setLoading(true);
                   try {
-                    await deleteProfesor(student.idUser);
+                    await deleteProfesor(profesor.idUser);
                   } catch (error) {
                     console.error("Error creating student:", error);
                   } finally {
@@ -326,7 +348,7 @@ export function DataTableDemo() {
                onClick={async (value) => {
                 setLoading(true)  
                 try { 
-                await changeStatusProfesor(student.id) 
+                await changeStatusProfesor(profesor.id) 
                 }catch (error) {
                   console.error("Error updating student:", error);
                 } finally {
