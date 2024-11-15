@@ -268,27 +268,6 @@ export function DataTableDemo() {
       cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
     },
     {
-      accessorKey: "virtual",
-      header: "Virtual",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("virtual")}</div>
-      ),
-    },
-    {
-      accessorKey: "presencial",
-      header: "Presencial",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("presencial")}</div>
-      ),
-    },
-    {
-      accessorKey: "lastLog",
-      header: "Ultimo registro de clase",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("lastLog")}</div>
-      ),
-    },
-    {
       accessorKey: "hoursPurchased",
       header: "Horas Compradas",
       cell: ({ row }) => (
@@ -303,17 +282,10 @@ export function DataTableDemo() {
       ),
     },
     {
-      accessorKey: "canceladosATiempo",
-      header: "Canceladas a tiempo",
+      accessorKey: "lastLog",
+      header: "Ultimo registro de clase",
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("canceladosATiempo")}</div>
-      ),
-    },
-    {
-      accessorKey: "canceladosTarde",
-      header: "Cancelados tarde",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("canceladosTarde")}</div>
+        <div className="text-center">{row.getValue("lastLog")}</div>
       ),
     },
     {
