@@ -104,11 +104,16 @@ const FormSection = ({groupDATA}) => {
     const attendedStudents = students.filter(
       (student) => attendance[student.id]
     );
+    const formatDate = (date) => {
+      const isoString = date.toISOString();
+      const formattedDate = isoString.replace('Z', '000000Z');
+      return formattedDate;
+    };
 
     const formData = {
       teacherID: 2,
       classType,
-      dateTime: date,
+      dateTime: formatDate(new Date(date)),
       duration: convertDurationToHours(hours),
       teamID: groupDATA.id,
       comment: comments,
@@ -226,8 +231,9 @@ const FormSection = ({groupDATA}) => {
             </label>
           </div>
         </div>
- {/* Checkboxes de asistencia */}
-        <div className="student-attendance">
+        {classHeld === "true" && (
+
+<div className="student-attendance">
           <label className="mb-2 font-semibold">Mark Attendance:</label>
           <Table>
             <TableHeader>
@@ -253,6 +259,9 @@ const FormSection = ({groupDATA}) => {
             </TableBody>
           </Table>
         </div>
+
+        )}
+        
 
         {/* Show cancellation section only if classHeld is "false" */}
         {classHeld === "false" && (
