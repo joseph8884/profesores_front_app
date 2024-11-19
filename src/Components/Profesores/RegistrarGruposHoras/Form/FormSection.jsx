@@ -20,6 +20,8 @@ import {
 } from "../../../ui/select";
 import { Checkbox } from "../../../ui/checkbox";
 import {getStudentsCustomByTeamID} from "../../../../provider/profesor/Grupos/getstudentTeamByTeamId";
+import {postTeamClass} from "../../../../provider/profesor/Grupos/postTeamClass"
+import {postAttendance} from "../../../../provider/profesor/Grupos/postAttendance"
 
 const FormSection = ({groupDATA}) => {
   const [classHeld, setClassHeld] = useState("true");
@@ -46,7 +48,7 @@ const FormSection = ({groupDATA}) => {
       }
     };
     fetchGroups();
-  }, []);  
+  }, [groupDATA]);  
 
   const [attendance, setAttendance] = useState(
     students.reduce((acc, student) => {
@@ -95,7 +97,8 @@ const FormSection = ({groupDATA}) => {
     return 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const attendedStudents = students.filter(
@@ -103,19 +106,36 @@ const FormSection = ({groupDATA}) => {
     );
 
     const formData = {
-      date,
+      teacherID: 2,
       classType,
-      hours: convertDurationToHours(hours),
-      comments,
-      topics,
-      cancellationTiming,
-      cancelledBy,
-      cancellationReason,
-      classHeld: classHeld === "true",
-      attendance: attendedStudents.map((student) => student.fullName),
+      dateTime: date,
+      duration: convertDurationToHours(hours),
+      teamID: groupDATA.id,
+      comment: comments,
+      topic: topics,
+      classHelded: classHeld === "yes" ? true : false,
+      cancellationReason: cancellationReason,
+      cancellationTiming: cancellationTiming ? cancellationTiming : "Class helded",
+      canceledBy: cancelledBy ? cancelledBy : "Class helded",
+      //attendance: attendedStudents.map((student) => student.fullName),
     };
-
+    try {
+      const response = await postTeamClass(formData);
+      attendedStudents.map( async (student)=>{
+        const attendanceperStudent={
+          classID: response,
+          studentTeamID: student.id,
+          attended: true,
+        }
+        await postAttendance(attendanceperStudent);
+      })
+    } catch (error){
+      console.log("Error creating team class:", error);
+    }finally{
+      setLoading(false);
+    }
     console.log("Submitted Form Data:", JSON.stringify(formData, null, 2));
+    console.log("Attended Students:", attendedStudents);
   };
 
   return (

@@ -66,7 +66,7 @@
                 "student-attendance student-attendance" auto
                 "cancelation cancelation" auto 
                 "button button" auto/
-                30% auto;
+                50% 50%;
                 gap: 20px;
                 & div.hours{
                     grid-area: hours;
@@ -89,7 +89,7 @@
                 div.student-attendance{
                     grid-area: student-attendance;
                 }
-                div.button{
+                & Button{
                     grid-area: button;
                     & Button{
                         width: 100%;
