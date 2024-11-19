@@ -126,7 +126,8 @@ const FormSection = ({groupDATA}) => {
     };
     try {
       const response = await postTeamClass(formData);
-      attendedStudents.map( async (student)=>{
+      if (classHeld === "true"){
+        attendedStudents.map( async (student)=>{
         const attendanceperStudent={
           classID: response,
           studentTeamID: student.id,
@@ -134,6 +135,8 @@ const FormSection = ({groupDATA}) => {
         }
         await postAttendance(attendanceperStudent);
       })
+      }
+      
     } catch (error){
       console.log("Error creating team class:", error);
     }finally{

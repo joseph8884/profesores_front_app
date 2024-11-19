@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../../ui/button";
 import PhoneInput from "react-phone-input-2";
-import { createEstudent } from "../../../provider/adm/EstudiantePersonalizado/postStudent";
-import { updateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/putStudent";
 import Loader from "../../Loader/Loader";
 import {
   Select,
@@ -77,12 +75,8 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
 
   return (
     <>
-      {loading && <Loader />} {/* Muestra el loader si loading es true */}
-      {/* Form */}
+      {loading && <Loader />}
       <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-        
-
-        {/* Full Name Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Full Name

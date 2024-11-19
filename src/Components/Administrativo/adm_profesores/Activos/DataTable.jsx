@@ -49,6 +49,8 @@ import CrearProfesorDialog from "./CrearProfesor";
 import {deleteProfesor} from "../../../../provider/adm/profesores/deleteProfesor";
 import {changeStatusProfesor} from "../../../../provider/adm/profesores/changeStatus";
 import CrearEditarProfesorPersonalInfo from "../CrearEditProfesoresInfoPersonal";
+import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
+
 
 export function DataTableDemo() {
   const [sorting, setSorting] = useState([]);
@@ -289,7 +291,6 @@ export function DataTableDemo() {
       enableHiding: false,
       cell: ({ row }) => {
         const profesor = row.original;
-
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -324,6 +325,33 @@ export function DataTableDemo() {
                       </SheetDescription>
                     </SheetHeader>
                   <CrearEditarProfesorPersonalInfo data={profesor} context={"edit"} />
+                  </SheetContent>
+                </Sheet>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
+                }}
+              >
+                <Sheet>
+                  <SheetTrigger asChild>
+                    {/* Este botón será visible solo en pantallas pequeñas */}
+                    <Button variant="ghost">Editar informacion bancaria</Button>
+                  </SheetTrigger>
+                  <SheetContent
+                    side="right"
+                    className="w-full md:w-1/3 bg-gray-100 text-black min-h-screen p-6 overflow-y-auto"
+                  >
+                    <SheetHeader>
+                      <SheetTitle className="text-xl font-bold mb-4">
+                        Editar profesor informacion bancaria
+                      </SheetTitle>
+                      <SheetDescription>
+                        Llena los datos para editar{" "}
+                        {profesor.fullName}.
+                      </SheetDescription>
+                    </SheetHeader>
+                  <CrearEditarProfesorBankData personal_info_teacher={profesor} context={"edit"} />
                   </SheetContent>
                 </Sheet>
               </DropdownMenuItem>
