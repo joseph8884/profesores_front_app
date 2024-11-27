@@ -31,7 +31,11 @@ const LoginButton = ({ username, password }) => {
     } else {
       console.error("Error al iniciar sesión");
     }
-
+    // poner tiempo de espera de mas, 5 segundos mas
+      // poner tiempo de espera de mas, 5 segundos mas
+ //       setTimeout(() => {
+   //       setLoading(false); // Desactiva el loader después de 5 segundos
+     // }, 5 * 1000); // 5 segundos en milisegundos
     setLoading(false); // Desactiva el loader
   };
 
