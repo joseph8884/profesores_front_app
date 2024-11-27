@@ -178,7 +178,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
             value={phoneNumber}
             onChange={(value, country) => {
               setPhoneNumber(value); // Guarda el número completo
-              setCountryCode(country.countryCode); // Guarda el código del país
+              //setCountryCode(country.countryCode); // Guarda el código del país
             }}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter phone number"
