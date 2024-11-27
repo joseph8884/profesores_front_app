@@ -18,8 +18,8 @@ export async function getStudents() {
             phoneNumber: student.phoneNumber,
             photo: student.photo,
             hoursPurchased: student.hoursPurchased,
-            hoursSpented: student.hoursSpented,
-            lastLog: student.lastLog,
+            hoursRemaining: student.hoursRemaining,
+            office: student.office,
             status: student.status,
             idUser: student.idUser,
             individualClasses: student.individualClasses

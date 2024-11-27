@@ -9,7 +9,7 @@ export const ProtectedRoute = () => {
   useEffect(() => {
     if (!token) {
       // If not authenticated, redirect to the login page
-      navigate('/login');
+      window.location.href="/login";
     } else {
       try {
         const userTypeFromToken = parseJwt(token).role;
@@ -18,7 +18,7 @@ export const ProtectedRoute = () => {
         }
       } catch (error) {
         console.error("Token error:", error);
-        navigate('/login');
+        window.location.href="/login";
       }
     }
   }, [token, navigate]);

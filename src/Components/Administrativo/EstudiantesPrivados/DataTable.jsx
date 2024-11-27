@@ -46,21 +46,6 @@ export function DataTableDemo() {
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
-        const studentTest =[
-          {
-          ID:1,
-          fullName: "test",
-          email: "loquesea@jdsa.com",
-          phoneNumber: "572132321313",
-          photo: "dasdsadsadas",
-          hoursPurchased: 1,
-          hoursSpented: 2312,
-          lastLog: "2024-08-17T17:22:48Z",
-          status: true,
-          idUser: 12,
-          }
-        ]
-        setData(studentTest);
       }
     };
     fetchStudents();
@@ -87,9 +72,12 @@ export function DataTableDemo() {
       // Ensure statusFilter is checked correctly
       filtered = filtered.filter((item) => item.status === statusFilter);
     }
+    if (ciudadFilter) {
+      filtered = filtered.filter((item) => item.office === ciudadFilter);
+    }
 
     return filtered;
-  }, [data, searchTerm, statusFilter]);
+  }, [data, searchTerm, statusFilter, ciudadFilter]);
 
   // Manejador para cambiar el filtro de estado
   const toggleStatusFilter = (status) => {
@@ -124,6 +112,11 @@ export function DataTableDemo() {
       cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
     },
     {
+      accessorKey: "email", // Changed from "name" to "fullName"
+      header: "Email",
+      cell: ({ row }) => <div>{row.getValue("email")}</div>,
+    },
+    {
       accessorKey: "hoursPurchased",
       header: "Horas Compradas",
       cell: ({ row }) => (
@@ -131,17 +124,17 @@ export function DataTableDemo() {
       ),
     },
     {
-      accessorKey: "hoursSpented",
+      accessorKey: "hoursRemaining",
       header: "Horas consumidas",
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("hoursSpented")}</div>
+        <div className="text-center">{row.getValue("hoursRemaining")}</div>
       ),
     },
     {
-      accessorKey: "lastLog",
-      header: "Ultimo registro de clase",
+      accessorKey: "office",
+      header: "Ciudad a la que pertenece",
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("lastLog")}</div>
+        <div className="text-center">{row.getValue("office")}</div>
       ),
     },
     {
@@ -209,6 +202,21 @@ export function DataTableDemo() {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
+                onClick={async (value) => {
+                  setLoading(true);
+                  try {
+                    await changeStatusStudent(student.ID);
+                  } catch (error) {
+                    console.error("Error updating student:", error);
+                  } finally {
+                    window.location.reload();
+                    setLoading(false);
+                  }
+                }}
+              >
+                <Button variant="ghost">Cambiar estado</Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem
                 onClick={async (e) => {
                   e.stopPropagation();
                   setLoading(true);
@@ -223,21 +231,6 @@ export function DataTableDemo() {
                 }}
               >
                 <Button variant="ghost">Eliminar</Button>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={async (value) => {
-                  setLoading(true);
-                  try {
-                    await changeStatusStudent(student.ID);
-                  } catch (error) {
-                    console.error("Error updating student:", error);
-                  } finally {
-                    window.location.reload();
-                    setLoading(false);
-                  }
-                }}
-              >
-                <Button variant="ghost">Cambiar estado</Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -19,14 +19,14 @@ const CrearEditarEstudiante = ({ data, context }) => {
   const [email, setEmail] = useState(data.email || "");
   const [countryCode, setCountryCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
-  const [hoursPurchased, setHoursPurchased] = useState(
-    parseInt(data.hoursPurchased) || ""
+  const [ hoursRemaining, sethoursRemaining] = useState(
+    parseInt(data.hoursRemaining) || ""
   );
   const [hoursSpent, setHoursSpent] = useState(
     // Changed from horasRestantes
     parseInt(data.hoursSpented) || 0
   );
-  const [ciudad, setCiudad] = useState(data.ciudad || "");
+  const [ciudad, setCiudad] = useState(data.office || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
 
   const handleFileChange = (e) => {
@@ -64,7 +64,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
       alert("Please enter a valid phone number.");
       return false;
     }
-    if (hoursPurchased < 0 || isNaN(hoursPurchased)) {
+    if (hoursRemaining < 0 || isNaN(hoursRemaining)) {
       // Changed from horasPlaneadas
       alert("Hours purchased is invalid.");
       return false;
@@ -87,11 +87,10 @@ const CrearEditarEstudiante = ({ data, context }) => {
         email,
         countryCode: "1",
         phoneNumber,
-        hoursPurchased,
-        hoursSpented: hoursSpent,
-        lastLog: "2024-10-17T17:22:48.123456Z",
+        hoursRemaining, 
         photo:
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
+        office: ciudad,
       };
       if (context === "create") {
         try {
@@ -185,28 +184,16 @@ const CrearEditarEstudiante = ({ data, context }) => {
           />
         </div>
 
-        {/* Hours Purchased Field */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Hours Purchased
-          </label>
-          <input
-            type="number"
-            value={hoursPurchased} // Changed from horasPlaneadas
-            onChange={(e) => setHoursPurchased(parseInt(e.target.value))} // Changed from setHorasPlaneadas
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          />
-        </div>
 
         {/* Hours Spent Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Hours Spent
+            Horas Restantes
           </label>
           <input
             type="number"
-            value={hoursSpent} // Changed from horasRestantes
-            onChange={(e) => setHoursSpent(parseInt(e.target.value))} // Changed from setHorasRestantes
+            value={hoursRemaining} // Changed from horasRestantes
+            onChange={(e) => sethoursRemaining(parseInt(e.target.value))} // Changed from setHorasRestantes
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             readOnly
           />
@@ -229,21 +216,6 @@ const CrearEditarEstudiante = ({ data, context }) => {
               <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Last Log
-          </label>
-          <input
-            type="text"
-            value={
-              data.lastLog
-                ? new Date(data.lastLog).toLocaleString()
-                : "No debe ingresar nada aca"
-            } // Changed from lastRegister
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            readOnly
-          />
         </div>
         {/* Save Button */}
         <div className="pt-4">
