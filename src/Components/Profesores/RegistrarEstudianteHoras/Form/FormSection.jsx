@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import NavMobile from "../../Nav/NavMobile";
-import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../../ui/table";
-import { BellIcon } from "@radix-ui/react-icons";
-import { DownloadIcon } from "@radix-ui/react-icons";
-import EstudentData from "./EstudentData";
 import { Input } from "../../../ui/input";
 import { Textarea } from "../../../ui/textarea";
 import {
@@ -22,9 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../ui/select";
-import { Checkbox } from "../../../ui/checkbox";
+import Loader  from "../../../Loader/Loader";
+import { postIndividualClass } from "../../../../provider/profesor/EstudianteIndividual/postIndividualClass";
 
-const FormSection = () => {
+const FormSection = ({data}) => {
   const [classHeld, setClassHeld] = useState("true");
   const [date, setDate] = useState("");
   const [classType, setClassType] = useState("Virtual");
@@ -34,7 +22,7 @@ const FormSection = () => {
   const [cancellationTiming, setCancellationTiming] = useState("");
   const [cancelledBy, setCancelledBy] = useState("");
   const [cancellationReason, setCancellationReason] = useState("");
-  const [showCancellation, setShowCancellation] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -59,7 +47,6 @@ const FormSection = () => {
 
   const handleAttendanceChange = (value) => {
     setClassHeld(value);
-    setShowCancellation(value === "false"); // Show cancellation section if class was not held
   };
 
   // Function to convert duration to hours
@@ -71,24 +58,41 @@ const FormSection = () => {
     return 0; // Default value if it doesn't match
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = {
-      date,
-      classType,
-      hours: convertDurationToHours(hours), // Convert to numeric hours
-      comments,
-      topics,
-      cancellationTiming,
-      cancelledBy,
-      cancellationReason,
-      classHeld: classHeld === "true",
+  const handleSubmit = async (e) => {
+      setLoading(true);
+      e.preventDefault();
+      const formatDate = (date) => {
+        const isoString = date.toISOString();
+        const formattedDate = isoString.replace('Z', '000000Z');
+        return formattedDate;
+      };
+  
+      var formData = {
+        teacherID: 2,
+        classType,
+        dateTime: formatDate(new Date(date)),
+        duration: convertDurationToHours(hours),
+        studentID: data.id,
+        comment: comments,
+        topic: topics,
+        classHelded: classHeld === "yes" ? true : false,
+        cancellationReason: cancellationReason,
+        cancellationTiming: cancellationTiming ? cancellationTiming : "Class helded",
+        canceledBy: cancelledBy ? cancelledBy : "Class helded",
+      };
+      try {
+        await postIndividualClass(formData);
+      } catch (error){
+        console.log("Error creating team class:", error);
+      }finally{
+        setLoading(false);
+      }
+      console.log("Submitted Form Data:", JSON.stringify(formData, null, 2));
     };
-    console.log(JSON.stringify(formData, null, 2)); // Print to console
-  };
 
   return (
     <div className="form">
+      {loading && <Loader />}
       <form onSubmit={handleSubmit}>
         <div className="hours">
           <div className="attendance">

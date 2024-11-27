@@ -26,5 +26,4 @@ export async function getAllTeams() {
         console.error('Error al obtener los equipos:', error);
         throw error;
     }
- // Asegúrate de que esto retorne la respuesta completa
 };

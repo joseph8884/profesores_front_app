@@ -3,16 +3,7 @@ import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import { Button } from "../../../ui/button";
 import "./Form.css";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../../ui/table";
 import { BellIcon } from "@radix-ui/react-icons";
-import { DownloadIcon } from "@radix-ui/react-icons";
 import EstudentData from "./EstudentData";
 import FormSection from "./FormSection";
 const Form = () => {
@@ -82,7 +73,7 @@ const Form = () => {
               </div>
             </div>
           </div>
-          < FormSection />
+          < FormSection data={studentData}/>
           <div className="informacionDetalladaEstudiante">
             <EstudentData studentData={studentData} />
           </div>
