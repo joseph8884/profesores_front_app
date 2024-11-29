@@ -19,10 +19,12 @@ import { DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "./Calendar";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
+
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
+  const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
-  useEffect(() => {
+  useEffect(()  => {
     const data = localStorage.getItem("selected_student");
     if (data) {
       setStudentData(JSON.parse(data));
@@ -32,6 +34,7 @@ const StudentDetail = () => {
       year: new Date().getFullYear().toString(),
     });
   }, []);
+
   
   const exportToExcel = () => {
     if (!studentData) {
@@ -104,7 +107,7 @@ const StudentDetail = () => {
               <Button>Back</Button>
             </a>
             <div className="actions">
-              <Calendar setDate={(date) => setDate(date)} date={date} />
+              <Calendar setDate={(date) => setDate(date)} date={date} studentID={studentData.ID} setClasses={setClasses} />
 
               <Button
                 onClick={() => {

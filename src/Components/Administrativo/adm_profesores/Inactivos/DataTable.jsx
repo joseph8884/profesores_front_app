@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { BellIcon } from "@radix-ui/react-icons";
@@ -11,45 +10,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../../ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../../ui/table";
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "../../../ui/pagination";
-import { Sheet, SheetTrigger } from "../../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 import Loader from "../../../Loader/Loader";
 import { getAllProfesoresInactivos } from "../../../../provider/adm/profesores/getProfesoresInactivos";
 import { changeStatusProfesor } from "../../../../provider/adm/profesores/changeStatus";
-
+import { DataTableDemoTemplate } from "../../../ui/DataTableAdjusted";
+import {deleteProfesor} from "../../../../provider/adm/profesores/deleteProfesor";
 export function DataTableDemo() {
-  const [sorting, setSorting] = useState([]);
-  const [columnFilters, setColumnFilters] = useState([]);
-  const [rowSelection, setRowSelection] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
-  //Pagination variables
-  const itemsPerPage = 10;
-  const navigate = useNavigate();
   //TraerData
   useEffect(() => {
     const fetchStudents = async () => {
@@ -82,135 +52,6 @@ export function DataTableDemo() {
     }
     return filtered;
   }, [data, searchTerm]);
-
-
-  //ROWCLICK
-  const handleRowClick = (row, event) => {
-    localStorage.setItem("selected_student", JSON.stringify(row.original));
-    if (event.target.closest(".dropdown-menu")) {
-      return;
-    }
-    navigate("/admin/tablaestudiantes/estudiantesprivados/studentdetail");
-  };
-
-  // Pagination logic
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const currentItems = useMemo(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    return filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  }, [currentPage, filteredData]);
-
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    const maxPagesToShow = 9;
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(
-          <PaginationItem key={i}>
-            <PaginationLink
-              href="#"
-              onClick={() => handlePageChange(i)}
-              isActive={currentPage === i}
-            >
-              {i}
-            </PaginationLink>
-          </PaginationItem>
-        );
-      }
-    } else {
-      if (currentPage <= 5) {
-        for (let i = 1; i <= 6; i++) {
-          pageNumbers.push(
-            <PaginationItem key={i}>
-              <PaginationLink
-                href="#"
-                onClick={() => handlePageChange(i)}
-                isActive={currentPage === i}
-              >
-                {i}
-              </PaginationLink>
-            </PaginationItem>
-          );
-        }
-        pageNumbers.push(<span key="dots-1">...</span>);
-        pageNumbers.push(
-          <PaginationItem key={totalPages}>
-            <PaginationLink
-              href="#"
-              onClick={() => handlePageChange(totalPages)}
-              isActive={currentPage === totalPages}
-            >
-              {totalPages}
-            </PaginationLink>
-          </PaginationItem>
-        );
-      } else if (currentPage >= totalPages - 4) {
-        pageNumbers.push(
-          <PaginationItem key={1}>
-            <PaginationLink href="#" onClick={() => handlePageChange(1)}>
-              1
-            </PaginationLink>
-          </PaginationItem>
-        );
-        pageNumbers.push(<span key="dots-2">...</span>);
-        for (let i = totalPages - 5; i <= totalPages; i++) {
-          pageNumbers.push(
-            <PaginationItem key={i}>
-              <PaginationLink
-                href="#"
-                onClick={() => handlePageChange(i)}
-                isActive={currentPage === i}
-              >
-                {i}
-              </PaginationLink>
-            </PaginationItem>
-          );
-        }
-      } else {
-        pageNumbers.push(
-          <PaginationItem key={1}>
-            <PaginationLink href="#" onClick={() => handlePageChange(1)}>
-              1
-            </PaginationLink>
-          </PaginationItem>
-        );
-        pageNumbers.push(<span key="dots-3">...</span>);
-        for (let i = currentPage - 2; i <= currentPage + 2; i++) {
-          pageNumbers.push(
-            <PaginationItem key={i}>
-              <PaginationLink
-                href="#"
-                onClick={() => handlePageChange(i)}
-                isActive={currentPage === i}
-              >
-                {i}
-              </PaginationLink>
-            </PaginationItem>
-          );
-        }
-        pageNumbers.push(<span key="dots-4">...</span>);
-        pageNumbers.push(
-          <PaginationItem key={totalPages}>
-            <PaginationLink
-              href="#"
-              onClick={() => handlePageChange(totalPages)}
-              isActive={currentPage === totalPages}
-            >
-              {totalPages}
-            </PaginationLink>
-          </PaginationItem>
-        );
-      }
-    }
-    return pageNumbers;
-  };
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
 
   const columns = [
     {
@@ -296,22 +137,7 @@ export function DataTableDemo() {
               >
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  setLoading(true);
-                  try {
-                    //await delateStudentAPI(student.ID);
-                  } catch (error) {
-                    console.error("Error creating student:", error);
-                  } finally {
-                    setLoading(false);
-                    window.location.reload();
-                  }
-                }}
-              >
-                <Button variant="ghost">Eliminar</Button>
-              </DropdownMenuItem>
+
               <DropdownMenuItem
                onClick={async (value) => {
                 setLoading(true)  
@@ -326,6 +152,22 @@ export function DataTableDemo() {
               }}>
                 <Button variant="ghost">Cambiar estado</Button>
               </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  setLoading(true);
+                  try {
+                    await deleteProfesor(student.idUser);
+                  } catch (error) {
+                    console.error("Error creating student:", error);
+                  } finally {
+                    setLoading(false);
+                    window.location.reload();
+                  }
+                }}
+              >
+                <Button variant="ghost">Eliminar</Button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -333,20 +175,7 @@ export function DataTableDemo() {
     },
   ];
 
-  const table = useReactTable({
-    data: currentItems,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      rowSelection,
-    },
-  });
+
 
   return (
     <>
@@ -378,71 +207,8 @@ export function DataTableDemo() {
           
         </div>
 
-        <div className="rounded-md border">
-          <Table key={`table-page-${currentPage}`}>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
+        <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"/admin/tablaestudiantes/estudiantesprivados/studentdetail"} localstorage_name={"selected_teacher"} />
 
-            <TableBody>
-              {table.getRowModel().rows.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    onClick={(event) => handleRowClick(row, event)}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length} className="text-center">
-                    No results found.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Pagination */}
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-            </PaginationItem>
-            {renderPageNumbers()}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
       </div>
     </>
   );

@@ -5,9 +5,9 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useEffect } from "react";
 
 import { cn } from "../../../../Lib/utils";
-import { toast } from "../../../../hooks/use-toast.js";
 import { Button } from "../../../ui/button";
 import { Calendar } from "../../../ui/calendar";
 import {
@@ -18,9 +18,9 @@ import {
   FormMessage,
 } from "../../../ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
+import {getClassesbyStudentIDDate} from "../../../../provider/adm/EstudiantePersonalizado/Classes/getClassesbyStudentIDDate";
 
-
-export default function CalendarForm({ setDate, date }) {
+export default function CalendarForm({ setDate, date, studentID, setClasses }) {
   const FormSchema = z.object({
     dob: z.date({
       required_error: "A date of birth is required.",
@@ -29,6 +29,18 @@ export default function CalendarForm({ setDate, date }) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
+  useEffect(() => {
+    const fetchClasses = async () => {
+    console.log("Fetching classes... with date and id student", date, studentID);
+      if (!studentID) return;
+      const clases = await getClassesbyStudentIDDate(studentID, date.year, date.month);
+      if (clases) {
+        setClasses(clases);
+        console.log(clases); 
+      }
+    };
+    fetchClasses();
+  }, [studentID, date, setClasses]);
 
   // Convert the incoming date prop to a Date object
   const initialDate = new Date(parseInt(date.year), parseInt(date.month) - 1, 1); // Restar 1 al mes
