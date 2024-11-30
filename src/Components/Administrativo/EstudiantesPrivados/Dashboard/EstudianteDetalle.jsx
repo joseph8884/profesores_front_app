@@ -24,7 +24,7 @@ const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
   const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
-  useEffect(()  => {
+  useEffect(() => {
     const data = localStorage.getItem("selected_student");
     if (data) {
       setStudentData(JSON.parse(data));
@@ -35,55 +35,56 @@ const StudentDetail = () => {
     });
   }, []);
 
-  
   const exportToExcel = () => {
     if (!studentData) {
       console.error("No student data available to export.");
       return;
     }
 
-    // Asegurar que studentData es un array
-    const data = Array.isArray(studentData) ? studentData : [studentData];
+    // Datos completos del estudiante
+    const studentSheetData = [
+      { "Nombre Completo": studentData.fullName },
+      { "ID": studentData.id },
+      { "Email": studentData.email },
+      { "Teléfono": studentData.phoneNumber },
+      { "Código de País": studentData.countryCode },
+      { "Estado": studentData.status ? "Activo" : "Inactivo" },
+      // La foto se omite ya que no es adecuada para Excel
+    ];
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
+    const studentWorksheet = XLSX.utils.json_to_sheet(studentSheetData);
 
-    // Formatear encabezados: negrita y centrado
-    const headers = Object.keys(data[0]);
-    headers.forEach((header, index) => {
-      const cellAddress = XLSX.utils.encode_cell({ c: index, r: 0 });
-      if (!worksheet[cellAddress]) return;
-      worksheet[cellAddress].s = {
-        font: { bold: true },
-        alignment: { horizontal: "center" },
-      };
-    });
+    
+    // Datos completos de las clases
+    const classSheetData = classes.map((clase) => ({
+      "Clase ID": clase.id,
+      "Profesor ID": clase.teacherID,
+      "Tipo de Clase": clase.classType,
+      "Fecha": new Date(clase.dateTime).toLocaleDateString(),
+      "Duración": `${clase.duration} H`,
+      "Estudiante ID": clase.studentID,
+      "Comentario": clase.comment,
+      "Tema": clase.topic,
+      "Estado": clase.classHelded ? "Completada" : "Cancelada",
+      "Razón de Cancelación": clase.cancellationReason,
+      "Momento de Cancelación": clase.cancellationTiming,
+      "Cancelado por": clase.canceledBy,
+    }));
 
-    // Ajustar ancho de columnas
-    const columnWidths = headers.map(() => ({ wpx: 150 }));
-    worksheet["!cols"] = columnWidths;
+    const classWorksheet = XLSX.utils.json_to_sheet(classSheetData);
 
-    // Alternar color de filas
-    for (let i = 1; i <= data.length; i++) {
-      headers.forEach((_, j) => {
-        const cellAddress = XLSX.utils.encode_cell({ c: j, r: i });
-        if (!worksheet[cellAddress]) return;
-        worksheet[cellAddress].s = {
-          fill: {
-            patternType: "solid",
-            fgColor: { rgb: i % 2 === 0 ? "FFFFDDDD" : "FFFFFFFF" },
-          },
-        };
-      });
-    }
-
+    // Crear el libro de trabajo y agregar las hojas
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "DatosEstudiante");
+    XLSX.utils.book_append_sheet(workbook, studentWorksheet, "DatosEstudiante");
+    XLSX.utils.book_append_sheet(workbook, classWorksheet, "Clases");
+
+    // Escribir el archivo Excel
     const excelBuffer = XLSX.write(workbook, {
       type: "array",
       bookType: "xlsx",
     });
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(blob, "DatosEstudiante.xlsx");
+    saveAs(blob, "DatosEstudianteYClases.xlsx");
   };
 
   if (!studentData) {
@@ -91,14 +92,17 @@ const StudentDetail = () => {
   }
 
   return (
-    <div className="flex" style={{ overflowY: "hidden", height: "100vh", width:"100vw" }}>
+    <div
+      className="flex"
+      style={{ overflowY: "hidden", height: "100vh", width: "100vw" }}
+    >
       <NavMobile />
       <NavWeb />
       <div className="dashboard-studiantesadm">
         <div className="dashboardcontainer">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Estudiantes Individuales
+              Informacion Estudiante {studentData.fullName} con id={studentData.id}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>
@@ -107,7 +111,12 @@ const StudentDetail = () => {
               <Button>Back</Button>
             </a>
             <div className="actions">
-              <Calendar setDate={(date) => setDate(date)} date={date} studentID={studentData.ID} setClasses={setClasses} />
+              <Calendar
+                setDate={(date) => setDate(date)}
+                date={date}
+                studentID={studentData.ID}
+                setClasses={setClasses}
+              />
 
               <Button
                 onClick={() => {
@@ -127,9 +136,6 @@ const StudentDetail = () => {
                 Exportar
               </Button>
             </div>
-            {
-              //Cosas de los filtros.
-            }
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="grid grid-cols-4 gap-4 mb-6">
@@ -137,16 +143,14 @@ const StudentDetail = () => {
                 <h3 className="text-xl font-semibold text-gray-700">
                   Horas Compradas
                 </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasPlaneadas}
-                </p>
+                <p className="mt-2 text-3xl font-bold"></p>
               </div>
               <div className="p-4 bg-white rounded-lg">
                 <h3 className="text-xl font-semibold text-gray-700">
                   Horas Restantes
                 </h3>
                 <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasRestantes}
+                  {studentData.hoursRemaining}
                 </p>
               </div>
               <div className="p-4 bg-white rounded-lg">
@@ -154,7 +158,10 @@ const StudentDetail = () => {
                   Horas Canceladas
                 </h3>
                 <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasCanceladas}
+                  {
+                    //classes.filter((clase) => clase.classHelded === false).length arreglar
+                  }
+                  fix
                 </p>
               </div>
               <div className="p-4 bg-white rounded-lg">
@@ -175,31 +182,48 @@ const StudentDetail = () => {
             <Chart />
           </div>
           <div className="informacionDetalladaEstudiante">
-            <ModifircarEstudiante data={studentData} context={"editar"}/>
+            <ModifircarEstudiante data={studentData} context={"editar"} />
           </div>
           <div className="ultimasclasesvistas">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Photo</TableHead>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Teacher</TableHead>
-                  <TableHead>Mode</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>clase ID</TableHead>
+                  <TableHead>teacherID</TableHead>
+                  <TableHead>dateTime</TableHead>
+                  <TableHead>classType</TableHead>
+                  <TableHead>duration</TableHead>
+                  <TableHead>tipic</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>Photo</TableCell>
-                  <TableCell>#12306</TableCell>
-                  <TableCell>Nov 02, 2023</TableCell>
-                  <TableCell>Carlos David Perez Rocha</TableCell>
-                  <TableCell>Presencial</TableCell>
-                  <TableCell>3H</TableCell>
-                  <TableCell>Completed</TableCell>
-                </TableRow>
+                {classes.map((classData) => (
+                  <TableRow key={classData.id}>
+                    <TableCell>{classData.id}</TableCell>
+                    <TableCell>{classData.teacherID}</TableCell>
+                    <TableCell>
+                      {new Date(classData.dateTime).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{classData.classType}</TableCell>
+                    <TableCell>{classData.duration} H</TableCell>
+                    <TableCell>{classData.topic}</TableCell>
+                    <TableCell>
+                      <div
+                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      >
+                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                        {/* Texto del estado */}
+                        <span>
+                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {/* Updated logic for status */}
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>

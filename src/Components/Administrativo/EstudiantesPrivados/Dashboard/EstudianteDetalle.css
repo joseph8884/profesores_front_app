@@ -21,7 +21,7 @@
         grid-template:
         "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10% 
         "actions actions actions" auto
-        "actividad_academica actividad_academica personal_information" 15%
+        "actividad_academica actividad_academica personal_information" auto
         "grafica calendario personal_information" auto
         "last_classes last_classes personal_information" auto/
          auto auto 35%; 
