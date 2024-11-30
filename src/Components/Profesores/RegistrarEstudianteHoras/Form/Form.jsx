@@ -9,7 +9,7 @@ import FormSection from "./FormSection";
 const Form = () => {
   const [studentData, setStudentData] = useState(null);
   useEffect(() => {
-    const data = localStorage.getItem("selected_student");
+    const data = localStorage.getItem("selected_student_profesor");
     if (data) {
       setStudentData(JSON.parse(data));
     }
