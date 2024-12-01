@@ -102,7 +102,7 @@ const StudentDetail = () => {
         <div className="dashboardcontainer">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Informacion Estudiante {studentData.fullName} con id={studentData.id}
+              Informacion Estudiante {studentData.fullName} con id={studentData.ID}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>

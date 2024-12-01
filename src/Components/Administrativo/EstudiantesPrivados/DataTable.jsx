@@ -249,7 +249,7 @@ export function DataTableDemo() {
           </h2>
           <BellIcon className="h-6 w-6" />
         </div>
-        <div className="flex items-center py-4 justify-between">
+        <div className="flex items-center py-4 gap-6 justify-between">
           <Input
             placeholder="Search by name, email or ID"
             className="w-96"
@@ -260,7 +260,7 @@ export function DataTableDemo() {
             value={ciudadFilter}
             onValueChange={(value) => setCiudadFilter(value)}
           >
-            <SelectTrigger className="w-[100%]">
+            <SelectTrigger className="w-[50%]">
               <SelectValue placeholder="Seleccione una cuidad para filtrar" />
             </SelectTrigger>
             <SelectContent>
@@ -270,20 +270,7 @@ export function DataTableDemo() {
               <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
             </SelectContent>
           </Select>
-          <Button
-            variant={statusFilter === true ? "solid" : "outline"} // Check for true for "Activo"
-            onClick={() => toggleStatusFilter("Activo")}
-            className={statusFilter === true ? "bg-green-500 text-white" : ""}
-          >
-            Activo
-          </Button>
-          <Button
-            variant={statusFilter === false ? "solid" : "outline"} // Check for false for "Inactivo"
-            onClick={() => toggleStatusFilter("Inactivo")}
-            className={statusFilter === false ? "bg-red-500 text-white" : ""}
-          >
-            Inactivo
-          </Button>
+
           <Button
             variant="ghost"
             onClick={() => {
