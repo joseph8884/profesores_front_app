@@ -23,7 +23,7 @@ const GruposEmpresasProfesor = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
 
-  const itemsPerPage = 1; // Ajusta este valor según sea necesario
+  const itemsPerPage = 10; // Ajusta este valor según sea necesario
   const navigate = useNavigate();
 
   useEffect(() => {
