@@ -19,12 +19,12 @@ import {
   SelectValue,
 } from "../../../ui/select";
 import { Checkbox } from "../../../ui/checkbox";
-import {getStudentsCustomByTeamID} from "../../../../provider/profesor/Grupos/getstudentTeamByTeamId";
-import {postTeamClass} from "../../../../provider/profesor/Grupos/postTeamClass"
-import {postAttendance} from "../../../../provider/profesor/Grupos/postAttendance"
+import { getStudentsCustomByTeamID } from "../../../../provider/profesor/Grupos/getstudentTeamByTeamId";
+import { postTeamClass } from "../../../../provider/profesor/Grupos/postTeamClass";
+import { postAttendance } from "../../../../provider/profesor/Grupos/postAttendance";
 
-const FormSection = ({groupDATA}) => {
-  const [classHeld, setClassHeld] = useState("true");
+const FormSection = ({ groupDATA }) => {
+  const [classHeld, setClassHeld] = useState(true);
   const [date, setDate] = useState("");
   const [classType, setClassType] = useState("Virtual");
   const [hours, setHours] = useState("");
@@ -48,7 +48,7 @@ const FormSection = ({groupDATA}) => {
       }
     };
     fetchGroups();
-  }, [groupDATA]);  
+  }, [groupDATA]);
 
   const [attendance, setAttendance] = useState(
     students.reduce((acc, student) => {
@@ -62,7 +62,8 @@ const FormSection = ({groupDATA}) => {
     setAttendance((prevAttendance) => ({
       ...prevAttendance,
       [studentId]: !prevAttendance[studentId],
-    }))};
+    }));
+  };
 
   // Manejar cambios en los inputs
   const handleChange = (e) => {
@@ -106,7 +107,7 @@ const FormSection = ({groupDATA}) => {
     );
     const formatDate = (date) => {
       const isoString = date.toISOString();
-      const formattedDate = isoString.replace('Z', '000000Z');
+      const formattedDate = isoString.replace("Z", "000000Z");
       return formattedDate;
     };
 
@@ -114,32 +115,33 @@ const FormSection = ({groupDATA}) => {
       teacherID: 2,
       classType,
       dateTime: formatDate(new Date(date)),
-      duration: convertDurationToHours(hours),
+      duration: hours,
       teamID: groupDATA.id,
       comment: comments,
       topic: topics,
-      classHelded: classHeld === "yes" ? true : false,
+      classHelded: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
-      cancellationTiming: cancellationTiming ? cancellationTiming : "Class helded",
+      cancellationTiming: cancellationTiming
+        ? cancellationTiming
+        : "Class helded",
       canceledBy: cancelledBy ? cancelledBy : "Class helded",
       //attendance: attendedStudents.map((student) => student.fullName),
     };
     try {
       const response = await postTeamClass(formData);
-      if (classHeld === "true"){
-        attendedStudents.map( async (student)=>{
-        const attendanceperStudent={
-          classID: response,
-          studentTeamID: student.id,
-          attended: true,
-        }
-        await postAttendance(attendanceperStudent);
-      })
+      if (classHeld === "true") {
+        attendedStudents.map(async (student) => {
+          const attendanceperStudent = {
+            classID: response,
+            studentTeamID: student.id,
+            attended: true,
+          };
+          await postAttendance(attendanceperStudent);
+        });
       }
-      
-    } catch (error){
+    } catch (error) {
       console.log("Error creating team class:", error);
-    }finally{
+    } finally {
       setLoading(false);
     }
     console.log("Submitted Form Data:", JSON.stringify(formData, null, 2));
@@ -154,8 +156,15 @@ const FormSection = ({groupDATA}) => {
           <div className="attendance">
             <label className="mb-2 font-semibold">
               Was the class held?
-              <Select onValueChange={handleAttendanceChange} value={classHeld}>
-                <SelectTrigger className="w-[180px]">
+              <Select
+                onValueChange={(value) =>
+                  value === "true"
+                    ? handleAttendanceChange(true)
+                    : handleAttendanceChange(false)
+                }
+                defaultValue={classHeld === true ? "true" : "false"}
+              >
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="" />
                 </SelectTrigger>
                 <SelectContent>
@@ -200,15 +209,19 @@ const FormSection = ({groupDATA}) => {
           <div className="flex flex-col">
             <label className="mb-2 font-semibold">
               Duration (hours):
-              <Select name="hours" onValueChange={setHours} value={hours}>
-                <SelectTrigger className="w-[180px]">
+              <Select
+                name="hours"
+                onValueChange={(value) => setHours(parseFloat(value))}
+                value={hours}
+              >
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Duration" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="30min">30 minutes</SelectItem>
-                  <SelectItem value="1hr">1 hour</SelectItem>
-                  <SelectItem value="2hr">2 hours</SelectItem>
-                  <SelectItem value="3hr">3 hours</SelectItem>
+                  <SelectItem value={0.5}>30 minutes</SelectItem>
+                  <SelectItem value={1}>1 hour</SelectItem>
+                  <SelectItem value={2}>2 hours</SelectItem>
+                  <SelectItem value={3}>3 hours</SelectItem>
                 </SelectContent>
               </Select>
             </label>
@@ -234,37 +247,38 @@ const FormSection = ({groupDATA}) => {
             </label>
           </div>
         </div>
-        {classHeld === "true" && (
-
-<div className="student-attendance">
-          <label className="mb-2 font-semibold">Mark Attendance:</label>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">ID</TableHead>
-                <TableHead>Nombre</TableHead>
-                <TableHead>Asistencia</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {students.map((student) => (
-                <TableRow key={student.id}>
-                  <TableCell>{student.id}</TableCell>
-                  <TableCell className="font-medium">{student.fullName}</TableCell>
-                  <TableCell>
-                    <Checkbox
-                      checked={attendance[student.id]}
-                      onCheckedChange={() => handleAttendanceCheckbox(student.id)}
-                    />
-                  </TableCell>
+        {classHeld === false && (
+          <div className="student-attendance">
+            <label className="mb-2 font-semibold">Mark Attendance:</label>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">ID</TableHead>
+                  <TableHead>Nombre</TableHead>
+                  <TableHead>Asistencia</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-
+              </TableHeader>
+              <TableBody>
+                {students.map((student) => (
+                  <TableRow key={student.id}>
+                    <TableCell>{student.id}</TableCell>
+                    <TableCell className="font-medium">
+                      {student.fullName}
+                    </TableCell>
+                    <TableCell>
+                      <Checkbox
+                        checked={attendance[student.id]}
+                        onCheckedChange={() =>
+                          handleAttendanceCheckbox(student.id)
+                        }
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
-        
 
         {/* Show cancellation section only if classHeld is "false" */}
         {classHeld === "false" && (

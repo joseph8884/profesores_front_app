@@ -18,8 +18,14 @@ import { BellIcon, DownloadIcon, PersonIcon } from "@radix-ui/react-icons";
 import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
 import Chart from "../../EstudiantesPrivados/Dashboard/Chart";
 import PieChart from "../../EstudiantesPrivados/Dashboard/Chart2";
+import {getClassesbyGroupIDDate} from "../../../../provider/adm/Clases/ClasesGrupales/getClassesbyGroupidDate";
+import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import ModificarClasesGrupo from "./classes/ModificarClasesGrupo";
 const GroupDetail = () => {
   const [groupData, setGroupData] = useState(null);
+  const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
   useEffect(() => {
     const data = localStorage.getItem("groupData");
@@ -106,7 +112,13 @@ const GroupDetail = () => {
               <Button>Back</Button>
             </a>
             <div className="actions">
-              <Calendar setDate={(date) => setDate(date)} date={date} />
+            <Calendar
+                setDate={(date) => setDate(date)}
+                date={date}
+                ID={groupData.ID}
+                setClasses={setClasses}
+                getClasses={getClassesbyGroupIDDate}
+              />
 
               <Button
                 onClick={() => {
@@ -186,25 +198,56 @@ const GroupDetail = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Photo</TableHead>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Teacher</TableHead>
-                  <TableHead>Mode</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>clase ID</TableHead>
+                  <TableHead>teacherID</TableHead>
+                  <TableHead>dateTime</TableHead>
+                  <TableHead>classType</TableHead>
+                  <TableHead>duration</TableHead>
+                  <TableHead>tipic</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>Photo</TableCell>
-                  <TableCell>#12306</TableCell>
-                  <TableCell>Nov 02, 2023</TableCell>
-                  <TableCell>Carlos David Perez Rocha</TableCell>
-                  <TableCell>Presencial</TableCell>
-                  <TableCell>3H</TableCell>
-                  <TableCell>Completed</TableCell>
-                </TableRow>
+                {classes.map((classData) => (
+                  <TableRow key={classData.id}>
+                    <TableCell>{classData.id}</TableCell>
+                    <TableCell>{classData.teacherID}</TableCell>
+                    <TableCell>
+                      {new Date(classData.dateTime).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{classData.classType}</TableCell>
+                    <TableCell>{classData.duration} H</TableCell>
+                    <TableCell>{classData.topic}</TableCell>
+                    <TableCell>
+                      <div
+                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      >
+                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                        {/* Texto del estado */}
+                        <span>
+                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {/* Updated logic for status */}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <TrashIcon
+                        className="w-6 h-6 text-gray-400"
+                        
+                      />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Pencil1Icon className="w-6 h-6 text-gray-400" />
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[825px]">
+                          <ModificarClasesGrupo data={classData} />
+                        </DialogContent>
+                      </Dialog>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>

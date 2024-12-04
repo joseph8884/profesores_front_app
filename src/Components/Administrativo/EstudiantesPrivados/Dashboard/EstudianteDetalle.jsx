@@ -19,11 +19,11 @@ import { DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "./Calendar";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
-
 import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import ModificarClases from "./classes/ModificarClases";
+import {getClassesbyStudentIDDate} from "../../../../provider/adm/Clases/ClasesIndividuales/getClassesbyStudentIDDate";
 
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
@@ -119,8 +119,9 @@ const StudentDetail = () => {
               <Calendar
                 setDate={(date) => setDate(date)}
                 date={date}
-                studentID={studentData.ID}
+                ID={studentData.ID}
                 setClasses={setClasses}
+                getClasses={getClassesbyStudentIDDate}
               />
 
               <Button
