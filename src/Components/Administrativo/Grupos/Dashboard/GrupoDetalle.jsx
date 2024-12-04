@@ -22,11 +22,14 @@ import {getClassesbyGroupIDDate} from "../../../../provider/adm/Clases/ClasesGru
 import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { Pencil1Icon } from "@radix-ui/react-icons";
+import Loader from "../../../Loader/Loader";
+import {deleteTeamClass} from "../../../../provider/adm/Clases/ClasesGrupales/deleteTeamClass";
 import ModificarClasesGrupo from "./classes/ModificarClasesGrupo";
 const GroupDetail = () => {
   const [groupData, setGroupData] = useState(null);
   const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const data = localStorage.getItem("groupData");
     if (data) {
@@ -89,7 +92,7 @@ const GroupDetail = () => {
   };
 
   if (!groupData) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
@@ -97,6 +100,7 @@ const GroupDetail = () => {
       className="min-h-screen flex"
       style={{ overflowY: "hidden", height: "100vh" }}
     >
+      {loading && <Loader />}
       <NavMobile />
       <NavWeb />
       <div className="dashboardgroup">
@@ -235,7 +239,17 @@ const GroupDetail = () => {
                     <TableCell>
                       <TrashIcon
                         className="w-6 h-6 text-gray-400"
-                        
+                        onClick={async () => {
+                          try{
+                            setLoading(true);
+                            await deleteTeamClass(classData.id);
+                          } catch (error) {
+                            console.log("Error deleting class:", error);
+                          } finally {
+                            setLoading(false);
+                            window.location.reload(); 
+                          }                     
+                        }}   
                       />
                       <Dialog>
                         <DialogTrigger asChild>

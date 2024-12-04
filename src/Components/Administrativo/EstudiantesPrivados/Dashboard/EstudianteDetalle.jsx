@@ -24,11 +24,14 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import ModificarClases from "./classes/ModificarClases";
 import {getClassesbyStudentIDDate} from "../../../../provider/adm/Clases/ClasesIndividuales/getClassesbyStudentIDDate";
-
+import {deleteIndividualClass} from "../../../../provider/adm/Clases/ClasesIndividuales/deleteIndividualClass";
+import Loader from "../../../Loader/Loader";
+import { set } from "date-fns";
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
   const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const data = localStorage.getItem("selected_student");
     if (data) {
@@ -90,9 +93,12 @@ const StudentDetail = () => {
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(blob, "DatosEstudianteYClases.xlsx");
   };
-
   if (!studentData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex">
+         <Loader />
+      </div>
+    );
   }
 
   return (
@@ -100,14 +106,15 @@ const StudentDetail = () => {
       className="flex"
       style={{ overflowY: "hidden", height: "100vh", width: "100vw" }}
     >
+      {loading && <Loader />}
       <NavMobile />
       <NavWeb />
       <div className="dashboard-studiantesadm">
         <div className="dashboardcontainer">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Informacion Estudiante {studentData.fullName} con id=
-              {studentData.ID}
+                Informacion Estudiante {studentData.fullName} con id=
+                {studentData.ID}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>
@@ -231,7 +238,17 @@ const StudentDetail = () => {
                     <TableCell>
                       <TrashIcon
                         className="w-6 h-6 text-gray-400"
-                        
+                        onClick={async () => {
+                          try{
+                            setLoading(true);
+                            await deleteIndividualClass(classData.id);
+                          } catch (error) {
+                            console.log("Error deleting class:", error);
+                          } finally {
+                            setLoading(false);
+                            window.location.reload(); 
+                          }                     
+                        }}                        
                       />
                       <Dialog>
                         <DialogTrigger asChild>

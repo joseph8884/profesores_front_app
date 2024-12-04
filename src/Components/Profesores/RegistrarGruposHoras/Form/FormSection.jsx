@@ -89,15 +89,6 @@ const FormSection = ({ groupDATA }) => {
   const handleAttendanceChange = (value) => {
     setClassHeld(value);
   };
-
-  const convertDurationToHours = (duration) => {
-    if (duration === "30min") return 0.5;
-    if (duration === "1hr") return 1;
-    if (duration === "2hr") return 2;
-    if (duration === "3hr") return 3;
-    return 0;
-  };
-
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
