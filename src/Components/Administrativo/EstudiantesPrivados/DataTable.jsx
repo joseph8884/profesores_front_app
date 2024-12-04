@@ -80,13 +80,6 @@ export function DataTableDemo() {
   }, [data, searchTerm, statusFilter, ciudadFilter]);
 
   // Manejador para cambiar el filtro de estado
-  const toggleStatusFilter = (status) => {
-    if (statusFilter === status) {
-      setStatusFilter(null); // Si el filtro ya está activo, se desactiva
-    } else {
-      setStatusFilter(status === "Activo"); // Set to true for "Activo" and false for "Inactivo"
-    }
-  };
 
   //Tabla config
   const columns = [

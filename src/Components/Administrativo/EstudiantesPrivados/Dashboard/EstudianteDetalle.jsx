@@ -20,6 +20,11 @@ import Calendar from "./Calendar";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 
+import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import ModificarClases from "./classes/ModificarClases";
+
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
   const [classes, setClasses] = useState([]);
@@ -44,28 +49,27 @@ const StudentDetail = () => {
     // Datos completos del estudiante
     const studentSheetData = [
       { "Nombre Completo": studentData.fullName },
-      { "ID": studentData.id },
-      { "Email": studentData.email },
-      { "Teléfono": studentData.phoneNumber },
+      { ID: studentData.id },
+      { Email: studentData.email },
+      { Teléfono: studentData.phoneNumber },
       { "Código de País": studentData.countryCode },
-      { "Estado": studentData.status ? "Activo" : "Inactivo" },
+      { Estado: studentData.status ? "Activo" : "Inactivo" },
       // La foto se omite ya que no es adecuada para Excel
     ];
 
     const studentWorksheet = XLSX.utils.json_to_sheet(studentSheetData);
 
-    
     // Datos completos de las clases
     const classSheetData = classes.map((clase) => ({
       "Clase ID": clase.id,
       "Profesor ID": clase.teacherID,
       "Tipo de Clase": clase.classType,
-      "Fecha": new Date(clase.dateTime).toLocaleDateString(),
-      "Duración": `${clase.duration} H`,
+      Fecha: new Date(clase.dateTime).toLocaleDateString(),
+      Duración: `${clase.duration} H`,
       "Estudiante ID": clase.studentID,
-      "Comentario": clase.comment,
-      "Tema": clase.topic,
-      "Estado": clase.classHelded ? "Completada" : "Cancelada",
+      Comentario: clase.comment,
+      Tema: clase.topic,
+      Estado: clase.classHelded ? "Completada" : "Cancelada",
       "Razón de Cancelación": clase.cancellationReason,
       "Momento de Cancelación": clase.cancellationTiming,
       "Cancelado por": clase.canceledBy,
@@ -102,7 +106,8 @@ const StudentDetail = () => {
         <div className="dashboardcontainer">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Informacion Estudiante {studentData.fullName} con id={studentData.ID}
+              Informacion Estudiante {studentData.fullName} con id=
+              {studentData.ID}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>
@@ -221,6 +226,22 @@ const StudentDetail = () => {
                           {/* Updated logic for status */}
                         </span>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      <TrashIcon
+                        className="w-6 h-6 text-gray-400"
+                        
+                      />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Pencil1Icon className="w-6 h-6 text-gray-400" />
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[825px]">
+                          <ModificarClases
+                            data={classData}
+                          />
+                        </DialogContent>
+                      </Dialog>
                     </TableCell>
                   </TableRow>
                 ))}

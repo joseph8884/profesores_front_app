@@ -9,14 +9,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../ui/select";
-import Loader  from "../../../Loader/Loader";
+import Loader from "../../../Loader/Loader";
 import { postIndividualClass } from "../../../../provider/profesor/EstudianteIndividual/postIndividualClass";
 
-const FormSection = ({data}) => {
-  const [classHeld, setClassHeld] = useState("true");
+const FormSection = ({ data }) => {
+  const [classHeld, setClassHeld] = useState(true);
   const [date, setDate] = useState("");
   const [classType, setClassType] = useState("Virtual");
-  const [hours, setHours] = useState("");
+  const [hours, setHours] = useState(2);
   const [comments, setComments] = useState("");
   const [topics, setTopics] = useState("");
   const [cancellationTiming, setCancellationTiming] = useState("");
@@ -45,50 +45,39 @@ const FormSection = ({data}) => {
     }
   };
 
-  const handleAttendanceChange = (value) => {
-    setClassHeld(value);
-  };
-
-  // Function to convert duration to hours
-  const convertDurationToHours = (duration) => {
-    if (duration === "30min") return 0.5;
-    if (duration === "1hr") return 1;
-    if (duration === "2hr") return 2;
-    if (duration === "3hr") return 3;
-    return 0; // Default value if it doesn't match
-  };
-
   const handleSubmit = async (e) => {
-      setLoading(true);
-      e.preventDefault();
-      const formatDate = (date) => {
-        const isoString = date.toISOString();
-        const formattedDate = isoString.replace('Z', '000000Z');
-        return formattedDate;
-      };
-  
-      var formData = {
-        teacherID: 2,
-        classType,
-        dateTime: formatDate(new Date(date)),
-        duration: convertDurationToHours(hours),
-        studentID: data.id,
-        comment: comments,
-        topic: topics,
-        classHelded: classHeld === "yes" ? true : false,
-        cancellationReason: cancellationReason,
-        cancellationTiming: cancellationTiming ? cancellationTiming : "Class helded",
-        canceledBy: cancelledBy ? cancelledBy : "Class helded",
-      };
-      try {
-        await postIndividualClass(formData);
-      } catch (error){
-        console.log("Error creating team class:", error);
-      }finally{
-        setLoading(false);
-      }
-      console.log("Submitted Form Data:", JSON.stringify(formData, null, 2));
+    setLoading(true);
+    e.preventDefault();
+    const formatDate = (date) => {
+      const isoString = date.toISOString();
+      const formattedDate = isoString.replace("Z", "000000Z");
+      return formattedDate;
     };
+
+    var formData = {
+      teacherID: 2,
+      classType,
+      dateTime: formatDate(new Date(date)),
+      duration: hours,
+      studentID: data.id,
+      comment: comments,
+      topic: topics,
+      classHelded: classHeld === true ? true : false,
+      cancellationReason: cancellationReason,
+      cancellationTiming: cancellationTiming
+        ? cancellationTiming
+        : "Class helded",
+      canceledBy: cancelledBy ? cancelledBy : "Class helded",
+    };
+    try {
+      await postIndividualClass(formData);
+    } catch (error) {
+      console.log("Error creating team class:", error);
+    } finally {
+      setLoading(false);
+    }
+    console.log("Submitted Form Data:", JSON.stringify(formData, null, 2));
+  };
 
   return (
     <div className="form">
@@ -99,10 +88,12 @@ const FormSection = ({data}) => {
             <label className="mb-2 font-semibold">
               Was the class held?
               <Select
-                onValueChange={handleAttendanceChange}
-                value={classHeld}
+                onValueChange={(value) =>
+                  value === "true" ? setClassHeld(true) : setClassHeld(false)
+                }
+                defaultValue={classHeld === true ? "true" : "false"}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="" />
                 </SelectTrigger>
                 <SelectContent>
@@ -145,24 +136,22 @@ const FormSection = ({data}) => {
           </div>
 
           <div className="flex flex-col">
-            <label className="mb-2 font-semibold">
-              Duration (hours):
-              <Select
-                name="hours"
-                onValueChange={setHours}
-                value={hours}
-              >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Duration" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="30min">30 minutes</SelectItem>
-                  <SelectItem value="1hr">1 hour</SelectItem>
-                  <SelectItem value="2hr">2 hours</SelectItem>
-                  <SelectItem value="3hr">3 hours</SelectItem>
-                </SelectContent>
-              </Select>
-            </label>
+          <label className="mb-2 font-semibold">
+            Duration (hours):
+            <Select onValueChange={(value)=>{
+              setHours(parseFloat(value));
+              }} value={hours}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Duration" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={0.5}>30 minutes</SelectItem>
+                <SelectItem value={1}>1 hour</SelectItem>
+                <SelectItem value={2}>2 hours</SelectItem>
+                <SelectItem value={3}>3 hours</SelectItem>
+              </SelectContent>
+            </Select>
+          </label>
           </div>
         </div>
 
@@ -181,17 +170,13 @@ const FormSection = ({data}) => {
           <div className="flex flex-col">
             <label className="mb-2 font-semibold">
               Topics covered:
-              <Textarea
-                name="topics"
-                value={topics}
-                onChange={handleChange}
-              />
+              <Textarea name="topics" value={topics} onChange={handleChange} />
             </label>
           </div>
         </div>
 
         {/* Show cancellation section only if classHeld is "false" */}
-        {classHeld === "false" && (
+        {classHeld === false && (
           <div className="cancellation">
             <div className="flex flex-col">
               <label className="mb-2 font-semibold">
@@ -243,11 +228,9 @@ const FormSection = ({data}) => {
             </div>
           </div>
         )}
-        
+
         <div className="button">
-          <Button type="submit">
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </div>
       </form>
     </div>
