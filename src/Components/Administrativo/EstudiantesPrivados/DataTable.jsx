@@ -32,7 +32,7 @@ import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/
 import Loader from "../../Loader/Loader";
 import { changeStatusStudent } from "../../../provider/adm/EstudiantePersonalizado/changeStatus";
 import {DataTableDemoTemplate} from "../../ui/DataTableAdjusted"
-export function DataTableDemo() {
+export function DataTableDemo({status}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
   const [ciudadFilter, setCiudadFilter] = useState("");
@@ -42,7 +42,7 @@ export function DataTableDemo() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const data_fromAPI = await getStudents();
+        const data_fromAPI = await getStudents(status);
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);

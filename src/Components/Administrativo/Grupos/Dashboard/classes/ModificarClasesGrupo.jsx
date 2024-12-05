@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../ui/select";
+import {putTeamClass} from "../../../../../provider/adm/Clases/ClasesGrupales/putTeamClass";
 
 const ModificarClasesGrupo = ({ data }) => {
   const [classHeld, setClassHeld] = useState(data.classHelded || false);
@@ -81,7 +82,7 @@ const ModificarClasesGrupo = ({ data }) => {
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,
-      studentID: data.studentID,
+      teamID: data.teamID,
       comment: comments,
       topic: topics,
       classHelded: classHeld === true ? true : false,
@@ -92,13 +93,13 @@ const ModificarClasesGrupo = ({ data }) => {
       canceledBy: cancelledBy ? cancelledBy : "Class helded",
     };
     try {
-      //await postIndividualClass(formData);
+      await putTeamClass(formData, data.id);
     } catch (error) {
       console.log("Error creating team class:", error);
     } finally {
       setLoading(false);
     }
-    console.log("Submitted Data nueva:", JSON.stringify(formData, null, 2));
+    console.log("Submitted Data grupo:", JSON.stringify(formData, null, 2));
   };
 
   return (

@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../ui/select";
+import {putIndividualClass} from "../../../../../provider/adm/Clases/ClasesIndividuales/putIndividualClass";
 
 const ModificarClases = ({ data }) => {
   const [classHeld, setClassHeld] = useState(data.classHelded || false);
@@ -92,7 +93,7 @@ const ModificarClases = ({ data }) => {
       canceledBy: cancelledBy ? cancelledBy : "Class helded",
     };
     try {
-      //await postIndividualClass(formData);
+      await putIndividualClass(formData, data.id);
     } catch (error) {
       console.log("Error creating team class:", error);
     } finally {

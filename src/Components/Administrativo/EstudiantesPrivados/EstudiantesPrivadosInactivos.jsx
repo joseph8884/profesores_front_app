@@ -3,14 +3,14 @@ import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
 import { DataTableDemo } from "./DataTable";
 
-const EstudiantesPrivados = () => {
+const EstudiantesPrivadosInactivos = () => {
   return (
 <div className="min-h-screen flex" style={{ overflowY: 'hidden', height: '100vh', }}>
       <NavMobile />
       <NavWeb />
-      <DataTableDemo status={"true"}/>
+      <DataTableDemo status={"false"}/>
     </div>
   );
 };
 
-export default EstudiantesPrivados;
+export default EstudiantesPrivadosInactivos;

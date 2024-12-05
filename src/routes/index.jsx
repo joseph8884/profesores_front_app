@@ -6,7 +6,8 @@ import Register from '../Components/Login&Register/Register/Register.jsx';
 //Admin components
 
 import HomeAdministrativo from '../Components/Administrativo/Home/Home.jsx';
-import TablaEstudiantesProvados from '../Components/Administrativo/EstudiantesPrivados/EstudiantesPrivados.jsx';
+import EstudiantesPrivados from '../Components/Administrativo/EstudiantesPrivados/EstudiantesPrivados.jsx';
+import EstudiantesPrivadosInactivos from '../Components/Administrativo/EstudiantesPrivados/EstudiantesPrivadosInactivos.jsx';
 import GruposEmpresas from '../Components/Administrativo/Grupos/Grupos.jsx';
 import StudentDetail from '../Components/Administrativo/EstudiantesPrivados/Dashboard/EstudianteDetalle.jsx';
 import StudentsGroupCRUD from '../Components/Administrativo/Grupos/Dashboard/AllStudents.jsx';
@@ -58,7 +59,12 @@ const Routes = () => {
           },
           {
             path: "/admin/tablaestudiantes/estudiantesprivados",
-            element: <TablaEstudiantesProvados />,
+            element: <EstudiantesPrivados />,
+            errorElement: <ErrorBoundary />
+          },
+          {
+            path: "/admin/tablaestudiantes/estudiantesprivadosinactivos",
+            element: <EstudiantesPrivadosInactivos />,
             errorElement: <ErrorBoundary />
           },
           {
