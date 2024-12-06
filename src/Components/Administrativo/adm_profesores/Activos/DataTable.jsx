@@ -273,7 +273,7 @@ export function DataTableDemo() {
               </DialogContent>
             </Dialog>
         </div>
-        <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"#"} localstorage_name={"selected_teacher"} />
+        <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"/admin/profesores/dashboard"} localstorage_name={"selected_teacher"} />
       </div>
     </>
   );

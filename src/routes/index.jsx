@@ -14,6 +14,7 @@ import StudentsGroupCRUD from '../Components/Administrativo/Grupos/Dashboard/All
 import GroupDetail from '../Components/Administrativo/Grupos/Dashboard/GrupoDetalle.jsx';
 import ProfesoresActivos from '../Components/Administrativo/adm_profesores/Activos/ProfesoresActivos.jsx';
 import ProfesoresInactivos from '../Components/Administrativo/adm_profesores/Inactivos/ProfesoresInactivos.jsx';
+import ProfesoresDashboard from '../Components/Administrativo/adm_profesores/DashboardProfesor/ProfesorDetalle.jsx';
 
 //Profesor components
 import HomeProfesores from '../Components/Profesores/Home/Home.jsx';
@@ -95,6 +96,11 @@ const Routes = () => {
           {
             path: "/admin/profesores/inactivos",
             element: <ProfesoresInactivos />,
+            errorElement: <ErrorBoundary />
+          },
+          {
+            path: "/admin/profesores/dashboard",
+            element: <ProfesoresDashboard />,
             errorElement: <ErrorBoundary />
           }
         ] : []),

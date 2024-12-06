@@ -4,7 +4,7 @@ import Loader from "../../Loader/Loader";
 import { getBankDataTeacherbyID } from "../../../provider/adm/profesores/BankData/getBankData";
 import { postBankData } from "../../../provider/adm/profesores/BankData/postBankData";
 
-const CrearEditarProfesorBankData = ({ personal_info_teacher, context }) => {
+const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
   const [bankdata, setBankData] = useState({});
   const [contractCity, setContractCity] = useState("");
   const [virtualHourValue, setVirtualHourValue] = useState("");
