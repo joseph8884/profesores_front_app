@@ -1,8 +1,7 @@
 import React from "react";
-import { Button } from "../../ui/button";
 import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
-const Home = () => {
+const AdminGuide = () => {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar Hamburguesa para pantallas pequeñas */}
@@ -13,49 +12,24 @@ const Home = () => {
       {/* Contenido Principal */}
       <div className="flex-1 p-6 bg-gray-100">
         <header className="mb-6">
-          <h1 className="text-2xl font-bold">Welcome Back, Gustavo</h1>
-          <p className="text-sm text-gray-600">Here is the information</p>
+          <h1 className="text-2xl font-bold">Guía Administrativa</h1>
+          <p className="text-sm text-gray-600">Cómo usar la plataforma de registro de horas</p>
         </header>
 
         <section>
-          <h2 className="text-xl font-bold mb-4">
-            Comienza la configuración de tu plataforma
-          </h2>
-          <div className="flex gap-4 mb-6">
-            <Button className="bg-black text-white">Lets Go →</Button>
-            <Button className="bg-black text-white">Lets Go →</Button>
-            <Button className="bg-black text-white">Lets Go →</Button>
-          </div>
-        </section>
-
-        <section className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-bold mb-4">Administración de TI</h3>
-          <p className="mb-6">
-            Establece administradores, cuentas de facturación y otras opciones
-            de configuración en tu entorno de Google Cloud
-          </p>
+          <h2 className="text-xl font-bold mb-4">Configura y Administra el Sistema</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col items-center">
-              <div className="h-12 w-12 rounded-full bg-green-500 text-white flex items-center justify-center mb-2">
-                1
-              </div>
-              <p className="text-center">
-                Establece tu organización, tus administradores y tu facturación
-              </p>
+              <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center mb-2">1</div>
+              <p className="text-center">Accede al panel administrativo para controlar todas las clases y las horas de los estudiantes y grupos.</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="h-12 w-12 rounded-full bg-green-500 text-white flex items-center justify-center mb-2">
-                2
-              </div>
-              <p className="text-center">Crea una arquitectura inicial</p>
+              <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center mb-2">2</div>
+              <p className="text-center">Genera reportes mensuales de las clases y profesores activos.</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="h-12 w-12 rounded-full bg-green-500 text-white flex items-center justify-center mb-2">
-                3
-              </div>
-              <p className="text-center">
-                Implementa y descarga la configuración
-              </p>
+              <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center mb-2">3</div>
+              <p className="text-center">Contacta al soporte para solucionar problemas comunes a través del correo ayuda@profesoresextranjeros.com.</p>
             </div>
           </div>
         </section>
@@ -64,4 +38,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AdminGuide;

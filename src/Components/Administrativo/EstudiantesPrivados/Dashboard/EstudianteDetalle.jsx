@@ -26,7 +26,6 @@ import ModificarClases from "./classes/ModificarClases";
 import {getClassesbyStudentIDDate} from "../../../../provider/adm/Clases/ClasesIndividuales/getClassesbyStudentIDDate";
 import {deleteIndividualClass} from "../../../../provider/adm/Clases/ClasesIndividuales/deleteIndividualClass";
 import Loader from "../../../Loader/Loader";
-import { set } from "date-fns";
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
   const [classes, setClasses] = useState([]);

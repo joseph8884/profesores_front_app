@@ -49,7 +49,7 @@ export function DataTableDemo({status}) {
       }
     };
     fetchStudents();
-  }, []);
+  }, [status]);
 
 
   const filteredData = useMemo(() => {
