@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "../../ui/table";
 import Calendar from "./Calendar";
+import Loader from "../../Loader/Loader"
 const DashBoardProfesor = () => {
   const [date, setDate] = useState([]);
   useEffect(() => {
@@ -20,6 +21,9 @@ const DashBoardProfesor = () => {
       year: new Date().getFullYear().toString(),
     });
   }, []);
+  if (date.length === 0) {
+    return (<Loader />);
+  }
 
   return (
     <div className="flex" style={{ overflowY: "hidden", height: "100vh" }}>
