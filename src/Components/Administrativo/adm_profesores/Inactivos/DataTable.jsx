@@ -207,7 +207,7 @@ export function DataTableDemo() {
           
         </div>
 
-        <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"/admin/tablaestudiantes/estudiantesprivados/studentdetail"} localstorage_name={"selected_teacher"} />
+        <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"#"} localstorage_name={"selection_teacher_inactiv"} />
 
       </div>
     </>
