@@ -87,10 +87,10 @@ const ModificarClases = ({ data }) => {
       topic: topics,
       classHelded: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
-      cancellationTiming: cancellationTiming
+      cancellationTiming: classHeld === false
         ? cancellationTiming
         : "Class helded",
-      canceledBy: cancelledBy ? cancelledBy : "Class helded",
+      canceledBy: classHeld === false ? cancelledBy : "Class helded",
     };
     try {
       await putIndividualClass(formData, data.id);

@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "../../../ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
-export default function CalendarForm({ setDate, date, ID, setClasses, getClasses }) {
+export default function CalendarForm({ setDate, date, ID, setClasses, getClasses, setClasses2, getClasses2 }) {
   const FormSchema = z.object({
     dob: z.date({
       required_error: "A date of birth is required.",
@@ -36,9 +36,16 @@ export default function CalendarForm({ setDate, date, ID, setClasses, getClasses
         setClasses(clases);
         console.log(clases); 
       }
+      if (setClasses2 && getClasses2) {
+        const clases2 = await getClasses2(ID, date.year, date.month);
+        if (clases2) {
+          setClasses2(clases2);
+          console.log(clases2);
+        }
+      }
     };
     fetchClasses();
-  }, [ID, date, setClasses, getClasses]);
+  }, [ID, date, setClasses, getClasses, setClasses2, getClasses2]);
 
   // Convert the incoming date prop to a Date object
   const initialDate = new Date(parseInt(date.year), parseInt(date.month) - 1, 1); // Restar 1 al mes

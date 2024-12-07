@@ -202,10 +202,11 @@ const StudentDetail = () => {
                 <TableRow>
                   <TableHead>clase ID</TableHead>
                   <TableHead>teacherID</TableHead>
-                  <TableHead>dateTime</TableHead>
-                  <TableHead>classType</TableHead>
-                  <TableHead>duration</TableHead>
-                  <TableHead>tipic</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Duracion</TableHead>
+                  <TableHead>Cancelacion</TableHead>
+                  <TableHead>Cancelado por</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -218,7 +219,8 @@ const StudentDetail = () => {
                     </TableCell>
                     <TableCell>{classData.classType}</TableCell>
                     <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.topic}</TableCell>
+                    <TableCell>{classData.cancellationTiming}</TableCell>
+                    <TableCell>{classData.canceledBy}</TableCell>
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${

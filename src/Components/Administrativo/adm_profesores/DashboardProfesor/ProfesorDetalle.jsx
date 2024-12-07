@@ -12,32 +12,44 @@ import {
   TableHeader,
   TableRow,
 } from "../../../ui/table";
-import "../../Grupos/Dashboard/GrupoDetalle.css";
-import { BellIcon, DownloadIcon, PersonIcon } from "@radix-ui/react-icons";
+import "./ProfesorDetalle.css";
+import { BellIcon, DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
-import Chart from "../../EstudiantesPrivados/Dashboard/Chart";
-import PieChart from "../../EstudiantesPrivados/Dashboard/Chart2";
-import {getClassesbyGroupIDDate} from "../../../../provider/adm/Clases/ClasesGrupales/getClassesbyGroupidDate";
-import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { getClassesbyGroupIDDate } from "../../../../provider/adm/Clases/ClasesGrupales/getClassesbyGroupidDate";
 import Loader from "../../../Loader/Loader";
-import {deleteTeamClass} from "../../../../provider/adm/Clases/ClasesGrupales/deleteTeamClass";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
-const ProfesoresDashboard  = () => {
+import { getBankDataTeacherbyID } from "../../../../provider/adm/profesores/BankData/getBankData";
+const ProfesoresDashboard = () => {
   const [profesorData, setProfesorData] = useState(null);
-  const [classes, setClasses] = useState([]);
+  const [profesorBankData, setProfesorBankData] = useState(null);
+  const [classes_grupo, setClasses_grupo] = useState([]);
+  const [classes_estudiante, setClassesEstudiante] = useState([]);
   const [date, setDate] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    const data = localStorage.getItem("selected_teacher");
-    if (data) {
+    const fetchData = async () => {
+      setLoading(true);
+      const data = localStorage.getItem("selected_teacher");
+      if (data) {
         setProfesorData(JSON.parse(data));
-    }
-    setDate({
-      month: parseInt(new Date().getMonth().toString()) + 1,
-      year: new Date().getFullYear().toString(),
-    });
+      }
+      setDate({
+        month: parseInt(new Date().getMonth().toString()) + 1,
+        year: new Date().getFullYear().toString(),
+      });
+      try {
+        setProfesorBankData(await getBankDataTeacherbyID(data.id));
+      } catch
+        (error) {
+        setProfesorBankData(null);
+        console.error("No hay estudiantes", error);
+      }
+      finally {  
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const exportToExcel = () => {
@@ -102,11 +114,11 @@ const ProfesoresDashboard  = () => {
       {loading && <Loader />}
       <NavMobile />
       <NavWeb />
-      <div className="dashboardgroup">
+      <div className="dashboardprofesor">
         <div className="dashboardcontainergroup">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Grupo {profesorData.fullName} con id {profesorData.id}
+              Profesor {profesorData.fullName} con id {profesorData.id}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>
@@ -115,12 +127,14 @@ const ProfesoresDashboard  = () => {
               <Button>Back</Button>
             </a>
             <div className="actions">
-            <Calendar
+              <Calendar
                 setDate={(date) => setDate(date)}
                 date={date}
                 ID={profesorData.ID}
-                setClasses={setClasses}
+                setClasses={setClassesEstudiante}
                 getClasses={getClassesbyGroupIDDate}
+                setClasses2={setClassesEstudiante}
+                getClasses2={getClassesbyGroupIDDate}
               />
 
               <Button
@@ -142,65 +156,28 @@ const ProfesoresDashboard  = () => {
               </Button>
             </div>
           </div>
-          <div className="resumenDeActividadAcademica">
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Compradas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  dsa
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas gastadas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  dsa
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Canceladas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  dsa
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Canceladas por profesor
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  ds
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="pie">
-            <PieChart />
-          </div>
-          <div className="grafica">
-            <Chart />
-          </div>
+          <div className="resumenDeActividadAcademica">jdnsa</div>
           <div className="informacionDetalladaEstudiante">
-            <CrearEditarProfesorBankData personal_info_teacher={profesorData}/>
+            <CrearEditarProfesorBankData personal_info_teacher={profesorData} />
           </div>
-          <div className="ultimasclasesvistas">
+          <div className="ultimas_clases_grupo">
+            <h2>
+              <b>Clases de los equipos</b>
+            </h2>
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>clase ID</TableHead>
                   <TableHead>teacherID</TableHead>
-                  <TableHead>dateTime</TableHead>
-                  <TableHead>classType</TableHead>
-                  <TableHead>duration</TableHead>
-                  <TableHead>tipic</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Duracion</TableHead>
+                  <TableHead>Cancelacion</TableHead>
+                  <TableHead>Cancelado por</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {classes.map((classData) => (
+                {classes_grupo.map((classData) => (
                   <TableRow key={classData.id}>
                     <TableCell>{classData.id}</TableCell>
                     <TableCell>{classData.teacherID}</TableCell>
@@ -209,7 +186,8 @@ const ProfesoresDashboard  = () => {
                     </TableCell>
                     <TableCell>{classData.classType}</TableCell>
                     <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.topic}</TableCell>
+                    <TableCell>{classData.cancellationTiming}</TableCell>
+                    <TableCell>{classData.canceledBy}</TableCell>
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
@@ -225,29 +203,53 @@ const ProfesoresDashboard  = () => {
                         </span>
                       </div>
                     </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="ultimas_clases_estudiante">
+            <h2>
+              <b>Clases de los estudiantes privados</b>
+            </h2>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                <TableHead>clase ID</TableHead>
+                  <TableHead>teacherID</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Duracion</TableHead>
+                  <TableHead>Cancelacion</TableHead>
+                  <TableHead>Cancelado por</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {classes_estudiante.map((classData) => (
+                  <TableRow key={classData.id}>
+                    <TableCell>{classData.id}</TableCell>
+                    <TableCell>{classData.teacherID}</TableCell>
                     <TableCell>
-                      <TrashIcon
-                        className="w-6 h-6 text-gray-400"
-                        onClick={async () => {
-                          try{
-                            setLoading(true);
-                            await deleteTeamClass(classData.id);
-                          } catch (error) {
-                            console.log("Error deleting class:", error);
-                          } finally {
-                            setLoading(false);
-                            window.location.reload(); 
-                          }                     
-                        }}   
-                      />
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Pencil1Icon className="w-6 h-6 text-gray-400" />
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[825px]">
-                          dsadasdsa
-                        </DialogContent>
-                      </Dialog>
+                      {new Date(classData.dateTime).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{classData.classType}</TableCell>
+                    <TableCell>{classData.duration} H</TableCell>
+                    <TableCell>{classData.cancellationTiming}</TableCell>
+                    <TableCell>{classData.canceledBy}</TableCell>
+                    <TableCell>
+                      <div
+                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      >
+                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                        {/* Texto del estado */}
+                        <span>
+                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {/* Updated logic for status */}
+                        </span>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -260,4 +262,4 @@ const ProfesoresDashboard  = () => {
   );
 };
 
-export default ProfesoresDashboard ;
+export default ProfesoresDashboard;

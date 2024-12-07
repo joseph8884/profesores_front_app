@@ -18,12 +18,12 @@ import { BellIcon, DownloadIcon, PersonIcon } from "@radix-ui/react-icons";
 import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
 import Chart from "../../EstudiantesPrivados/Dashboard/Chart";
 import PieChart from "../../EstudiantesPrivados/Dashboard/Chart2";
-import {getClassesbyGroupIDDate} from "../../../../provider/adm/Clases/ClasesGrupales/getClassesbyGroupidDate";
+import { getClassesbyGroupIDDate } from "../../../../provider/adm/Clases/ClasesGrupales/getClassesbyGroupidDate";
 import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import Loader from "../../../Loader/Loader";
-import {deleteTeamClass} from "../../../../provider/adm/Clases/ClasesGrupales/deleteTeamClass";
+import { deleteTeamClass } from "../../../../provider/adm/Clases/ClasesGrupales/deleteTeamClass";
 import ModificarClasesGrupo from "./classes/ModificarClasesGrupo";
 const GroupDetail = () => {
   const [groupData, setGroupData] = useState(null);
@@ -116,7 +116,7 @@ const GroupDetail = () => {
               <Button>Back</Button>
             </a>
             <div className="actions">
-            <Calendar
+              <Calendar
                 setDate={(date) => setDate(date)}
                 date={date}
                 ID={groupData.ID}
@@ -204,10 +204,11 @@ const GroupDetail = () => {
                 <TableRow>
                   <TableHead>clase ID</TableHead>
                   <TableHead>teacherID</TableHead>
-                  <TableHead>dateTime</TableHead>
-                  <TableHead>classType</TableHead>
-                  <TableHead>duration</TableHead>
-                  <TableHead>tipic</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Duracion</TableHead>
+                  <TableHead>Cancelacion</TableHead>
+                  <TableHead>Cancelado por</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -220,7 +221,8 @@ const GroupDetail = () => {
                     </TableCell>
                     <TableCell>{classData.classType}</TableCell>
                     <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.topic}</TableCell>
+                    <TableCell>{classData.cancellationTiming}</TableCell>
+                    <TableCell>{classData.canceledBy}</TableCell>
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
@@ -240,16 +242,16 @@ const GroupDetail = () => {
                       <TrashIcon
                         className="w-6 h-6 text-gray-400"
                         onClick={async () => {
-                          try{
+                          try {
                             setLoading(true);
                             await deleteTeamClass(classData.id);
                           } catch (error) {
                             console.log("Error deleting class:", error);
                           } finally {
                             setLoading(false);
-                            window.location.reload(); 
-                          }                     
-                        }}   
+                            window.location.reload();
+                          }
+                        }}
                       />
                       <Dialog>
                         <DialogTrigger asChild>
