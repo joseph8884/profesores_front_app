@@ -44,6 +44,21 @@ const FormSection = ({ data }) => {
         break;
     }
   };
+  const getIDfromtoken = ()=>{
+    const token_from_sessionStorage = sessionStorage.getItem('token');
+    if (!token_from_sessionStorage) return {};
+    const base64Url = token_from_sessionStorage.split(".")[1];
+    const base64 = decodeURIComponent(
+      atob(base64Url)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+    const data = JSON.parse(base64);
+    return parseInt(data.id);
+  }
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -55,7 +70,7 @@ const FormSection = ({ data }) => {
     };
 
     var formData = {
-      teacherID: 2,
+      teacherID: getIDfromtoken(),
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,
