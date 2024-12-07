@@ -12,9 +12,12 @@ import {
   TableRow,
 } from "../../ui/table";
 import Calendar from "./Calendar";
+import { BellIcon, DownloadIcon } from "@radix-ui/react-icons";
 import Loader from "../../Loader/Loader"
 const DashBoardProfesor = () => {
-  const [date, setDate] = useState([]);
+  const [date, setDate] = useState([]); 
+  const [classes_grupo, setClasses_grupo] = useState([]);
+  const [classes_estudiante, setClassesEstudiante] = useState([]);
   useEffect(() => {
     setDate({
       month: parseInt(new Date().getMonth().toString()) + 1,
@@ -26,19 +29,32 @@ const DashBoardProfesor = () => {
   }
 
   return (
-    <div className="flex" style={{ overflowY: "hidden", height: "100vh" }}>
+    <div
+      className="min-h-screen flex"
+      style={{ overflowY: "hidden", height: "100vh" }}
+    >
       <NavMobile />
       <NavWeb />
-      <div className="dashboard">
-        <div className="dashboardcontainer">
+      <div className="dashboardprofesor">
+        <div className="dashboardcontainergroup">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Dashboard Profesor
+              Profesor ____ nombre ___ con id ---
             </h2>
+            <BellIcon className="h-6 w-6" />
           </div>
           <div className="filtrosandbackbtn">
+            <a href="/admin/profesores/activos">
+              <Button>Back</Button>
+            </a>
             <div className="actions">
-              <Calendar setDate={(date) => setDate(date)} date={date} />
+              <Calendar
+                setDate={(date) => setDate(date)}
+                date={date}
+                ID={2}
+                setClasses={setClassesEstudiante}
+                setClasses2={setClassesEstudiante}
+              />
 
               <Button
                 onClick={() => {
@@ -54,71 +70,125 @@ const DashBoardProfesor = () => {
                 limpiar filtros
               </Button>
             </div>
-            {
-              //Cosas de los filtros.
-            }
           </div>
           <div className="resumenDeActividadAcademica">
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Compradas
-                </h3>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Restantes
-                </h3>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Canceladas
-                </h3>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Canceladas por profesor
-                </h3>
-              </div>
+            <div className="actividadCard">
+              <h3>Total de horas dictadas</h3>
+              <p className="total">0</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de horas virtuales</h3>
+              <p className="total">0</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de horas presenciales</h3>
+              <p className="total">0</p>
+            </div>
+            <div className="actividadCard">
+              <h3>T. horas canceladas a tiempo profesor</h3>
+              <p className="total">0</p>
             </div>
           </div>
-          <div className="calendario">
-          </div>
-
-          <div className="grafica">
-          </div>
           <div className="informacionDetalladaEstudiante">
-            Algo va aca
           </div>
-          <div className="ultimasclasesvistas">
+          <div className="ultimas_clases_grupo">
+            <h2>
+              <b>Clases de los equipos</b>
+            </h2>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Photo</TableHead>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Teacher</TableHead>
-                  <TableHead>Mode</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>clase ID</TableHead>
+                  <TableHead>teacherID</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Duracion</TableHead>
+                  <TableHead>Cancelacion</TableHead>
+                  <TableHead>Cancelado por</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {classes_grupo.map((classData) => (
+                  <TableRow key={classData.id}>
+                    <TableCell>{classData.id}</TableCell>
+                    <TableCell>{classData.teacherID}</TableCell>
+                    <TableCell>
+                      {new Date(classData.dateTime).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{classData.classType}</TableCell>
+                    <TableCell>{classData.duration} H</TableCell>
+                    <TableCell>{classData.cancellationTiming}</TableCell>
+                    <TableCell>{classData.canceledBy}</TableCell>
+                    <TableCell>
+                      <div
+                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      >
+                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                        {/* Texto del estado */}
+                        <span>
+                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {/* Updated logic for status */}
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="ultimas_clases_estudiante">
+            <h2>
+              <b>Clases de los estudiantes privados</b>
+            </h2>
+            <Table>
+              <TableHeader>
                 <TableRow>
-                  <TableCell>Photo</TableCell>
-                  <TableCell>#12306</TableCell>
-                  <TableCell>Nov 02, 2023</TableCell>
-                  <TableCell>Carlos David Perez Rocha</TableCell>
-                  <TableCell>Presencial</TableCell>
-                  <TableCell>3H</TableCell>
-                  <TableCell>Completed</TableCell>
+                <TableHead>clase ID</TableHead>
+                  <TableHead>teacherID</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Duracion</TableHead>
+                  <TableHead>Cancelacion</TableHead>
+                  <TableHead>Cancelado por</TableHead>
                 </TableRow>
+              </TableHeader>
+              <TableBody>
+                {classes_estudiante.map((classData) => (
+                  <TableRow key={classData.id}>
+                    <TableCell>{classData.id}</TableCell>
+                    <TableCell>{classData.teacherID}</TableCell>
+                    <TableCell>
+                      {new Date(classData.dateTime).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{classData.classType}</TableCell>
+                    <TableCell>{classData.duration} H</TableCell>
+                    <TableCell>{classData.cancellationTiming}</TableCell>
+                    <TableCell>{classData.canceledBy}</TableCell>
+                    <TableCell>
+                      <div
+                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      >
+                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                        {/* Texto del estado */}
+                        <span>
+                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {/* Updated logic for status */}
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>
         </div>
       </div>
-
     </div>
   );
 };
