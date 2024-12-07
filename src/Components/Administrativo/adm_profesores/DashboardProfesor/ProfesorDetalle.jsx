@@ -156,7 +156,24 @@ const ProfesoresDashboard = () => {
               </Button>
             </div>
           </div>
-          <div className="resumenDeActividadAcademica">jdnsa</div>
+          <div className="resumenDeActividadAcademica">
+            <div className="actividadCard">
+              <h3>Total de horas dictadas</h3>
+              <p className="total">0</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de horas virtuales</h3>
+              <p className="total">0</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de horas presenciales</h3>
+              <p className="total">0</p>
+            </div>
+            <div className="actividadCard">
+              <h3>T. horas canceladas a tiempo profesor</h3>
+              <p className="total">0</p>
+            </div>
+          </div>
           <div className="informacionDetalladaEstudiante">
             <CrearEditarProfesorBankData personal_info_teacher={profesorData} />
           </div>
