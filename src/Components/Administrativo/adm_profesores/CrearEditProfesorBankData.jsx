@@ -3,13 +3,13 @@ import { Button } from "../../ui/button";
 import Loader from "../../Loader/Loader";
 import { getBankDataTeacherbyID } from "../../../provider/adm/profesores/BankData/getBankData";
 import { postBankData } from "../../../provider/adm/profesores/BankData/postBankData";
-
+import { putBankData } from "../../../provider/adm/profesores/BankData/PutBankData";
 const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
   const [bankdata, setBankData] = useState({});
   const [contractCity, setContractCity] = useState("");
-  const [virtualHourValue, setVirtualHourValue] = useState("");
-  const [inpersonTimeValue, setInpersonTimeValue] = useState("");
-  const [bankAccountNumber, setBankAccountNumber] = useState("");
+  const [virtualHourValue, setVirtualHourValue] = useState(1.2);
+  const [inpersonTimeValue, setInpersonTimeValue] = useState(1.2);
+  const [bankAccountNumber, setBankAccountNumber] = useState(1);
   const [bankName, setBankName] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -64,14 +64,19 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
         bankName,
         teacherId: personal_info_teacher.id,
       };
-        try {
+      try {
+        if (bankdata) {
+          await putBankData(formattedData);
+        } else {
           await postBankData(formattedData);
-        } catch (error) {
-          console.error("Error creating student:", error);
-        } finally {
-            setLoading(false);
-            window.location.reload();
-            }
+        }
+      } catch (error) {
+        console.error("Error creating student:", error);
+        console.log("formattedData", formattedData);
+      } finally {
+        setLoading(false);
+        window.location.reload();
+      }
     }
   };
 
@@ -100,7 +105,7 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
           <input
             type="text"
             value={virtualHourValue}
-            onChange={(e) => setVirtualHourValue(e.target.value)}
+            onChange={(e) => setVirtualHourValue(parseFloat(e.target.value))}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter virtual hour value"
           />
@@ -113,7 +118,7 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
           <input
             type="money"
             value={inpersonTimeValue}
-            onChange={(e) => setInpersonTimeValue(e.target.value)}
+            onChange={(e) => setInpersonTimeValue(parseFloat(e.target.value))}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter in-person hour value"
           />
@@ -125,7 +130,7 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
           <input
             type="number"
             value={bankAccountNumber}
-            onChange={(e) => setBankAccountNumber(e.target.value)}
+            onChange={(e) => setBankAccountNumber(parseInt(e.target.value))}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter bank account number"
           />
