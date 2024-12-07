@@ -28,8 +28,6 @@ import {deleteProfesor} from "../../../../provider/adm/profesores/deleteProfesor
 import {changeStatusProfesor} from "../../../../provider/adm/profesores/changeStatus";
 import CrearEditarProfesorPersonalInfo from "../CrearEditProfesoresInfoPersonal";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
-
-
 export function DataTableDemo() {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
@@ -266,7 +264,7 @@ export function DataTableDemo() {
           </Button>
           <Dialog>
               <DialogTrigger asChild>
-                <Button>Create new student +</Button>
+                <Button>Crear nuevo profesor +</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <CrearProfesorDialog/>

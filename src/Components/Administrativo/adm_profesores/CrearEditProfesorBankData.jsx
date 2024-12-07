@@ -67,15 +67,19 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
       try {
         if (bankdata) {
           await putBankData(formattedData);
-        } else {
-          await postBankData(formattedData);
-        }
+        } 
       } catch (error) {
-        console.error("Error creating student:", error);
-        console.log("formattedData", formattedData);
+        console.error("Error updating student:", error);
+        
+        console.log("trying to post it ...");
+        try {
+          await postBankData(formattedData);
+        } catch (error) {
+          console.error("Error creating student:", error);
+        }        
       } finally {
         setLoading(false);
-        window.location.reload();
+        //window.location.reload();
       }
     }
   };
