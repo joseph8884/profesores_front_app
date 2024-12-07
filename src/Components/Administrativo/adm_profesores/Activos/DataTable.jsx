@@ -83,9 +83,9 @@ export function DataTableDemo() {
       cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
     },
     {
-      accessorKey: "countryCode",
-      header: "Country Code",
-      cell: ({ row }) => <div>{row.getValue("countryCode")}</div>,
+      accessorKey: "email",
+      header: "email",
+      cell: ({ row }) => <div>{row.getValue("email")}</div>,
     },
     {
       accessorKey: "phoneNumber",
@@ -266,7 +266,7 @@ export function DataTableDemo() {
               <DialogTrigger asChild>
                 <Button>Crear nuevo profesor +</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[825px]">
                 <CrearProfesorDialog/>
               </DialogContent>
             </Dialog>

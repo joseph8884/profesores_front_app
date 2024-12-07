@@ -9,14 +9,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { postorputTeacher } from "../../../provider/adm/profesores/postorputTeacher";
 
 const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
+  const [email, setEmail] = useState(data.email || "");
   const [fullName, setFullName] = useState(data.fullName || "");
-  const [countryCode, setCountryCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
-  const [emergencyContact, setemergencyContact]= useState(data.emergencyContact || "");
-  const [identificationType, setIdentificationType]= useState(data.identificationType || "");
-  const [identificationNumber, setidentificationNumber]= useState(data.identificationNumber || "");
+  const [emergencyContact, setemergencyContact] = useState(
+    data.emergencyContact || ""
+  );
+  const [identificationType, setIdentificationType] = useState(
+    data.identificationType || ""
+  );
+  const [identificationNumber, setidentificationNumber] = useState(
+    data.identificationNumber || ""
+  );
 
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
 
@@ -45,30 +52,31 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
 
       const updatedData = {
         fullName,
+        email,
         phoneNumber,
-        countryCode: "1",
         emergencyContact,
         identificationType,
         identificationNumber,
-  };
-      if (context === "create") {
+        registerDate: new Date().toISOString(),
+      };
+
+      try {
+        await postorputTeacher(updatedData, "PUT", data.id);
+        
+      } catch (error) {
+        console.error("Error updating student:", error);
+        console.error("trying to post it ...");
         try {
-          //await createEstudent(updatedData);
+          await postorputTeacher(updatedData, "POST");
         } catch (error) {
           console.error("Error creating student:", error);
         } finally {
           setLoading(false);
-          window.location.reload();
+          console.log(updatedData);
         }
-      } else {
-        try {
-          //await updateStudentAPI(data.ID, updatedData);
-        } catch (error) {
-          console.error("Error updating student:", error);
-        } finally {
-          setLoading(false);
-          window.location.href = "/admin/tablaestudiantes/estudiantesprivados";
-        }
+      } finally {
+        setLoading(false);
+        window.location.reload();
       }
     }
   };
@@ -89,6 +97,18 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
             placeholder="Enter full name"
           />
         </div>
+        <div>
+          <label htmlFor="username" className="text-right">
+            email
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+        </div>
 
         {/* Country Code Field */}
         <div>
@@ -98,16 +118,14 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
           <PhoneInput
             country={"co"} // Default country
             value={phoneNumber}
-            onChange={(value, country) => {
+            onChange={(value) => {
               setPhoneNumber(value); // Guarda el número completo
-              setCountryCode(country.countryCode); // Guarda el código del país
             }}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter phone number"
           />
         </div>
 
-        
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Contacto de Emergencia
@@ -135,7 +153,9 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
               <SelectItem value="T.I">Tarjeta de identidad</SelectItem>
               <SelectItem value="Pasaporte">Pasaporte</SelectItem>
               <SelectItem value="Visa">Visa</SelectItem>
-              <SelectItem value="Carnet Extranjeria">Carnet de extranjería</SelectItem>
+              <SelectItem value="Carnet Extranjeria">
+                Carnet de extranjería
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
