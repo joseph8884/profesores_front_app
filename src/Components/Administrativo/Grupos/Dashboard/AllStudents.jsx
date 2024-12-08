@@ -36,7 +36,7 @@ import {
 import { Sheet, SheetTrigger, SheetContent } from "../../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 //import CrearEditarEstudiante from "./CreaEditStudentCustom";
-import { getStudentsCustom } from "../../../../provider/adm/Grupos/students/getStudetsCustombyTeamid";
+import { getStudentsCustomWithDate } from "../../../../provider/adm/Grupos/students/getStudetsCustombyTeamid";
 //import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
 import Loader from "../../../Loader/Loader";
 import NavMobile from "../../Nav/NavMobile";
@@ -55,7 +55,9 @@ const StudentsGroupCRUD = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const nameGroup = params.get("nameGroup");
-  const idGroup = params.get("idGroup");
+  const teamId = params.get("teamId");
+  const month = params.get("month");
+  const year = params.get("year");
   //Pagination variables
   const itemsPerPage = 10;
   //TraerData
@@ -63,7 +65,7 @@ const StudentsGroupCRUD = () => {
     setLoading(true);
     const fetchStudents = async () => {
       try {
-        const data_fromAPI = await getStudentsCustom(idGroup);
+        const data_fromAPI = await getStudentsCustomWithDate(teamId, month, year);
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -269,7 +271,7 @@ const StudentsGroupCRUD = () => {
             <CrearEditarEstudianteCustom
               data={{}}
               context={"create"}
-              idGroup={idGroup}
+              idGroup={teamId}
             />
           </Sheet>
         </div>
@@ -377,9 +379,9 @@ const tableConfig = (setLoading) => {
       cell: ({ row }) => <div>{row.getValue("attendancePercentage")}%</div>,
     },
     {
-      accessorKey: "attendedClassesCount",
+      accessorKey: "classesAttended",
       header: "Attended Classes Count",
-      cell: ({ row }) => <div>{row.getValue("attendedClassesCount")}</div>,
+      cell: ({ row }) => <div>{row.getValue("classesAttended")}</div>,
     },
     {
       id: "actions",

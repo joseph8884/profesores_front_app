@@ -1,6 +1,6 @@
-export async function getStudentsCustom(id) {
+export async function getStudentsCustomWithDate(idteam, month, year) {
     try{
-        const url = `https://profesoresbackend.onrender.com/admin/estudiante/equipo/equipo/${id}`;;
+        const url = `https://profesoresbackend.onrender.com/admin/estudiante/equipo/equipo/?teamId=${idteam}&year=${year}&month=${month}`;;
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',
@@ -16,8 +16,8 @@ export async function getStudentsCustom(id) {
             fullName: student.fullName,
             phoneNumber: student.phoneNumber,
             email: student.email,
-            attendancePercentage: student.attendancePercentage,
-            attendedClassesCount: student.attendedClassesCount
+            classesAttended: student.classesAttended,
+            attendancePercentage: student.attendancePercentage
         }));
         console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;

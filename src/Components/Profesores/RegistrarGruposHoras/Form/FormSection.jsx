@@ -238,7 +238,7 @@ const FormSection = ({ groupDATA }) => {
             </label>
           </div>
         </div>
-        {classHeld === false && (
+        {classHeld === true && (
           <div className="student-attendance">
             <label className="mb-2 font-semibold">Mark Attendance:</label>
             <Table>
@@ -272,7 +272,7 @@ const FormSection = ({ groupDATA }) => {
         )}
 
         {/* Show cancellation section only if classHeld is "false" */}
-        {classHeld === "false" && (
+        {classHeld === false && (
           <div className="cancellation">
             <div className="flex flex-col">
               <label className="mb-2 font-semibold">

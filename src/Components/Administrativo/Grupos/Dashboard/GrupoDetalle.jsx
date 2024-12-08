@@ -143,8 +143,7 @@ const GroupDetail = () => {
               </Button>
               <a
                 href={`/admin/gruposvista/grupos/groupdetail/studentsgroupcrud?nameGroup=${encodeURIComponent(
-                  groupData.name
-                )}&idGroup=${groupData.ID}`}
+                  groupData.name)}&teamId=${groupData.ID}&year=${date.year}&month=${date.month}`}
               >
                 <Button>
                   <PersonIcon />
