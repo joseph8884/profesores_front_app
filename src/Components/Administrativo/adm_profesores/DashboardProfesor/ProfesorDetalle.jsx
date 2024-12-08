@@ -15,13 +15,12 @@ import {
 import "./ProfesorDetalle.css";
 import { BellIcon, DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
-import { getClassesbyGroupIDDate } from "../../../../provider/adm/Clases/ClasesGrupales/getClassesbyGroupidDate";
 import Loader from "../../../Loader/Loader";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
-import { getBankDataTeacherbyID } from "../../../../provider/adm/profesores/BankData/getBankData";
+import {individualclassesByTeacherAndYearMonth} from "../../../../provider/adm/Clases/ClasesIndividuales/individualclassesByTeacherAndYearMonth"
+import {teamClassesByTeacherIdAndYearMonth} from "../../../../provider/adm/Clases/ClasesGrupales/teamClassesByTeacherIdAndYearMonth"
 const ProfesoresDashboard = () => {
   const [profesorData, setProfesorData] = useState(null);
-  const [profesorBankData, setProfesorBankData] = useState(null);
   const [classes_grupo, setClasses_grupo] = useState([]);
   const [classes_estudiante, setClassesEstudiante] = useState([]);
   const [date, setDate] = useState([]);
@@ -37,18 +36,8 @@ const ProfesoresDashboard = () => {
         month: parseInt(new Date().getMonth().toString()) + 1,
         year: new Date().getFullYear().toString(),
       });
-      try {
-        setProfesorBankData(await getBankDataTeacherbyID(data.id));
-      } catch
-        (error) {
-        setProfesorBankData(null);
-        console.error("No hay estudiantes", error);
-      }
-      finally {  
-        setLoading(false);
-      }
+      setLoading(false);
     };
-
     fetchData();
   }, []);
 
@@ -130,11 +119,11 @@ const ProfesoresDashboard = () => {
               <Calendar
                 setDate={(date) => setDate(date)}
                 date={date}
-                ID={profesorData.ID}
+                ID={profesorData.id}
                 setClasses={setClassesEstudiante}
-                getClasses={getClassesbyGroupIDDate}
-                setClasses2={setClassesEstudiante}
-                getClasses2={getClassesbyGroupIDDate}
+                getClasses={individualclassesByTeacherAndYearMonth}
+                setClasses2={setClasses_grupo}
+                getClasses2={teamClassesByTeacherIdAndYearMonth}
               />
 
               <Button
@@ -232,7 +221,7 @@ const ProfesoresDashboard = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                <TableHead>clase ID</TableHead>
+                  <TableHead>clase ID</TableHead>
                   <TableHead>teacherID</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Tipo de clase</TableHead>

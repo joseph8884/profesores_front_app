@@ -29,7 +29,7 @@ export default function CalendarForm({ setDate, date, ID, setClasses, getClasses
   });
   useEffect(() => {
     const fetchClasses = async () => {
-    console.log("Fetching classes... with date and id student", date, ID);
+    console.log("Fetching classes... with date and id", date, ID);
       if (!ID) return;
       const clases = await getClasses(ID, date.year, date.month);
       if (clases) {

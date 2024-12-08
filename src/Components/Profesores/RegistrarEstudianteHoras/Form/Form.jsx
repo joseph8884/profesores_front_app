@@ -27,7 +27,7 @@ const Form = () => {
         <div className="dashboardcontainerform">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Registrar Horas
+              Registrar Horas {studentData.fullName} y con id {studentData.id}
             </h2>
             <div>
             <BellIcon className="h-6 w-6" />
