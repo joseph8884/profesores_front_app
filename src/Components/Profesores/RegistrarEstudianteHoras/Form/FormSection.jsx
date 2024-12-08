@@ -70,7 +70,7 @@ const FormSection = ({ data }) => {
     };
 
     var formData = {
-      teacherID: getIDfromtoken(),
+      teacherID: 2,//getIDfromtoken(),
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,

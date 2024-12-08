@@ -11,20 +11,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import AddHours from "./AddHours";
+import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 
 const CrearEditarEstudiante = ({ data, context }) => {
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState("");
   const [fullName, setFullName] = useState(data.fullName || "");
   const [email, setEmail] = useState(data.email || "");
-  const [countryCode, setCountryCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
-  const [ hoursRemaining, sethoursRemaining] = useState(
+  const [hoursRemaining, sethoursRemaining] = useState(
     parseInt(data.hoursRemaining) || ""
-  );
-  const [hoursSpent, setHoursSpent] = useState(
-    // Changed from horasRestantes
-    parseInt(data.hoursSpented) || 0
   );
   const [ciudad, setCiudad] = useState(data.office || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
@@ -87,7 +84,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
         email,
         countryCode: "1",
         phoneNumber,
-        hoursRemaining, 
+        hoursRemaining,
         photo:
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
         office: ciudad,
@@ -170,7 +167,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
         {/* Country Code Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Country Code
+            Numero de telefono
           </label>
           <PhoneInput
             country={"co"} // Default country
@@ -183,7 +180,6 @@ const CrearEditarEstudiante = ({ data, context }) => {
             placeholder="Enter phone number"
           />
         </div>
-
 
         {/* Hours Spent Field */}
         <div>
@@ -217,6 +213,18 @@ const CrearEditarEstudiante = ({ data, context }) => {
             </SelectContent>
           </Select>
         </div>
+        {context !== "create" && (
+          <div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="ghost">Añadir horas a estudiante +</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <AddHours idStudent={data.ID} />
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
         {/* Save Button */}
         <div className="pt-4">
           <Button

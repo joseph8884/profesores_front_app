@@ -10,21 +10,23 @@ export async function getStudents(status) {
             }
         });
         const data = await resp.json();
-        const studentsList = data.map((student) => ({ // Adjusted to match the new data structure
+        const studentsList = data.map((student) => ({
             ID: student.id,
             fullName: student.fullName,
             email: student.email,
-            countryCode: student.countryCode,
             phoneNumber: student.phoneNumber,
             photo: student.photo,
-            hoursPurchased: student.hoursPurchased,
             hoursRemaining: student.hoursRemaining,
             office: student.office,
             status: student.status,
-            idUser: student.idUser,
-            individualClasses: student.individualClasses
+            latestPurchasedHour: student.latestPurchasedHour ? {
+                id: student.latestPurchasedHour.id,
+                studentID: student.latestPurchasedHour.studentID,
+                adminID: student.latestPurchasedHour.adminID,
+                hours: student.latestPurchasedHour.hours,
+                date: student.latestPurchasedHour.date
+            } : null
         }));
-        console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;
     } catch (error) {  
         console.error('Error al obtener los estudiantes:', error);

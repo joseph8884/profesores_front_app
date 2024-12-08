@@ -110,15 +110,17 @@ export function DataTableDemo({status}) {
       cell: ({ row }) => <div>{row.getValue("email")}</div>,
     },
     {
-      accessorKey: "hoursPurchased",
+      accessorKey: "latestPurchasedHour.hours",
       header: "Horas Compradas",
-      cell: ({ row }) => (
-        <div className="text-center">{row.getValue("hoursPurchased")}</div>
-      ),
+      cell: ({ row }) => {
+        const latestPurchasedHour = row.original.latestPurchasedHour;
+        const hours = latestPurchasedHour ? latestPurchasedHour.hours : null;
+        return <div className="text-center">{hours !== null ? hours : ""}</div>;
+      },
     },
     {
       accessorKey: "hoursRemaining",
-      header: "Horas consumidas",
+      header: "Horas Restantes",
       cell: ({ row }) => (
         <div className="text-center">{row.getValue("hoursRemaining")}</div>
       ),
