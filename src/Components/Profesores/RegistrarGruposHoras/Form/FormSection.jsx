@@ -308,7 +308,7 @@ const FormSection = ({ groupDATA }) => {
                     <SelectValue placeholder="Cancelled by" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Student">Team</SelectItem>
+                    <SelectItem value="Team">Team</SelectItem>
                     <SelectItem value="Teacher">Teacher</SelectItem>
                   </SelectContent>
                 </Select>
