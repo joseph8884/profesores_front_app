@@ -12,13 +12,16 @@ import {
   TableRow,
 } from "../../ui/table";
 import {useLocation } from "react-router-dom";
-import Calendar from "./Calendar";
-import { BellIcon, DownloadIcon } from "@radix-ui/react-icons";
+import Calendar  from "../../../Components/Administrativo/EstudiantesPrivados/Dashboard/Calendar";
+import { BellIcon } from "@radix-ui/react-icons";
 import Loader from "../../Loader/Loader"
+import {individualclassesByTeacherAndYearMonth} from "../../../provider/profesor/EstudianteIndividual/individualclassesByTeacherAndYearMonth"
+import {teamClassesByTeacherIdAndYearMonth} from "../../../provider/profesor/Grupos/teamClassesByTeacherIdAndYearMonth"
 const DashBoardProfesor = () => {
   const [date, setDate] = useState([]); 
   const [classes_grupo, setClasses_grupo] = useState([]);
   const [classes_estudiante, setClassesEstudiante] = useState([]);
+  const [info, setInfo] = useState({});
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const teacherId = params.get("profesorId");
@@ -58,7 +61,12 @@ const DashBoardProfesor = () => {
                 date={date}
                 ID={teacherId}
                 setClasses={setClassesEstudiante}
-                setClasses2={setClassesEstudiante}
+                getClasses={individualclassesByTeacherAndYearMonth}
+                setClasses2={setClasses_grupo}
+                getClasses2={teamClassesByTeacherIdAndYearMonth}
+                getInforDashboard={info}
+                setInforDashboard={setInfo}
+
               />
 
               <Button

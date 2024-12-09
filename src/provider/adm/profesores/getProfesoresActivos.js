@@ -14,7 +14,6 @@ export async function getAllProfesoresActivos() {
             id: profesor.id,
             fullName: profesor.fullName,
             email: profesor.username,
-            countryCode: profesor.countryCode,
             phoneNumber: profesor.phoneNumber,
             emergencyContact: profesor.emergencyContact,
             identificationType: profesor.identificationType,
@@ -23,6 +22,7 @@ export async function getAllProfesoresActivos() {
             registerDate: profesor.registerDate,
             idUser: profesor.idUser,
         }));
+        console.log('Lista de profesores activos:', proflist);
         return proflist;
     } catch (error) {  
         console.error('Error al obtener los equipos:', error);

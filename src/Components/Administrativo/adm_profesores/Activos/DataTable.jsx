@@ -221,7 +221,7 @@ export function DataTableDemo() {
                     console.error("Error creating student:", error);
                   } finally {
                     setLoading(false);
-                    window.location.reload();
+                    //window.location.reload();
                   }
                 }}
               >

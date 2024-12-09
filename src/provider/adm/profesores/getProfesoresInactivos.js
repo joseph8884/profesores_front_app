@@ -13,7 +13,6 @@ export async function getAllProfesoresInactivos() {
         const proflist = data.map((profesor) => ({
             id: profesor.id,
             fullName: profesor.fullName,
-            countryCode: profesor.countryCode,
             phoneNumber: profesor.phoneNumber,
             emergencyContact: profesor.emergencyContact,
             identificationType: profesor.identificationType,

@@ -1,5 +1,5 @@
-export async function deleteProfesor(idUser) {
-    const url = `https://profesoresbackend.onrender.com/admin/profesor/eliminar/${idUser}`; // URL de la API para crear un estudiante personalizado};
+export async function deleteProfesor(id) {
+    const url = `https://profesoresbackend.onrender.com/admin/profesor/eliminar/${id}`; // URL de la API para crear un estudiante personalizado};
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
@@ -12,11 +12,11 @@ export async function deleteProfesor(idUser) {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to create student');
+            throw new Error('Failed to delete profesor');
         }
         return await response.json(); // Retorna la respuesta en formato JSON si es exitosa
     } catch (error) {
-        console.error('Error creating student:', error);
+        console.error('Error deleting student:', error);
         throw error;
     }
 }
