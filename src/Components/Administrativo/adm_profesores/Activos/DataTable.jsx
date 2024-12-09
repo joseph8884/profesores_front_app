@@ -216,12 +216,12 @@ export function DataTableDemo() {
                   e.stopPropagation();
                   setLoading(true);
                   try {
-                    await deleteProfesor(profesor.idUser);
+                    await deleteProfesor(profesor.id);
                   } catch (error) {
                     console.error("Error creating student:", error);
                   } finally {
                     setLoading(false);
-                    //window.location.reload();
+                    window.location.reload();
                   }
                 }}
               >
