@@ -45,52 +45,57 @@ const GroupDetail = () => {
 
   const exportToExcel = () => {
     if (!groupData) {
-      console.error("No student data available to export.");
+      console.error("No group data available to export.");
       return;
     }
 
-    // Asegurar que studentData es un array
-    const data = Array.isArray(groupData) ? groupData : [groupData];
+    // Datos del grupo
+    const groupSheetData = [
+      { "Nombre del Grupo": groupData.name },
+      { ID: groupData.ID },
+      // Agregar más campos relevantes si es necesario
+    ];
+    const groupWorksheet = XLSX.utils.json_to_sheet(groupSheetData);
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
+    // Datos de las clases del grupo
+    const classSheetData = classes.map((clase) => ({
+      "Clase ID": clase.id,
+      "Profesor ID": clase.teacherID,
+      "Tipo de Clase": clase.classType,
+      Fecha: new Date(clase.dateTime).toLocaleDateString(),
+      Duración: `${clase.duration} H`,
+      "Estado": clase.classHeld ? "Completada" : "Cancelada",
+      "Razón de Cancelación": clase.cancellationReason,
+      "Momento de Cancelación": clase.cancellationTiming,
+      "Cancelado por": clase.canceledBy,
+    }));
+    const classWorksheet = XLSX.utils.json_to_sheet(classSheetData);
 
-    // Formatear encabezados: negrita y centrado
-    const headers = Object.keys(data[0]);
-    headers.forEach((header, index) => {
-      const cellAddress = XLSX.utils.encode_cell({ c: index, r: 0 });
-      if (!worksheet[cellAddress]) return;
-      worksheet[cellAddress].s = {
-        font: { bold: true },
-        alignment: { horizontal: "center" },
-      };
-    });
+    // Datos de totales y estadísticas
+    const totalsData = [
+      { 
+        "Total Horas Canceladas por Estudiante": inforDashboard.classesCanceledUser,
+        "Total Horas Canceladas por Profesor": inforDashboard.classesCanceledTeacher,
+        "Total Clases Dictadas": inforDashboard.hoursHeld,
+        "Total Horas Virtuales": inforDashboard.hoursHeldVirtual,
+        "Total Horas Presenciales": inforDashboard.hoursHeldInPerson
+      }
+    ];
+    const totalsWorksheet = XLSX.utils.json_to_sheet(totalsData);
 
-    // Ajustar ancho de columnas
-    const columnWidths = headers.map(() => ({ wpx: 150 }));
-    worksheet["!cols"] = columnWidths;
-
-    // Alternar color de filas
-    for (let i = 1; i <= data.length; i++) {
-      headers.forEach((_, j) => {
-        const cellAddress = XLSX.utils.encode_cell({ c: j, r: i });
-        if (!worksheet[cellAddress]) return;
-        worksheet[cellAddress].s = {
-          fill: {
-            patternType: "solid",
-            fgColor: { rgb: i % 2 === 0 ? "FFFFDDDD" : "FFFFFFFF" },
-          },
-        };
-      });
-    }
-
+    // Crear el libro de trabajo y agregar las hojas
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "DatosEstudiante");
+    XLSX.utils.book_append_sheet(workbook, groupWorksheet, "DatosGrupo");
+    XLSX.utils.book_append_sheet(workbook, classWorksheet, "Clases");
+    XLSX.utils.book_append_sheet(workbook, totalsWorksheet, "Totales");
+
+    // Escribir el archivo Excel
     const excelBuffer = XLSX.write(workbook, {
       type: "array",
       bookType: "xlsx",
     });
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(blob, "DatosEstudiante.xlsx");
+    saveAs(blob, "DatosGrupoCompleto.xlsx");
   };
 
   if (!groupData) {

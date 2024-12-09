@@ -52,14 +52,15 @@ const ProfesoresDashboard = () => {
     // Asegurar que studentData es un array
     const data = Array.isArray(profesorData) ? profesorData : [profesorData];
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
+    // Crear hoja de trabajo para datos del profesor
+    const worksheetProfesor = XLSX.utils.json_to_sheet(data);
+    const headers = Object.keys(data[0]);
 
     // Formatear encabezados: negrita y centrado
-    const headers = Object.keys(data[0]);
     headers.forEach((header, index) => {
       const cellAddress = XLSX.utils.encode_cell({ c: index, r: 0 });
-      if (!worksheet[cellAddress]) return;
-      worksheet[cellAddress].s = {
+      if (!worksheetProfesor[cellAddress]) return;
+      worksheetProfesor[cellAddress].s = {
         font: { bold: true },
         alignment: { horizontal: "center" },
       };
@@ -67,14 +68,14 @@ const ProfesoresDashboard = () => {
 
     // Ajustar ancho de columnas
     const columnWidths = headers.map(() => ({ wpx: 150 }));
-    worksheet["!cols"] = columnWidths;
+    worksheetProfesor["!cols"] = columnWidths;
 
     // Alternar color de filas
     for (let i = 1; i <= data.length; i++) {
       headers.forEach((_, j) => {
         const cellAddress = XLSX.utils.encode_cell({ c: j, r: i });
-        if (!worksheet[cellAddress]) return;
-        worksheet[cellAddress].s = {
+        if (!worksheetProfesor[cellAddress]) return;
+        worksheetProfesor[cellAddress].s = {
           fill: {
             patternType: "solid",
             fgColor: { rgb: i % 2 === 0 ? "FFFFDDDD" : "FFFFFFFF" },
@@ -83,14 +84,42 @@ const ProfesoresDashboard = () => {
       });
     }
 
+    // Crear libro de trabajo y agregar hojas
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "DatosEstudiante");
+    XLSX.utils.book_append_sheet(workbook, worksheetProfesor, "DatosProfesor");
+
+    // Agregar hoja para clases grupales
+    if (classes_grupo.length > 0) {
+      const worksheetGrupo = XLSX.utils.json_to_sheet(classes_grupo);
+      XLSX.utils.book_append_sheet(workbook, worksheetGrupo, "ClasesGrupo");
+    }
+
+    // Agregar hoja para clases individuales
+    if (classes_estudiante.length > 0) {
+      const worksheetEstudiante = XLSX.utils.json_to_sheet(classes_estudiante);
+      XLSX.utils.book_append_sheet(workbook, worksheetEstudiante, "ClasesEstudiante");
+    }
+
+    // Agregar hoja para totales y estadísticas
+    const totalsData = [
+      { 
+        "Total Horas Canceladas por Estudiante": teacherInfoClasses.classesCanceledUser,
+        "Total Horas Canceladas por Profesor": teacherInfoClasses.classesCanceledTeacher,
+        "Total Clases Dictadas": teacherInfoClasses.hoursHeld,
+        "Total Horas Virtuales": teacherInfoClasses.hoursHeldVirtual,
+        "Total Horas Presenciales": teacherInfoClasses.hoursHeldInPerson
+      }
+    ];
+    const worksheetTotals = XLSX.utils.json_to_sheet(totalsData);
+    XLSX.utils.book_append_sheet(workbook, worksheetTotals, "Totales");
+
+    // Escribir el libro de trabajo en un buffer y guardarlo
     const excelBuffer = XLSX.write(workbook, {
       type: "array",
       bookType: "xlsx",
     });
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(blob, "DatosEstudiante.xlsx");
+    saveAs(blob, "DatosProfesorCompleto.xlsx");
   };
 
   if (!profesorData) {

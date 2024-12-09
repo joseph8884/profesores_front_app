@@ -59,9 +59,8 @@ const StudentDetail = () => {
       { Teléfono: studentData.phoneNumber },
       { "Código de País": studentData.countryCode },
       { Estado: studentData.status ? "Activo" : "Inactivo" },
-      // La foto se omite ya que no es adecuada para Excel
+      // Agregar más campos relevantes si es necesario
     ];
-
     const studentWorksheet = XLSX.utils.json_to_sheet(studentSheetData);
 
     // Datos completos de las clases
@@ -71,21 +70,30 @@ const StudentDetail = () => {
       "Tipo de Clase": clase.classType,
       Fecha: new Date(clase.dateTime).toLocaleDateString(),
       Duración: `${clase.duration} H`,
-      "Estudiante ID": clase.studentID,
-      Comentario: clase.comment,
-      Tema: clase.topic,
-      Estado: clase.classHeld ? "Completada" : "Cancelada",
+      "Estado": clase.classHeld ? "Completada" : "Cancelada",
       "Razón de Cancelación": clase.cancellationReason,
       "Momento de Cancelación": clase.cancellationTiming,
       "Cancelado por": clase.canceledBy,
     }));
-
     const classWorksheet = XLSX.utils.json_to_sheet(classSheetData);
+
+    // Datos de totales y estadísticas
+    const totalsData = [
+      { 
+        "Total Horas Canceladas por Estudiante": studentInfoClasses.classesCanceledUser,
+        "Total Horas Canceladas por Profesor": studentInfoClasses.classesCanceledTeacher,
+        "Total Clases Dictadas": studentInfoClasses.hoursHeld,
+        "Total Horas Virtuales": studentInfoClasses.hoursHeldVirtual,
+        "Total Horas Presenciales": studentInfoClasses.hoursHeldInPerson
+      }
+    ];
+    const totalsWorksheet = XLSX.utils.json_to_sheet(totalsData);
 
     // Crear el libro de trabajo y agregar las hojas
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, studentWorksheet, "DatosEstudiante");
     XLSX.utils.book_append_sheet(workbook, classWorksheet, "Clases");
+    XLSX.utils.book_append_sheet(workbook, totalsWorksheet, "Totales");
 
     // Escribir el archivo Excel
     const excelBuffer = XLSX.write(workbook, {
@@ -93,7 +101,7 @@ const StudentDetail = () => {
       bookType: "xlsx",
     });
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(blob, "DatosEstudianteYClases.xlsx");
+    saveAs(blob, "DatosEstudianteCompleto.xlsx");
   };
 
   if (!studentData) {
