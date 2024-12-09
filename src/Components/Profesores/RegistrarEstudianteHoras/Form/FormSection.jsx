@@ -70,8 +70,8 @@ const FormSection = ({ data }) => {
       cancellationReason: cancellationReason,
       cancellationTiming: cancellationTiming
         ? cancellationTiming
-        : "Class helded",
-      canceledBy: cancelledBy ? cancelledBy : "Class helded",
+        : "Class held",
+      canceledBy: cancelledBy ? cancelledBy : "Class held",
     };
     try {
       await postIndividualClass(formData);

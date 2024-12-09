@@ -16,7 +16,7 @@ export async function teamClassesByTeacherIdAndYearMonth(idTeacher, year, month)
         classType: student.classType,
         dateTime: student.dateTime,
         duration: student.duration,
-        studentID: student.studentID,
+        teamID: student.teamID,
         comment: student.comment,
         topic: student.topic,
         classHeld: student.classHeld,

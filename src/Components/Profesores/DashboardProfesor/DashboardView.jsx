@@ -11,14 +11,16 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-import {useLocation } from "react-router-dom";
-import Calendar  from "../../../Components/Administrativo/EstudiantesPrivados/Dashboard/Calendar";
+import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
+import { useLocation } from "react-router-dom";
+import Calendar from "../../../Components/Administrativo/EstudiantesPrivados/Dashboard/Calendar";
 import { BellIcon } from "@radix-ui/react-icons";
-import Loader from "../../Loader/Loader"
-import {individualclassesByTeacherAndYearMonth} from "../../../provider/profesor/EstudianteIndividual/individualclassesByTeacherAndYearMonth"
-import {teamClassesByTeacherIdAndYearMonth} from "../../../provider/profesor/Grupos/teamClassesByTeacherIdAndYearMonth"
+import Loader from "../../Loader/Loader";
+import { individualclassesByTeacherAndYearMonth } from "../../../provider/profesor/EstudianteIndividual/individualclassesByTeacherAndYearMonth";
+import { teamClassesByTeacherIdAndYearMonth } from "../../../provider/profesor/Grupos/teamClassesByTeacherIdAndYearMonth";
+import { getStudentById } from "../../../provider/adm/EstudiantePersonalizado/getStudentById";
 const DashBoardProfesor = () => {
-  const [date, setDate] = useState([]); 
+  const [date, setDate] = useState([]);
   const [classes_grupo, setClasses_grupo] = useState([]);
   const [classes_estudiante, setClassesEstudiante] = useState([]);
   const [info, setInfo] = useState({});
@@ -33,8 +35,9 @@ const DashBoardProfesor = () => {
     });
   }, []);
   if (date.length === 0) {
-    return (<Loader />);
+    return <Loader />;
   }
+  //TODO: trear info del estudiante por id con getStudentById and team
 
   return (
     <div
@@ -66,7 +69,6 @@ const DashBoardProfesor = () => {
                 getClasses2={teamClassesByTeacherIdAndYearMonth}
                 getInforDashboard={info}
                 setInforDashboard={setInfo}
-
               />
 
               <Button
@@ -102,8 +104,7 @@ const DashBoardProfesor = () => {
               <p className="total">0</p>
             </div>
           </div>
-          <div className="informacionDetalladaEstudiante">
-          </div>
+          <div className="informacionDetalladaEstudiante"></div>
           <div className="ultimas_clases_grupo">
             <h2>
               <b>Clases de los equipos</b>
@@ -113,6 +114,7 @@ const DashBoardProfesor = () => {
                 <TableRow>
                   <TableHead>clase ID</TableHead>
                   <TableHead>teacherID</TableHead>
+                  <TableHead>Team ID</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Tipo de clase</TableHead>
                   <TableHead>Duracion</TableHead>
@@ -122,32 +124,46 @@ const DashBoardProfesor = () => {
               </TableHeader>
               <TableBody>
                 {classes_grupo.map((classData) => (
-                  <TableRow key={classData.id}>
-                    <TableCell>{classData.id}</TableCell>
-                    <TableCell>{classData.teacherID}</TableCell>
-                    <TableCell>
-                      {new Date(classData.dateTime).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>{classData.classType}</TableCell>
-                    <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.cancellationTiming}</TableCell>
-                    <TableCell>{classData.canceledBy}</TableCell>
-                    <TableCell>
-                      <div
-                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHeld ? "bg-green-500" : "bg-red-500"
-                        }`}
-                      >
-                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
-                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
-                        {/* Texto del estado */}
-                        <span>
-                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
-                          {/* Updated logic for status */}
-                        </span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  <Dialog key={classData.id}>
+                    <DialogTrigger asChild>
+                      <TableRow>
+                        <TableCell>{classData.id}</TableCell>
+                        <TableCell>{classData.teacherID}</TableCell>
+                        <TableCell>{classData.teamID}</TableCell>
+                        <TableCell>
+                          {new Date(classData.dateTime).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>{classData.classType}</TableCell>
+                        <TableCell>{classData.duration} H</TableCell>
+                        <TableCell>{classData.cancellationTiming}</TableCell>
+                        <TableCell>{classData.canceledBy}</TableCell>
+                        <TableCell>
+                          <div
+                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                              classData.classHeld
+                                ? "bg-green-500"
+                                : "bg-red-500"
+                            }`}
+                          >
+                            <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                            <span>
+                              {classData.classHeld ? "Completed" : "Cancelled"}
+                            </span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] p-4">
+                      <h3 className="text-lg font-bold">
+                        Información de la clase
+                      </h3>
+                      <p>ID de clase: {classData.id}</p>
+                      <p>Tipo de clase: {classData.classType}</p>
+                      <p>Duración: {classData.duration} H</p>
+                      <p>Cancelado por: {classData.canceledBy}</p>
+                      {/* Agrega más detalles según sea necesario */}
+                    </DialogContent>
+                  </Dialog>
                 ))}
               </TableBody>
             </Table>
@@ -159,8 +175,9 @@ const DashBoardProfesor = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                <TableHead>clase ID</TableHead>
+                  <TableHead>clase ID</TableHead>
                   <TableHead>teacherID</TableHead>
+                  <TableHead>Student ID</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Tipo de clase</TableHead>
                   <TableHead>Duracion</TableHead>
@@ -170,32 +187,49 @@ const DashBoardProfesor = () => {
               </TableHeader>
               <TableBody>
                 {classes_estudiante.map((classData) => (
-                  <TableRow key={classData.id}>
-                    <TableCell>{classData.id}</TableCell>
-                    <TableCell>{classData.teacherID}</TableCell>
-                    <TableCell>
-                      {new Date(classData.dateTime).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>{classData.classType}</TableCell>
-                    <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.cancellationTiming}</TableCell>
-                    <TableCell>{classData.canceledBy}</TableCell>
-                    <TableCell>
-                      <div
-                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHeld ? "bg-green-500" : "bg-red-500"
-                        }`}
-                      >
-                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
-                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
-                        {/* Texto del estado */}
-                        <span>
-                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
-                          {/* Updated logic for status */}
-                        </span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  <Dialog key={classData.id}>
+                    <DialogTrigger asChild>
+                      <TableRow key={classData.id}>
+                        <TableCell>{classData.id}</TableCell>
+                        <TableCell>{classData.teacherID}</TableCell>
+                        <TableCell>{classData.studentID}</TableCell>
+                        <TableCell>
+                          {new Date(classData.dateTime).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>{classData.classType}</TableCell>
+                        <TableCell>{classData.duration} H</TableCell>
+                        <TableCell>{classData.cancellationTiming}</TableCell>
+                        <TableCell>{classData.canceledBy}</TableCell>
+                        <TableCell>
+                          <div
+                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                              classData.classHeld
+                                ? "bg-green-500"
+                                : "bg-red-500"
+                            }`}
+                          >
+                            {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                            <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                            {/* Texto del estado */}
+                            <span>
+                              {classData.classHeld ? "Completed" : "Cancelled"}{" "}
+                              {/* Updated logic for status */}
+                            </span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] p-4">
+                      <h3 className="text-lg font-bold">
+                        Información de la clase
+                      </h3>
+                      <p>ID de clase: {classData.id}</p>
+                      <p>Tipo de clase: {classData.classType}</p>
+                      <p>Duración: {classData.duration} H</p>
+                      <p>Cancelado por: {classData.canceledBy}</p>
+                      {/* Agrega más detalles según sea necesario */}
+                    </DialogContent>
+                  </Dialog>
                 ))}
               </TableBody>
             </Table>

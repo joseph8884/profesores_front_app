@@ -40,19 +40,6 @@ const EstudentData = ({ studentData }) => {
           />
         </div>
 
-        {/* Country Code Field */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Country Code
-          </label>
-          <input
-            type="text"
-            value={studentData.countryCode}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Enter country code"
-          />
-        </div>
-
         {/* Phone Number Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">

@@ -199,6 +199,8 @@ const ProfesoresDashboard = () => {
               <h3>Total horas presenciales</h3>
               <p className="total">{teacherInfoClasses.hoursHeldInPerson}</p>
             </div>
+            <h3>Total a pagar por horas virtuales {teacherInfoClasses.totalVirtualValue}</h3>
+            <h3>Total a pagar por horas presenciales{teacherInfoClasses.totalInPersonValue}</h3>
           
           </div>
           <div className="informacionDetalladaEstudiante">
