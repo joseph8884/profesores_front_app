@@ -26,22 +26,20 @@ const CrearEditarEstudiante = ({ data, context }) => {
   const [ciudad, setCiudad] = useState(data.office || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-    if (selectedFile && allowedTypes.includes(selectedFile.type)) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        console.log("Preview result:", reader.result); // Verificación
-        setFile(reader.result); // Actualiza la vista previa
-        setFileError("");
-      };
-      reader.readAsDataURL(selectedFile);
-    } else {
-      setFile("");
-      setFileError("Please select a valid image file (jpg, jpeg, or png).");
-    }
-  };
+    const handleFileChange = (e) => {
+      const selectedFile = e.target.files[0];
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFile(reader.result); // Almacena la imagen como una URL de datos
+        };
+        reader.readAsDataURL(selectedFile);
+      } else {
+        setFile("");
+        setFileError("Please select a valid image file (jpg, jpeg, or png).");
+      }
+    };
 
   const validateFields = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

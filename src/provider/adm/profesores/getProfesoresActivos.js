@@ -13,6 +13,7 @@ export async function getAllProfesoresActivos() {
         const proflist = data.map((profesor) => ({
             id: profesor.id,
             fullName: profesor.fullName,
+            email: profesor.username,
             countryCode: profesor.countryCode,
             phoneNumber: profesor.phoneNumber,
             emergencyContact: profesor.emergencyContact,

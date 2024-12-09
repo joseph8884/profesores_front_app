@@ -77,7 +77,7 @@ const FormSection = ({ data }) => {
       studentID: data.id,
       comment: comments,
       topic: topics,
-      classHelded: classHeld === true ? true : false,
+      classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
       cancellationTiming: cancellationTiming
         ? cancellationTiming

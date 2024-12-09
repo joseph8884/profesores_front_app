@@ -19,7 +19,7 @@ export async function getClassesbyGroupIDDate(idGroup, year, month) {
         teamID: group.teamID,
         comment: group.comment,
         topic: group.topic,
-        classHelded: group.classHelded,
+        classHeld: group.classHeld,
         cancellationReason: group.cancellationReason,
         cancellationTiming: group.cancellationTiming,
         canceledBy: group.canceledBy,

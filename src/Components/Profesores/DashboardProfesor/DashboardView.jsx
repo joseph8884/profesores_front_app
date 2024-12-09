@@ -122,14 +122,14 @@ const DashBoardProfesor = () => {
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                          classData.classHeld ? "bg-green-500" : "bg-red-500"
                         }`}
                       >
                         {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                         <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
                         {/* Texto del estado */}
                         <span>
-                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
                           {/* Updated logic for status */}
                         </span>
                       </div>
@@ -170,14 +170,14 @@ const DashBoardProfesor = () => {
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                          classData.classHeld ? "bg-green-500" : "bg-red-500"
                         }`}
                       >
                         {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                         <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
                         {/* Texto del estado */}
                         <span>
-                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
                           {/* Updated logic for status */}
                         </span>
                       </div>

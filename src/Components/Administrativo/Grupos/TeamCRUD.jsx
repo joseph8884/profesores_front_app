@@ -1,14 +1,4 @@
 import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../ui/select";
-import {
- Input
-} from "../../ui/input";
 const TeamCRUD = ({
   teamName,
   setTeamName,
@@ -16,8 +6,6 @@ const TeamCRUD = ({
   setHoursSpented,
   photo,
   setPhoto,
-  ciudad,
-  setCiudad,
   handleFileChange,
 }) => {
   return (
@@ -83,26 +71,6 @@ const TeamCRUD = ({
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             placeholder="Enter photo URL"
           />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Ciudad a notificar
-          </label>
-          <Select
-          defaultValue={ciudad}
-          onValueChange={(value) => setCiudad(value)}
-          >
-            <SelectTrigger className="w-[100%]">
-              <SelectValue placeholder="Seleccione una cuidad" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
-              <SelectItem value="BOGOTÁ">BOGOTÁ</SelectItem>
-              <SelectItem value="CALI">CALI</SelectItem>
-              <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </form>
     </>

@@ -16,7 +16,6 @@ const CrearModGrupo = ({ initialData, context }) => {
   // Variables de estado para el equipo
   const [teamName, setTeamName] = useState(String(initialData.name)||"" );
   const [photo, setPhoto] = useState("");
-  const [ciudad, setCiudad] = useState(initialData.city || "");
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -31,7 +30,6 @@ const CrearModGrupo = ({ initialData, context }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    console.log("ciuadad seleccionada", ciudad);
     const combinedData = {
       name: teamName,
       companyID: idCompany,
@@ -101,8 +99,6 @@ const CrearModGrupo = ({ initialData, context }) => {
           hoursSpented={initialData.hoursSpented || ""}
           photo={photo}
           setPhoto={setPhoto}
-          ciudad={ciudad}
-          setCiudad={setCiudad}
           handleFileChange={handleFileChange}
         />
         <Button

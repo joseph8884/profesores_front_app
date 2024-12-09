@@ -110,7 +110,7 @@ const FormSection = ({ groupDATA }) => {
       teamID: groupDATA.id,
       comment: comments,
       topic: topics,
-      classHelded: classHeld === true ? true : false,
+      classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
       cancellationTiming: cancellationTiming
         ? cancellationTiming

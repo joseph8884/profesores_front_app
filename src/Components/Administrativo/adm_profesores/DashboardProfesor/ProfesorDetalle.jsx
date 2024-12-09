@@ -19,10 +19,12 @@ import Loader from "../../../Loader/Loader";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
 import {individualclassesByTeacherAndYearMonth} from "../../../../provider/adm/Clases/ClasesIndividuales/individualclassesByTeacherAndYearMonth"
 import {teamClassesByTeacherIdAndYearMonth} from "../../../../provider/adm/Clases/ClasesGrupales/teamClassesByTeacherIdAndYearMonth"
+import {dashboardTeacher} from "../../../../provider/adm/profesores/dashboardTeacher"
 const ProfesoresDashboard = () => {
   const [profesorData, setProfesorData] = useState(null);
   const [classes_grupo, setClasses_grupo] = useState([]);
   const [classes_estudiante, setClassesEstudiante] = useState([]);
+  const [teacherInfoClasses, setTeacherInfoClasses] = useState([]);
   const [date, setDate] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -124,6 +126,8 @@ const ProfesoresDashboard = () => {
                 getClasses={individualclassesByTeacherAndYearMonth}
                 setClasses2={setClasses_grupo}
                 getClasses2={teamClassesByTeacherIdAndYearMonth}
+                getInforDashboard={dashboardTeacher}
+                setInforDashboard={setTeacherInfoClasses}
               />
 
               <Button
@@ -146,22 +150,27 @@ const ProfesoresDashboard = () => {
             </div>
           </div>
           <div className="resumenDeActividadAcademica">
-            <div className="actividadCard">
-              <h3>Total de horas dictadas</h3>
-              <p className="total">0</p>
+          <div className="actividadCard">
+              <h3>Total de horas canceladas por el estudiante</h3>
+              <p className="total">{teacherInfoClasses.classesCanceledUser}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas virtuales</h3>
-              <p className="total">0</p>
+              <h3>Total de horas canceladas por el profeosor </h3>
+              <p className="total">{teacherInfoClasses.classesCanceledTeacher}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas presenciales</h3>
-              <p className="total">0</p>
+              <h3>Total de clases dictadas</h3>
+              <p className="total">{teacherInfoClasses.hoursHeld}</p>
             </div>
             <div className="actividadCard">
-              <h3>T. horas canceladas a tiempo profesor</h3>
-              <p className="total">0</p>
+              <h3>Total horas virtuales</h3>
+              <p className="total">{teacherInfoClasses.hoursHeldVirtual}</p>
             </div>
+            <div className="actividadCard">
+              <h3>Total horas presenciales</h3>
+              <p className="total">{teacherInfoClasses.hoursHeldInPerson}</p>
+            </div>
+          
           </div>
           <div className="informacionDetalladaEstudiante">
             <CrearEditarProfesorBankData personal_info_teacher={profesorData} />
@@ -197,14 +206,14 @@ const ProfesoresDashboard = () => {
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                          classData.classHeld ? "bg-green-500" : "bg-red-500"
                         }`}
                       >
                         {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                         <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
                         {/* Texto del estado */}
                         <span>
-                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
                           {/* Updated logic for status */}
                         </span>
                       </div>
@@ -245,14 +254,14 @@ const ProfesoresDashboard = () => {
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                          classData.classHeld ? "bg-green-500" : "bg-red-500"
                         }`}
                       >
                         {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                         <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
                         {/* Texto del estado */}
                         <span>
-                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
                           {/* Updated logic for status */}
                         </span>
                       </div>

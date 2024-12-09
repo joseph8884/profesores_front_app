@@ -6,7 +6,6 @@ import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useEffect } from "react";
-
 import { cn } from "../../../../Lib/utils";
 import { Button } from "../../../ui/button";
 import { Calendar } from "../../../ui/calendar";
@@ -18,7 +17,17 @@ import {
   FormMessage,
 } from "../../../ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../ui/popover";
-export default function CalendarForm({ setDate, date, ID, setClasses, getClasses, setClasses2, getClasses2 }) {
+export default function CalendarForm({
+  setDate,
+  date,
+  ID,
+  setClasses,
+  getClasses,
+  setClasses2,
+  getClasses2,
+  getInforDashboard,
+  setInforDashboard,
+}) {
   const FormSchema = z.object({
     dob: z.date({
       required_error: "A date of birth is required.",
@@ -29,26 +38,50 @@ export default function CalendarForm({ setDate, date, ID, setClasses, getClasses
   });
   useEffect(() => {
     const fetchClasses = async () => {
-    console.log("Fetching classes... with date and id", date, ID);
-      if (!ID) return;
-      const clases = await getClasses(ID, date.year, date.month);
-      if (clases) {
-        setClasses(clases);
-        console.log(clases); 
-      }
-      if (setClasses2 && getClasses2) {
-        const clases2 = await getClasses2(ID, date.year, date.month);
-        if (clases2) {
-          setClasses2(clases2);
-          console.log(clases2);
+      try {
+        console.log("Fetching classes... with date and id", date, ID);
+
+        if (!ID) return;
+        const clases = await getClasses(ID, date.year, date.month);
+        if (clases) {
+          setClasses(clases);
+          console.log(clases);
         }
+        if (setClasses2 && getClasses2) {
+          const clases2 = await getClasses2(ID, date.year, date.month);
+          if (clases2) {
+            setClasses2(clases2);
+            console.log(clases2);
+          }
+        }
+        const info = await getInforDashboard(ID, date.year, date.month);
+        
+        if (info) {
+          setInforDashboard(info);
+          console.log(info);
+        }
+      } catch (error) {
+        console.error("Error fetching classes:", error);
       }
     };
     fetchClasses();
-  }, [ID, date, setClasses, getClasses, setClasses2, getClasses2]);
+  }, [
+    ID,
+    date,
+    setClasses,
+    getClasses,
+    setClasses2,
+    getClasses2,
+    getInforDashboard,
+    setInforDashboard,
+  ]);
 
   // Convert the incoming date prop to a Date object
-  const initialDate = new Date(parseInt(date.year), parseInt(date.month) - 1, 1); // Restar 1 al mes
+  const initialDate = new Date(
+    parseInt(date.year),
+    parseInt(date.month) - 1,
+    1
+  ); // Restar 1 al mes
   form.setValue("dob", initialDate); // Set the initial value for the form
 
   return (
@@ -86,15 +119,15 @@ export default function CalendarForm({ setDate, date, ID, setClasses, getClasses
                       if (selectedDate) {
                         const newDate = new Date(
                           selectedDate.getFullYear(),
-                          selectedDate.getMonth(), 
+                          selectedDate.getMonth(),
                           1
                         );
-                        field.onChange(newDate); 
+                        field.onChange(newDate);
                         const dateObj = {
                           month: (newDate.getMonth() + 1).toString(),
                           year: newDate.getFullYear().toString(),
                         };
-                        setDate(dateObj); 
+                        setDate(dateObj);
                         console.log(dateObj);
                       } else {
                         console.error("No date selected");

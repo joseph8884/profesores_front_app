@@ -25,10 +25,12 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import Loader from "../../../Loader/Loader";
 import { deleteTeamClass } from "../../../../provider/adm/Clases/ClasesGrupales/deleteTeamClass";
 import ModificarClasesGrupo from "./classes/ModificarClasesGrupo";
+import { infodashboardGrupo } from "../../../../provider/adm/Clases/ClasesGrupales/infodashboardGrupo";
 const GroupDetail = () => {
   const [groupData, setGroupData] = useState(null);
   const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
+  const [inforDashboard, setInforDashboard] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const data = localStorage.getItem("groupData");
@@ -122,6 +124,8 @@ const GroupDetail = () => {
                 ID={groupData.ID}
                 setClasses={setClasses}
                 getClasses={getClassesbyGroupIDDate}
+                getInforDashboard={infodashboardGrupo}
+                setInforDashboard={setInforDashboard}
               />
 
               <Button
@@ -153,40 +157,27 @@ const GroupDetail = () => {
             </div>
           </div>
           <div className="resumenDeActividadAcademica">
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Compradas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupData.hoursPurchased}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas gastadas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupData.hoursSpented}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Canceladas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupData.horasCanceladas}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Canceladas por profesor
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupData.horasCanceladasProfesor}
-                </p>
-              </div>
+          <div className="actividadCard">
+              <h3>Total de horas canceladas por el estudiante</h3>
+              <p className="total">{inforDashboard.classesCanceledUser}</p>
             </div>
+            <div className="actividadCard">
+              <h3>Total de horas canceladas por el profeosor </h3>
+              <p className="total">{inforDashboard.classesCanceledTeacher}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de clases dictadas</h3>
+              <p className="total">{inforDashboard.hoursHeld}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total horas virtuales</h3>
+              <p className="total">{inforDashboard.hoursHeldVirtual}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total horas presenciales</h3>
+              <p className="total">{inforDashboard.hoursHeldInPerson}</p>
+            </div>
+          
           </div>
           <div className="pie">
             <PieChart />
@@ -225,14 +216,14 @@ const GroupDetail = () => {
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                          classData.classHeld ? "bg-green-500" : "bg-red-500"
                         }`}
                       >
                         {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                         <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
                         {/* Texto del estado */}
                         <span>
-                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
                           {/* Updated logic for status */}
                         </span>
                       </div>

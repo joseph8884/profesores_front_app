@@ -19,7 +19,7 @@ export async function getClassesbyStudentIDDate(idStudent, year, month) {
       studentID: student.studentID,
       comment: student.comment,
       topic: student.topic,
-      classHelded: student.classHelded,
+      classHeld: student.classHeld,
       cancellationReason: student.cancellationReason,
       cancellationTiming: student.cancellationTiming,
       canceledBy: student.canceledBy,

@@ -25,12 +25,14 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import ModificarClases from "./classes/ModificarClases";
 import {getClassesbyStudentIDDate} from "../../../../provider/adm/Clases/ClasesIndividuales/getClassesbyStudentIDDate";
 import {deleteIndividualClass} from "../../../../provider/adm/Clases/ClasesIndividuales/deleteIndividualClass";
+import {infodashboardIndividual} from "../../../../provider/adm/Clases/ClasesIndividuales/infodashboardIndividual";
 import Loader from "../../../Loader/Loader";
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
   const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [studentInfoClasses, setStudentInfoClasses] = useState([]);
   useEffect(() => {
     const data = localStorage.getItem("selected_student");
     if (data) {
@@ -40,7 +42,8 @@ const StudentDetail = () => {
       month: parseInt(new Date().getMonth().toString()) + 1,
       year: new Date().getFullYear().toString(),
     });
-  }, []);
+    
+  },[] );
 
   const exportToExcel = () => {
     if (!studentData) {
@@ -71,7 +74,7 @@ const StudentDetail = () => {
       "Estudiante ID": clase.studentID,
       Comentario: clase.comment,
       Tema: clase.topic,
-      Estado: clase.classHelded ? "Completada" : "Cancelada",
+      Estado: clase.classHeld ? "Completada" : "Cancelada",
       "Razón de Cancelación": clase.cancellationReason,
       "Momento de Cancelación": clase.cancellationTiming,
       "Cancelado por": clase.canceledBy,
@@ -92,6 +95,7 @@ const StudentDetail = () => {
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(blob, "DatosEstudianteYClases.xlsx");
   };
+
   if (!studentData) {
     return (
       <div className="flex">
@@ -128,6 +132,8 @@ const StudentDetail = () => {
                 ID={studentData.ID}
                 setClasses={setClasses}
                 getClasses={getClassesbyStudentIDDate}
+                getInforDashboard={infodashboardIndividual}
+                setInforDashboard={setStudentInfoClasses}
               />
 
               <Button
@@ -150,41 +156,27 @@ const StudentDetail = () => {
             </div>
           </div>
           <div className="resumenDeActividadAcademica">
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Compradas
-                </h3>
-                <p className="mt-2 text-3xl font-bold"></p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Restantes
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {studentData.hoursRemaining}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Horas Canceladas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {
-                    //classes.filter((clase) => clase.classHelded === false).length arreglar
-                  }
-                  fix
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3 className="text-xl font-semibold text-gray-700">
-                  Canceladas por profesor
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasCanceladasProfesor}
-                </p>
-              </div>
+          <div className="actividadCard">
+              <h3>Total de horas canceladas por el estudiante</h3>
+              <p className="total">{studentInfoClasses.classesCanceledUser}</p>
             </div>
+            <div className="actividadCard">
+              <h3>Total de horas canceladas por el profeosor </h3>
+              <p className="total">{studentInfoClasses.classesCanceledTeacher}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de clases dictadas</h3>
+              <p className="total">{studentInfoClasses.hoursHeld}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total horas virtuales</h3>
+              <p className="total">{studentInfoClasses.hoursHeldVirtual}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total horas presenciales</h3>
+              <p className="total">{studentInfoClasses.hoursHeldInPerson}</p>
+            </div>
+          
           </div>
           <div className="calendario">
             <PieChart />
@@ -224,14 +216,14 @@ const StudentDetail = () => {
                     <TableCell>
                       <div
                         className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHelded ? "bg-green-500" : "bg-red-500"
+                          classData.classHeld ? "bg-green-500" : "bg-red-500"
                         }`}
                       >
                         {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                         <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
                         {/* Texto del estado */}
                         <span>
-                          {classData.classHelded ? "Completed" : "Cancelled"}{" "}
+                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
                           {/* Updated logic for status */}
                         </span>
                       </div>

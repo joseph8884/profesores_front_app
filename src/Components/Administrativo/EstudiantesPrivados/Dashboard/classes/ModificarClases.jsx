@@ -19,7 +19,7 @@ import {
 import {putIndividualClass} from "../../../../../provider/adm/Clases/ClasesIndividuales/putIndividualClass";
 
 const ModificarClases = ({ data }) => {
-  const [classHeld, setClassHeld] = useState(data.classHelded || false);
+  const [classHeld, setClassHeld] = useState(data.classHeld || false);
   const [date, setDate] = useState(data.dateTime || "");
   const [classType, setClassType] = useState(data.classType || "Virtual");
   const [hours, setHours] = useState(data.duration || "");
@@ -85,7 +85,7 @@ const ModificarClases = ({ data }) => {
       studentID: data.studentID,
       comment: comments,
       topic: topics,
-      classHelded: classHeld === true ? true : false,
+      classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
       cancellationTiming: classHeld === false
         ? cancellationTiming
