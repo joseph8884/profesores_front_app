@@ -22,7 +22,7 @@ import { Checkbox } from "../../../ui/checkbox";
 import { getStudentsCustomByTeamID } from "../../../../provider/profesor/Grupos/getstudentTeamByTeamId";
 import { postTeamClass } from "../../../../provider/profesor/Grupos/postTeamClass";
 import { postAttendance } from "../../../../provider/profesor/Grupos/postAttendance";
-
+import {useLocation } from "react-router-dom";
 const FormSection = ({ groupDATA }) => {
   const [classHeld, setClassHeld] = useState(true);
   const [date, setDate] = useState("");
@@ -35,6 +35,9 @@ const FormSection = ({ groupDATA }) => {
   const [cancellationReason, setCancellationReason] = useState("");
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
   const [students, setStudents] = useState([]);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const teacherId = params.get("profesorId");
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -103,7 +106,7 @@ const FormSection = ({ groupDATA }) => {
     };
 
     const formData = {
-      teacherID: 2,
+      teacherID: teacherId,
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,
@@ -114,8 +117,8 @@ const FormSection = ({ groupDATA }) => {
       cancellationReason: cancellationReason,
       cancellationTiming: cancellationTiming
         ? cancellationTiming
-        : "Class helded",
-      canceledBy: cancelledBy ? cancelledBy : "Class helded",
+        : "Class held",
+      canceledBy: cancelledBy ? cancelledBy : "Class held",
       //attendance: attendedStudents.map((student) => student.fullName),
     };
     try {
@@ -305,7 +308,7 @@ const FormSection = ({ groupDATA }) => {
                     <SelectValue placeholder="Cancelled by" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Student">Student</SelectItem>
+                    <SelectItem value="Student">Team</SelectItem>
                     <SelectItem value="Teacher">Teacher</SelectItem>
                   </SelectContent>
                 </Select>

@@ -11,7 +11,7 @@ import {
 } from "../../../ui/select";
 import Loader from "../../../Loader/Loader";
 import { postIndividualClass } from "../../../../provider/profesor/EstudianteIndividual/postIndividualClass";
-
+import {useLocation } from "react-router-dom";
 const FormSection = ({ data }) => {
   const [classHeld, setClassHeld] = useState(true);
   const [date, setDate] = useState("");
@@ -23,6 +23,9 @@ const FormSection = ({ data }) => {
   const [cancelledBy, setCancelledBy] = useState("");
   const [cancellationReason, setCancellationReason] = useState("");
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const teacherId = params.get("profesorId");
 
   // Handle input changes
   const handleChange = (e) => {
@@ -44,21 +47,7 @@ const FormSection = ({ data }) => {
         break;
     }
   };
-  const getIDfromtoken = ()=>{
-    const token_from_sessionStorage = sessionStorage.getItem('token');
-    if (!token_from_sessionStorage) return {};
-    const base64Url = token_from_sessionStorage.split(".")[1];
-    const base64 = decodeURIComponent(
-      atob(base64Url)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-    const data = JSON.parse(base64);
-    return parseInt(data.id);
-  }
+
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -70,7 +59,7 @@ const FormSection = ({ data }) => {
     };
 
     var formData = {
-      teacherID: 2,//getIDfromtoken(),
+      teacherID: teacherId,
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,

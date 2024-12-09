@@ -16,13 +16,15 @@ import { Input } from "../../ui/input";
 import Loader from "../../Loader/Loader";
 import { BellIcon } from "@radix-ui/react-icons";
 import { getAllTeams } from "../../../provider/profesor/Grupos/getAllGrupos";
-
+import {useLocation } from "react-router-dom";
 const GruposEmpresasProfesor = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
-
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const teacherId = params.get("profesorId");
   const itemsPerPage = 10; // Ajusta este valor según sea necesario
   const navigate = useNavigate();
 
@@ -44,7 +46,7 @@ const GruposEmpresasProfesor = () => {
     // Store data in local storage
     localStorage.setItem("groupData_profesor", JSON.stringify(row));
     // Navigate to the detail page
-    navigate("/profesor/registrarhoras/grupos/grupo");
+    navigate(`/profesor/registrarhoras/grupos/grupo?&profesorId=${teacherId}`);
   };
 
   // Función para cambiar de página

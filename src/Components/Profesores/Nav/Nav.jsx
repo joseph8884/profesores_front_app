@@ -6,7 +6,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../ui/accordion";
-const Nav = () => {
+
+const Nav = ({profesorId}) => {
+
+
   return (
     <nav className="flex flex-col">
       <a href="/profesor/home">
@@ -20,12 +23,12 @@ const Nav = () => {
             Registrar Horas
           </AccordionTrigger>
           <AccordionContent>
-            <a href="/profesor/registrarhoras/estudianteindividual">
+            <a href={`/profesor/registrarhoras/estudianteindividual?&profesorId=${profesorId}`}>
               <Button variant="ghost">
                 <li>Estudiantes individuales</li>
               </Button>
             </a>
-            <a href="/profesor/registrarhoras/grupos">
+            <a href={`/profesor/registrarhoras/grupos?&profesorId=${profesorId}`}>
             <Button variant="ghost">
               <li>Grupos empresas</li>
             </Button>
@@ -37,7 +40,7 @@ const Nav = () => {
             Dashboard
           </AccordionTrigger>
           <AccordionContent>
-            <a href="/profesor/dashboard">
+            <a href={`/profesor/dashboard?&profesorId=${profesorId}`}>
             <Button variant="ghost">
               <li>Ver Dashboard</li>
             </Button>

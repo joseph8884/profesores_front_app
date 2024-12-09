@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
+import {useLocation } from "react-router-dom";
 import Calendar from "./Calendar";
 import { BellIcon, DownloadIcon } from "@radix-ui/react-icons";
 import Loader from "../../Loader/Loader"
@@ -18,6 +19,10 @@ const DashBoardProfesor = () => {
   const [date, setDate] = useState([]); 
   const [classes_grupo, setClasses_grupo] = useState([]);
   const [classes_estudiante, setClassesEstudiante] = useState([]);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const teacherId = params.get("profesorId");
+
   useEffect(() => {
     setDate({
       month: parseInt(new Date().getMonth().toString()) + 1,
@@ -39,7 +44,7 @@ const DashBoardProfesor = () => {
         <div className="dashboardcontainergroup">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Profesor ____ nombre ___ con id ---
+              Profesor ____ nombre ___ con id {teacherId}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>
@@ -51,7 +56,7 @@ const DashBoardProfesor = () => {
               <Calendar
                 setDate={(date) => setDate(date)}
                 date={date}
-                ID={2}
+                ID={teacherId}
                 setClasses={setClassesEstudiante}
                 setClasses2={setClassesEstudiante}
               />

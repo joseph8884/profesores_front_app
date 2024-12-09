@@ -5,12 +5,15 @@ import { Input } from "../../ui/input";
 import { BellIcon } from "@radix-ui/react-icons";
 import { getStudentsCustom } from "../../../provider/profesor/EstudianteIndividual/getStudents";
 import Loader from "../../Loader/Loader";
-
+import {useLocation } from "react-router-dom";
 
 export function DataTableDemo() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const teacherId = params.get("profesorId");
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -96,7 +99,7 @@ export function DataTableDemo() {
         </Button>
       </div>
 
-      <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"/profesor/registrarhoras/estudianteindividual/estudiante"} localstorage_name={"selected_student_profesor"} />
+      <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={`/profesor/registrarhoras/estudianteindividual/estudiante?&profesorId=${teacherId}`} localstorage_name={"selected_student_profesor"} />
 
     </div>
   );
