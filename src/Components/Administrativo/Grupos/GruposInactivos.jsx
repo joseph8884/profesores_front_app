@@ -20,19 +20,11 @@ import {
 } from "../../ui/select";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "../../ui/sheet";
-import ManageTeamCompany from "./CrearModGrupo";
 import Loader from "../../Loader/Loader";
 import { BellIcon } from "@radix-ui/react-icons";
 import { getAllTeams } from "../../../provider/adm/Grupos/getAllTeams";
 
-const GruposEmpresas = () => {
+const GruposEmpresasInactivos = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [ciudadFilter, setCiudadFilter] = useState("");
@@ -44,7 +36,7 @@ const GruposEmpresas = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const data_fromAPI = await getAllTeams(true);
+        const data_fromAPI = await getAllTeams(false);
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -209,7 +201,7 @@ const GruposEmpresas = () => {
 
       <div className="flex-1 p-6" style={{ overflowY: "scroll" }}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
-          <h2 className="text-xl font-bold text-gray-900">Lista de grupos</h2>
+          <h2 className="text-xl font-bold text-gray-900">Lista de grupos inactivos</h2>
           <BellIcon className="h-6 w-6" />
         </div>
         <div className="flex items-center py-4 justify-between">
@@ -243,23 +235,7 @@ const GruposEmpresas = () => {
           >
             Clear filters
           </Button>
-          <Sheet>
-            <SheetTrigger asChild>
-              {/* Este botón será visible solo en pantallas pequeñas */}
-              <Button>Crear nuevo grupo +</Button>
-            </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-full md:w-1/3 bg-gray-100 text-black min-h-screen p-6 overflow-y-auto"
-            >
-              <SheetHeader>
-                <SheetTitle className="text-xl font-bold mb-4">
-                  Create or Modify Group
-                </SheetTitle>
-              </SheetHeader>
-              <ManageTeamCompany initialData={{}} context={"create"} />
-            </SheetContent>
-          </Sheet>
+          
         </div>
 
         {/* Sección de Cartas */}
@@ -303,4 +279,4 @@ const GruposEmpresas = () => {
   );
 };
 
-export default GruposEmpresas;
+export default GruposEmpresasInactivos;

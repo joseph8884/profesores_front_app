@@ -9,6 +9,7 @@ import HomeAdministrativo from '../Components/Administrativo/Home/Home.jsx';
 import EstudiantesPrivados from '../Components/Administrativo/EstudiantesPrivados/EstudiantesPrivados.jsx';
 import EstudiantesPrivadosInactivos from '../Components/Administrativo/EstudiantesPrivados/EstudiantesPrivadosInactivos.jsx';
 import GruposEmpresas from '../Components/Administrativo/Grupos/Grupos.jsx';
+import GruposEmpresasInactivos from "../Components/Administrativo/Grupos/GruposInactivos.jsx";
 import StudentDetail from '../Components/Administrativo/EstudiantesPrivados/Dashboard/EstudianteDetalle.jsx';
 import StudentsGroupCRUD from '../Components/Administrativo/Grupos/Dashboard/AllStudents.jsx';
 import GroupDetail from '../Components/Administrativo/Grupos/Dashboard/GrupoDetalle.jsx';
@@ -71,6 +72,11 @@ const Routes = () => {
           {
             path: "/admin/gruposvista/grupos",
             element: <GruposEmpresas />,
+            errorElement: <ErrorBoundary />
+          },
+          {
+            path: "/admin/gruposvista/gruposinactivos",
+            element: <GruposEmpresasInactivos />,
             errorElement: <ErrorBoundary />
           },
           {

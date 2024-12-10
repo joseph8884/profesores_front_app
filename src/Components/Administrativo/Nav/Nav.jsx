@@ -41,7 +41,7 @@ const Nav = () => {
               <Button variant="ghost">
                 <li>Activos</li>
               </Button>
-              <a href="#">
+              <a href="/admin/gruposvista/gruposinactivos">
                 <Button variant="ghost">
                   <li>Inactivos</li>
                 </Button>

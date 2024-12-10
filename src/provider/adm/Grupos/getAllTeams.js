@@ -1,6 +1,6 @@
-export async function getAllTeams() {
+export async function getAllTeams(status) {
     try{
-        const url = 'https://profesoresbackend.onrender.com/admin/equipo/teams';
+        const url = `https://profesoresbackend.onrender.com/admin/equipo/teams/${status}`; 
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',
