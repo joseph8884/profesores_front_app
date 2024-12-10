@@ -1,5 +1,5 @@
 
-.dashboard-studiantesadm{
+.dashboardstudiantesadmvista{
     display:grid;
     grid-template-areas: 
     "tituloynotificaciones"
@@ -9,21 +9,21 @@
     "grafica"
     "personal_information"
     "last_classes";
-    overflow-x: hidden; /* Asegura que la barra de scroll siempre sea visible */
+    overflow-x: auto; /* Asegura que la barra de scroll siempre sea visible */
  /* Asegúrate de que el contenedor tenga un ancho máximo definido */
     background-color: #D1D9E2;
     padding: 10px;
     width: 100%;
-    & div.dashboardcontainer{
+    & div.dashboardcontainerstudentviewadmin{
         display: grid;
         width: 100%;
         margin-bottom: 50px;
         grid-template:
         "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10% 
         "actions actions actions" auto
-        "actividad_academica actividad_academica personal_information" auto
-        "grafica calendario personal_information" auto
-        "last_classes last_classes personal_information" auto/
+        "personal_information actividad_academica actividad_academica" auto
+        "personal_information grafica calendario" auto
+        "personal_information last_classes last_classes" auto/
          auto auto 35%; 
         gap: 10px;
         & div.tituloynotificaciones{
@@ -62,7 +62,7 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            padding: 10px;
+            padding: 5px;
             flex-wrap: wrap;
         }
         & div.actividadCard {
@@ -106,7 +106,7 @@
             justify-content: center;
         }
         & div.informacionDetalladaEstudiante{
-            padding: 50px;
+            padding: 20px;
             background-color: white;
             border-radius: 10px;
             grid-area: personal_information;
@@ -121,21 +121,19 @@
 }
 
 
-@media screen and (max-width: 600px) {
-    .dashboard {
-        overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-        overflow-x: auto; /* Agregar scroll lateral */
-        & div.dashboardcontainer{
-            height: auto;
+@media screen and (max-width: 1298px) {
+    .dashboardstudiantesadmvista{
+        & div.dashboardcontainerstudentviewadmin{
+            display: grid;
+            width: 100%;
             grid-template:
-            "tituloynotificaciones"auto
-            "actions" 40px
-            "actividad_academica" 15%
-            "grafica" auto
-            "calendario" auto
-            "last_classes" auto
-            "personal_information" auto/
-            100%; 
+            "tituloynotificaciones tituloynotificaciones"10% 
+            "actions actions" auto
+            "actividad_academica actividad_academica" auto
+            "grafica calendario" auto
+            "last_classes last_classes" auto
+            "personal_information personal_information" auto/
+             auto auto;
         }
     }
 

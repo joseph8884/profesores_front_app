@@ -26,20 +26,20 @@ const CrearEditarEstudiante = ({ data, context }) => {
   const [ciudad, setCiudad] = useState(data.office || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
 
-    const handleFileChange = (e) => {
-      const selectedFile = e.target.files[0];
-      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-      if (selectedFile && allowedTypes.includes(selectedFile.type)) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setFile(reader.result); // Almacena la imagen como una URL de datos
-        };
-        reader.readAsDataURL(selectedFile);
-      } else {
-        setFile("");
-        setFileError("Please select a valid image file (jpg, jpeg, or png).");
-      }
-    };
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFile(reader.result); // Almacena la imagen como una URL de datos
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setFile("");
+      setFileError("Please select a valid image file (jpg, jpeg, or png).");
+    }
+  };
 
   const validateFields = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -178,20 +178,6 @@ const CrearEditarEstudiante = ({ data, context }) => {
             placeholder="Enter phone number"
           />
         </div>
-
-        {/* Hours Spent Field */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Horas Restantes
-          </label>
-          <input
-            type="number"
-            value={hoursRemaining} // Changed from horasRestantes
-            onChange={(e) => sethoursRemaining(parseInt(e.target.value))} // Changed from setHorasRestantes
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            readOnly
-          />
-        </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Ciudad a notificar
@@ -213,14 +199,29 @@ const CrearEditarEstudiante = ({ data, context }) => {
         </div>
         {context !== "create" && (
           <div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="ghost">Añadir horas a estudiante +</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <AddHours idStudent={data.ID} />
-              </DialogContent>
-            </Dialog>
+            {/* Hours Spent Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Horas Restantes
+              </label>
+              <input
+                type="number"
+                value={hoursRemaining} // Changed from horasRestantes
+                onChange={(e) => sethoursRemaining(parseInt(e.target.value))} // Changed from setHorasRestantes
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                readOnly
+              />
+            </div>
+            <div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="ghost">Añadir horas a estudiante +</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <AddHours idStudent={data.ID} />
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
         )}
         {/* Save Button */}
