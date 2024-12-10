@@ -20,13 +20,13 @@ const Form = () => {
   }
 
   return (
-    <div className="flex" style={{ overflowY: 'hidden', height: '100vh', }}>
+    <div className="flex" style={{ overflowY: 'hidden', height: '100vh', width:'100vw'}}>
       <NavMobile />
       <NavWeb />
       <div className="dashboard-student">
         <div className="dashboardcontainerform">
           <div className="tituloynotificaciones">
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="font-bold ">
               Registrar Horas {studentData.fullName} y con id {studentData.id}
             </h2>
             <div>
@@ -35,42 +35,6 @@ const Form = () => {
               <Button>Back</Button>
             </a>
             
-            </div>
-          </div>
-          <div className="resumenDeActividadAcademica">
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Horas Compradas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasPlaneadas}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Horas Restantes
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasRestantes}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Horas Canceladas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasCanceladas}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Canceladas por profesor
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {studentData.horasCanceladasProfesor}
-                </p>
-              </div>
             </div>
           </div>
           < FormSection data={studentData}/>

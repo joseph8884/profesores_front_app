@@ -9,14 +9,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../ui/select";
+import { Toaster, toast } from "sonner";
 import Loader from "../../../Loader/Loader";
 import { postIndividualClass } from "../../../../provider/profesor/EstudianteIndividual/postIndividualClass";
-import {useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const FormSection = ({ data }) => {
   const [classHeld, setClassHeld] = useState(true);
   const [date, setDate] = useState("");
   const [classType, setClassType] = useState("Virtual");
-  const [hours, setHours] = useState(2);
+  const [hours, setHours] = useState();
   const [comments, setComments] = useState("");
   const [topics, setTopics] = useState("");
   const [cancellationTiming, setCancellationTiming] = useState("");
@@ -48,39 +49,56 @@ const FormSection = ({ data }) => {
     }
   };
 
-
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
-    const formatDate = (date) => {
-      const isoString = date.toISOString();
-      const formattedDate = isoString.replace("Z", "000000Z");
-      return formattedDate;
-    };
-
-    var formData = {
-      teacherID: teacherId,
-      classType,
-      dateTime: formatDate(new Date(date)),
-      duration: hours,
-      studentID: data.id,
-      comment: comments,
-      topic: topics,
-      classHeld: classHeld === true ? true : false,
-      cancellationReason: cancellationReason,
-      cancellationTiming: cancellationTiming
-        ? cancellationTiming
-        : "Class held",
-      canceledBy: cancelledBy ? cancelledBy : "Class held",
-    };
+    if (
+      !date ||
+      !comments ||
+      !topics ||
+      !classType ||
+      !hours ||
+      !data.id ||
+      !classHeld
+    ) {
+      toast.error("Por favor, completa todos los campos requeridos.");
+      return;
+    }
+    setLoading(true);
     try {
+      const formatDate = (date) => {
+        const isoString = date.toISOString();
+        const formattedDate = isoString.replace("Z", "000000Z");
+        return formattedDate;
+      };
+      if (data.hoursRemaining <= 0 || data.hoursRemaining == null) {
+        toast.error("El estudiante no tiene horas disponibles.");
+        setLoading(false);
+        return;
+      }
+      var formData = {
+        teacherID: teacherId,
+        classType,
+        dateTime: formatDate(new Date(date)),
+        duration: hours,
+        studentID: data.id,
+        comment: comments,
+        topic: topics,
+        classHeld: classHeld === true ? true : false,
+        cancellationReason: cancellationReason,
+        cancellationTiming:
+          classHeld === false ? cancellationTiming : "Class held",
+        canceledBy: classHeld === false ? cancelledBy : "Class held",
+      };
       await postIndividualClass(formData);
+      toast.success("Class has been created");
     } catch (error) {
-      console.log("Error creating team class:", error);
+      setLoading(false);
+      toast.error("Something went wrong, please try again.");
+      console.log("Error creating student class:", error);
     } finally {
       setLoading(false);
     }
-    console.log("Submitted Form Data:", JSON.stringify(formData, null, 2));
+    console.log("Form data:", formData);
   };
 
   return (
@@ -140,22 +158,25 @@ const FormSection = ({ data }) => {
           </div>
 
           <div className="flex flex-col">
-          <label className="mb-2 font-semibold">
-            Duration (hours):
-            <Select onValueChange={(value)=>{
-              setHours(parseFloat(value));
-              }} value={hours}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Duration" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={0.5}>30 minutes</SelectItem>
-                <SelectItem value={1}>1 hour</SelectItem>
-                <SelectItem value={2}>2 hours</SelectItem>
-                <SelectItem value={3}>3 hours</SelectItem>
-              </SelectContent>
-            </Select>
-          </label>
+            <label className="mb-2 font-semibold">
+              Duration (hours):
+              <Select
+                onValueChange={(value) => {
+                  setHours(parseFloat(value));
+                }}
+                value={hours}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Duration" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={0.5}>30 minutes</SelectItem>
+                  <SelectItem value={1}>1 hour</SelectItem>
+                  <SelectItem value={2}>2 hours</SelectItem>
+                  <SelectItem value={3}>3 hours</SelectItem>
+                </SelectContent>
+              </Select>
+            </label>
           </div>
         </div>
 
@@ -237,6 +258,7 @@ const FormSection = ({ data }) => {
           <Button type="submit">Submit</Button>
         </div>
       </form>
+      <Toaster />
     </div>
   );
 };

@@ -14,13 +14,18 @@ export async function getStudentsCustom() {
             id: student.id,
             fullName: student.fullName,
             email: student.email,
-            countryCode: student.countryCode,
             phoneNumber: student.phoneNumber,
             photo: student.photo,
-            hoursPurchased: student.hoursPurchased,
-            hoursSpented: student.hoursSpented,
-            lastLog: student.lastLog,
-            status: student.status
+            hoursRemaining: student.hoursRemaining,
+            office: student.office,
+            status: student.status,
+            latestPurchasedHour: student.latestPurchasedHour ? {
+                id: student.latestPurchasedHour.id,
+                studentID: student.latestPurchasedHour.studentID,
+                adminID: student.latestPurchasedHour.adminID,
+                hours: student.latestPurchasedHour.hours,
+                date: student.latestPurchasedHour.date
+            } : null
         }));
         console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;

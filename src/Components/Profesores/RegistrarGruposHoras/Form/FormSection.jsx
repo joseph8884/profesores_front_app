@@ -115,10 +115,10 @@ const FormSection = ({ groupDATA }) => {
       topic: topics,
       classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
-      cancellationTiming: cancellationTiming
-        ? cancellationTiming
-        : "Class held",
-      canceledBy: cancelledBy ? cancelledBy : "Class held",
+      cancellationTiming: classHeld === false
+      ? cancellationTiming
+      : "Class helded",
+    canceledBy: classHeld === false ? cancelledBy : "Class helded",
       //attendance: attendedStudents.map((student) => student.fullName),
     };
     try {

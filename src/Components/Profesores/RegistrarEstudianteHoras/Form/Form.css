@@ -1,28 +1,24 @@
-
-.dashboard-student{
-    display:grid;
+.dashboard-student {
+    display: grid;
     width: 100vw;
-    grid-template-areas: 
-    "tituloynotificaciones"
-    "actividad_academica"
-    "form"
-    "personal_information";
-    overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-    max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
-    overflow-x: auto; /* Agregar scroll lateral */
+    grid-template-areas:
+        "tituloynotificaciones"
+        "form"
+        "personal_information";
+    overflow-x: hidden;
     background-color: #D1D9E2;
     padding: 10px;
 
-    & div.dashboardcontainerform{
+    & div.dashboardcontainerform {
+        width: 100%;
         display: grid;
         margin-bottom: 50px;
         grid-template:
-        "tituloynotificaciones tituloynotificaciones"10% 
-        "actividad_academica personal_information" auto
-        "form personal_information" auto/
-        auto auto; 
+            "tituloynotificaciones tituloynotificaciones" 10% "form personal_information" auto/
+            auto 40%;
         gap: 10px;
-        & div.tituloynotificaciones{
+
+        & div.tituloynotificaciones {
             background-color: white;
             grid-area: tituloynotificaciones;
             border-radius: 10px;
@@ -31,106 +27,149 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            & div{
+            font-size: calc(75% + 1vw);
+
+            & div {
                 display: flex;
                 float: right;
                 gap: 50px;
                 align-items: center;
             }
         }
-        & div.resumenDeActividadAcademica{
-            border-radius: 10px;
-            background-color: white;
-            grid-area: actividad_academica;
-            & h3 {
-                font-size: clamp(1rem, 2vw, 1.5rem);
-            }
-        }
-        & div.form{
+
+        & div.form {
             border-radius: 10px;
             background-color: white;
             grid-area: form;
             padding: 20px 50px 20px 50px;
             display: grid;
-            grid-template-areas: 
-            "hours"
-            "reson"
-            "cancelation"
-            "button";
-            & form{
+            grid-template-areas:
+                "hours"
+                "reson"
+                "cancelation"
+                "button";
+
+            & form {
                 display: grid;
-                grid-template: 
-                "hours reson" auto
-                "cancelation cancelation" auto 
-                "button button" auto/
-                50% 50%;
+                grid-template:
+                    "hours reson" auto
+                    "cancelation cancelation" auto "button button" auto/
+                    50% 50%;
                 gap: 20px;
-                & div.hours{
+
+                & div.hours {
                     grid-area: hours;
                     float: left;
                     gap: 20px;
                     align-items: center;
                 }
-                & div.reson{
+
+                & div.reson {
                     grid-area: reson;
                     float: left;
                     gap: 20px;
                     align-items: center;
                 }
-                & div.cancelation{
+
+                & div.cancelation {
                     grid-area: cancelation;
                     float: left;
                     gap: 20px;
                     align-items: center;
                 }
-                div.button{
+
+                div.button {
                     grid-area: button;
-                    & Button{
+
+                    & Button {
                         width: 100%;
                     }
                 }
             }
         }
-        
-        & div.informacionDetalladaEstudiante{
+
+        & div.informacionDetalladaEstudiante {
             padding: 50px;
             background-color: white;
             border-radius: 10px;
             grid-area: personal_information;
         }
-        & div.ultimasclasesvistas{
-            background-color: white;
-            border-radius: 10px;
-            grid-area: last_classes;
-        }
     }
 }
 
-@media screen and (max-width: 1050px) {
-.dashboard-student div.dashboardcontainerform div.form form{
-    display: grid;
-    grid-template: 
-    "hours" auto
-    "reson" auto
-    "cancelation" auto 
-    "button" auto/
-    auto;
-}
+@media screen and (max-width: 1144px) {
+    .dashboard-student div.dashboardcontainerform div.form form {
+        display: grid;
+        grid-template:
+            "hours" auto
+            "reson" auto
+            "cancelation" auto "button" auto/
+            auto;
+    }
 }
 
 @media screen and (max-width: 900px) {
     .dashboard-student {
-        overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-        overflow-x: auto; /* Agregar scroll lateral */
-        & div.dashboardcontainerform{
+        overflow-x: auto;
+
+        & div.dashboardcontainerform {
             display: grid;
             margin-bottom: 50px;
             grid-template:
-            "tituloynotificaciones"10% 
-            "actividad_academica" auto
-            "form" auto
-            "personal_information" auto/
-            auto; 
+                "tituloynotificaciones" 10% "form" auto
+                "personal_information" auto/
+                auto;
+
+            & div.tituloynotificaciones {
+                justify-content: center;
+                align-items: flex-start;
+                padding: 10px;
+                flex-direction: column;
+            }
+
+            & div.form {
+                padding: 5px 5px 5px 5%;
+
+                & form {
+                    gap: 20px;
+
+                    & div.hours {
+                        grid-area: hours;
+                        float: left;
+                        gap: 20px;
+                        align-items: center;
+                    }
+
+                    & div.reson {
+                        grid-area: reson;
+                        float: left;
+                        gap: 20px;
+                        align-items: center;
+                    }
+
+                    & div.cancelation {
+                        grid-area: cancelation;
+                        float: left;
+                        gap: 20px;
+                        align-items: center;
+                    }
+
+                    div.button {
+                        grid-area: button;
+
+                        & Button {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
+            & div.informacionDetalladaEstudiante {
+                padding: 10px;
+                background-color: white;
+                border-radius: 10px;
+                grid-area: personal_information;
+            }
         }
     }
 

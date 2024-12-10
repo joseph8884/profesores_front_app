@@ -1,3 +1,4 @@
+import PhoneInput from "react-phone-input-2";
 const EstudentData = ({ studentData }) => {
   return (
     <>
@@ -43,11 +44,11 @@ const EstudentData = ({ studentData }) => {
         {/* Phone Number Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Phone Number
+            Numero de telefono
           </label>
-          <input
-            type="text"
-            value={studentData.phoneNumber }
+          <PhoneInput
+            country={"co"} // Default country
+            value={studentData.phoneNumber}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter phone number"
           />
@@ -56,35 +57,35 @@ const EstudentData = ({ studentData }) => {
         {/* Hours Purchased Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Hours Purchased
+            Hours purchased
           </label>
           <input
-            type="number"
-            value={studentData.hoursPurchased} // Changed from horasPlaneadas
+            type="numeber"
+            value={studentData.latestPurchasedHour.hours} // Changed from horasPlaneadas
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            readOnly
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Hours remaining
+          </label>
+          <input
+            type="numeber"
+            value={studentData.hoursRemaining} // Changed from horasPlaneadas
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            readOnly
           />
         </div>
 
         {/* Hours Spent Field */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Hours Spent
-          </label>
-          <input
-            type="number"
-            value={studentData.hoursSpented} // Changed from horasRestantes
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          />
-        </div>
-
-        {/* Last Log Field */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Last Log
+            Office 
           </label>
           <input
             type="text"
-            value={studentData.lastLog ? new Date(studentData.lastLog).toLocaleString() : "N/A"} // Changed from lastRegister
+            value={studentData.office} // Changed from horasRestantes
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
