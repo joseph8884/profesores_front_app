@@ -37,7 +37,7 @@ const NavWeb = ()=>{
             alt="Logo"
             className="h-12 mb-6 justify-center"
           />
-          <Nav profesorId={profesorData.id}/>
+          <Nav profesorId={profesorData.id} nombre={profesorData.fullName}/>
         </div>
         <div className="mt-auto p-4">
           <div className="flex items-center gap-2">

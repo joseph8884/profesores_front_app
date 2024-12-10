@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "../../ui/accordion";
 
-const Nav = ({profesorId}) => {
+const Nav = ({profesorId, nombre}) => {
 
 
   return (
@@ -40,7 +40,7 @@ const Nav = ({profesorId}) => {
             Dashboard
           </AccordionTrigger>
           <AccordionContent>
-            <a href={`/profesor/dashboard?&profesorId=${profesorId}`}>
+            <a href={`/profesor/dashboard?&profesorId=${profesorId}&nombre=${nombre}`}>
             <Button variant="ghost">
               <li>Ver Dashboard</li>
             </Button>

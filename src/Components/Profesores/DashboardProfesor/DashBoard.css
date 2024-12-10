@@ -1,30 +1,28 @@
-
-.dashboard{
+.dashboardprofesorview{
     display:grid;
-    width: 100vw;
     grid-template-areas: 
     "tituloynotificaciones"
     "actions"
     "actividad_academica"
-    "calendario"
-    "grafica"
-    "personal_information"
-    "last_classes";
-    overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-    max-width: 100%; /* Asegúrate de que el contenedor tenga un ancho máximo definido */
+    "totales"
+    "ultimas_clases_grupo"
+    "ultimas_clases_estudiante";
+
+    overflow-x: hidden; /* Asegura que la barra de scroll siempre sea visible */
     overflow-x: auto; /* Agregar scroll lateral */
     background-color: #D1D9E2;
     padding: 10px;
+    width: 100%;
 
-    & div.dashboardcontainer{
+    & div.dashboardcontainergroup{
         display: grid;
         margin-bottom: 50px;
         grid-template:
-        "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10% 
+        "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10%
         "actions actions actions" auto
-        "actividad_academica actividad_academica personal_information" 15%
-        "grafica calendario personal_information" auto
-        "last_classes last_classes personal_information" auto/
+        "actividad_academica actividad_academica totales" auto
+        "ultimas_clases_grupo ultimas_clases_grupo totales" auto
+        "ultimas_clases_estudiante ultimas_clases_estudiante totales"/
          35% 35% auto; 
         gap: 10px;
         & div.tituloynotificaciones{
@@ -60,54 +58,96 @@
             border-radius: 10px;
             background-color: white;
             grid-area: actividad_academica;
-        }
-        & div.calendario{
-            border-radius: 10px;
-            background-color: white;
-            grid-area: calendario;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px;
+            flex-wrap: wrap;
         }
-        & div.grafica{
-            border-radius: 10px;
-            background-color: white;
-            grid-area: grafica;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        & div.actividadCard {
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 1;
+            min-width: 50px;
+            max-width: 150px;
         }
-        & div.informacionDetalladaEstudiante{
+        & div.actividadCard h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            min-width: 50px;
+            height: 60%;
+            color: #333;
+        }
+        & div.actividadCard p.total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        & div.totales{
             padding: 50px;
             background-color: white;
             border-radius: 10px;
-            grid-area: personal_information;
+            grid-area: totales;
         }
-        & div.ultimasclasesvistas{
+        & div.ultimas_clases_grupo{
             background-color: white;
             border-radius: 10px;
-            grid-area: last_classes;
+            grid-area: ultimas_clases_grupo;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        & div.ultimas_clases_estudiante{
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            grid-area: ultimas_clases_estudiante;
+            overflow-x: auto;
         }
     }
 }
 
 
+@media screen and (max-width: 1144px) {
+    .dashboardprofesorview div.dashboardcontainergroup {
+        grid-template:
+        "tituloynotificaciones  "10%
+        "actions" auto
+        "actividad_academica" auto
+        "ultimas_clases_grupo" auto
+        "ultimas_clases_estudiante"
+        "totales"/
+         auto; 
+    }
+}
+
 @media screen and (max-width: 600px) {
-    .dashboard {
-        overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
-        overflow-x: auto; /* Agregar scroll lateral */
-        & div.dashboardcontainer{
-            height: auto;
-            grid-template:
-            "tituloynotificaciones"auto
-            "actions" 40px
-            "actividad_academica" 15%
-            "grafica" auto
-            "calendario" auto
-            "last_classes" auto
-            "personal_information" auto/
-            100%; 
+    .dashboardprofesorview div.dashboardcontainergroup {
+         & div.resumenDeActividadAcademica {
+            flex-direction: column;
+            & div.actividadCard {
+                max-width: 100%;
+                display: flex;
+                justify-content: space-between;
+                & h3{
+                    border-bottom: 0px; 
+                }
+            }
+         }
+         & div.totales{
+            padding: 10px;
+        }
+        & div.filtrosandbackbtn {
+            flex-direction: column;
+            align-items: flex-start;
+            & div.actions{
+                flex-direction: column;
+                padding:0;
+                align-items: flex-start;
+            }
         }
     }
-
 }

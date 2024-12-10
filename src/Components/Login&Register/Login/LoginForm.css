@@ -1,5 +1,6 @@
 .login {
   font-family: 'Arial', sans-serif;
+  height: 100vh;
   background: linear-gradient(180deg, #1C4E89 0%, #0D98D5 100%);
   margin: 0;
   display: grid;
@@ -8,9 +9,9 @@
     "logincard";
 
   & div.login-container {
-    height: 100vh;
-    padding: 5%;
+    padding: 5% 5% 5% 5%;
     display: grid;
+    max-height: 100vh;
     grid-template:
       "logo logincard" auto/
       60% 40%;
@@ -46,6 +47,7 @@
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.10) 100%);
   box-shadow: 10px 10px 24px -1px rgba(0, 0, 0, 0.20);
   backdrop-filter: blur(20px);
+  justify-content: center;
 
   & h2 {
     color: #fff;

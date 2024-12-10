@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
-import { Button } from "../../ui/button";
-import "./DashBoard.css";
+import { Button } from "../../ui/button"; 
+import "./DashBoard.css"
 import {
   Table,
   TableBody,
@@ -16,9 +16,10 @@ import { useLocation } from "react-router-dom";
 import Calendar from "../../../Components/Administrativo/EstudiantesPrivados/Dashboard/Calendar";
 import { BellIcon } from "@radix-ui/react-icons";
 import Loader from "../../Loader/Loader";
+import ClickOnClassEstudentDetail from "./ClickOnClassEstudentDetail";
 import { individualclassesByTeacherAndYearMonth } from "../../../provider/profesor/EstudianteIndividual/individualclassesByTeacherAndYearMonth";
 import { teamClassesByTeacherIdAndYearMonth } from "../../../provider/profesor/Grupos/teamClassesByTeacherIdAndYearMonth";
-import { getStudentById } from "../../../provider/adm/EstudiantePersonalizado/getStudentById";
+import {infoDashboardTeacher} from "../../../provider/profesor/infoDashboardTeacher";
 const DashBoardProfesor = () => {
   const [date, setDate] = useState([]);
   const [classes_grupo, setClasses_grupo] = useState([]);
@@ -27,17 +28,16 @@ const DashBoardProfesor = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const teacherId = params.get("profesorId");
-
+  const nombre = params.get("nombre"); 
   useEffect(() => {
     setDate({
       month: parseInt(new Date().getMonth().toString()) + 1,
       year: new Date().getFullYear().toString(),
     });
   }, []);
-  if (date.length === 0) {
+  if (date.length === 0) { 
     return <Loader />;
   }
-  //TODO: trear info del estudiante por id con getStudentById and team
 
   return (
     <div
@@ -46,11 +46,11 @@ const DashBoardProfesor = () => {
     >
       <NavMobile />
       <NavWeb />
-      <div className="dashboardprofesor">
+      <div className="dashboardprofesorview">
         <div className="dashboardcontainergroup">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Profesor ____ nombre ___ con id {teacherId}
+              Profesor {nombre} con id {teacherId}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>
@@ -67,7 +67,7 @@ const DashBoardProfesor = () => {
                 getClasses={individualclassesByTeacherAndYearMonth}
                 setClasses2={setClasses_grupo}
                 getClasses2={teamClassesByTeacherIdAndYearMonth}
-                getInforDashboard={info}
+                getInforDashboard={infoDashboardTeacher}
                 setInforDashboard={setInfo}
               />
 
@@ -88,23 +88,59 @@ const DashBoardProfesor = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Total de horas dictadas</h3>
-              <p className="total">0</p>
+              <h3>Classes canceled by others</h3>
+              <p className="total">{info.classesCanceledUser}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas virtuales</h3>
-              <p className="total">0</p>
+            <h3>Classes canceled by teacher</h3>
+              <p className="total">{info.classesCanceledTeacher}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas presenciales</h3>
-              <p className="total">0</p>
+              <h3>Classes in person </h3>
+              <p className="total">{info.classesHeldInPerson}</p>
             </div>
             <div className="actividadCard">
-              <h3>T. horas canceladas a tiempo profesor</h3>
-              <p className="total">0</p>
+              <h3>Classes virtual</h3>
+              <p className="total">{info.classesHeldVirtual}</p>
             </div>
           </div>
-          <div className="informacionDetalladaEstudiante"></div>
+          <div className="totales bg-white shadow-md rounded-lg p-6">
+            <h2 className="text-2xl font-bold mb-4">Totales</h2>
+            <div className="invoice space-y-4">
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Horas Totales:</span>
+                <span>{info.hoursHeld || 0} horas</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Horas Virtuales:</span>
+                <span>{info.hoursHeldVirtual || 0} horas</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Horas Presenciales:</span>
+                <span>{info.hoursHeldInPerson || 0} horas</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Valor Total Virtual:</span>
+                <span>${(info.totalVirtualValue || 0).toFixed(2)}</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Valor Total Presencial:</span>
+                <span>${(info.totalInPersonValue || 0).toFixed(2)}</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Valor por Hora Virtual:</span>
+                <span>${(info.hoursHeldVirtual ? (info.totalVirtualValue / info.hoursHeldVirtual).toFixed(2) : 0)} por hora</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Valor por Hora Presencial:</span>
+                <span>${(info.hoursHeldInPerson ? (info.totalInPersonValue / info.hoursHeldInPerson).toFixed(2) : 0)} por hora</span>
+              </div>
+              <div className="invoice-item flex justify-between text-xl font-bold mt-4">
+                <span>Total Ganado:</span>
+                <span>${((info.totalVirtualValue || 0) + (info.totalInPersonValue || 0)).toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
           <div className="ultimas_clases_grupo">
             <h2>
               <b>Clases de los equipos</b>
@@ -154,14 +190,7 @@ const DashBoardProfesor = () => {
                       </TableRow>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] p-4">
-                      <h3 className="text-lg font-bold">
-                        Información de la clase
-                      </h3>
-                      <p>ID de clase: {classData.id}</p>
-                      <p>Tipo de clase: {classData.classType}</p>
-                      <p>Duración: {classData.duration} H</p>
-                      <p>Cancelado por: {classData.canceledBy}</p>
-                      {/* Agrega más detalles según sea necesario */}
+                      dasdas team
                     </DialogContent>
                   </Dialog>
                 ))}
@@ -220,14 +249,7 @@ const DashBoardProfesor = () => {
                       </TableRow>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] p-4">
-                      <h3 className="text-lg font-bold">
-                        Información de la clase
-                      </h3>
-                      <p>ID de clase: {classData.id}</p>
-                      <p>Tipo de clase: {classData.classType}</p>
-                      <p>Duración: {classData.duration} H</p>
-                      <p>Cancelado por: {classData.canceledBy}</p>
-                      {/* Agrega más detalles según sea necesario */}
+                      <ClickOnClassEstudentDetail studentId={classData.studentID} />
                     </DialogContent>
                   </Dialog>
                 ))}

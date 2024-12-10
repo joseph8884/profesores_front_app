@@ -1,7 +1,7 @@
 
-export async function infoDashboardTeacher(idStudent, year, month) {
+export async function infoDashboardTeacher(idTeacher, year, month) {
     try {
-      const url = `https://profesoresbackend.onrender.com/admin/profesor/dashboard/?teacherID=${idStudent}&year=${year}&month=${month}`; 
+      const url = `https://profesoresbackend.onrender.com/profesor/informacion/dashboard/?teacherID=${idTeacher}&year=${year}&month=${month}`; 
       const token = sessionStorage.getItem("token"); // Retrieve the JWT token from session storage
       const resp = await fetch(url, {
         method: "GET",
