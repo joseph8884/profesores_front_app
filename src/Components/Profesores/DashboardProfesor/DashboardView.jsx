@@ -55,9 +55,6 @@ const DashBoardProfesor = () => {
             <BellIcon className="h-6 w-6" />
           </div>
           <div className="filtrosandbackbtn">
-            <a href="/admin/profesores/activos">
-              <Button>Back</Button>
-            </a>
             <div className="actions">
               <Calendar
                 setDate={(date) => setDate(date)}

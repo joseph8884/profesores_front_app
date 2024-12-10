@@ -1,6 +1,6 @@
-export async function getAllTeams() {
+export async function getAllTeams(id) {
     try{
-        const url = 'https://profesoresbackend.onrender.com/profesor/equipo/';
+        const url = `https://profesoresbackend.onrender.com/profesor/equipo/profesor/${id}`;
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',
@@ -18,10 +18,12 @@ export async function getAllTeams() {
                 name: team.companyID.name,
                 nit: team.companyID.nit
             },
-            hoursPurchased: team.hoursPurchased,
-            hoursSpented: team.hoursSpented,
             photo: team.photo,
             status: team.status,
+            teacherID: {
+                id: team.teacherID.id,
+                name: team.teacherID.fullName,
+            }
         }));
         return teamsList;
     } catch (error) {  

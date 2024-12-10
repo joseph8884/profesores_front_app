@@ -31,7 +31,7 @@ const GruposEmpresasProfesor = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const data_fromAPI = await getAllTeams();
+        const data_fromAPI = await getAllTeams(teacherId);
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -40,7 +40,7 @@ const GruposEmpresasProfesor = () => {
       }
     };
     fetchGroups();
-  }, []);
+  }, [teacherId]);
 
   const handleRowClick = (row) => {
     // Store data in local storage
