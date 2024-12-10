@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
-import { Button } from "../../ui/button"; 
-import "./DashBoard.css"
+import { Button } from "../../ui/button";
+import "./DashBoard.css";
 import {
   Table,
   TableBody,
@@ -19,7 +19,7 @@ import Loader from "../../Loader/Loader";
 import ClickOnClassEstudentDetail from "./ClickOnClassEstudentDetail";
 import { individualclassesByTeacherAndYearMonth } from "../../../provider/profesor/EstudianteIndividual/individualclassesByTeacherAndYearMonth";
 import { teamClassesByTeacherIdAndYearMonth } from "../../../provider/profesor/Grupos/teamClassesByTeacherIdAndYearMonth";
-import {infoDashboardTeacher} from "../../../provider/profesor/infoDashboardTeacher";
+import { infoDashboardTeacher } from "../../../provider/profesor/infoDashboardTeacher";
 const DashBoardProfesor = () => {
   const [date, setDate] = useState([]);
   const [classes_grupo, setClasses_grupo] = useState([]);
@@ -28,14 +28,14 @@ const DashBoardProfesor = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const teacherId = params.get("profesorId");
-  const nombre = params.get("nombre"); 
+  const nombre = params.get("nombre");
   useEffect(() => {
     setDate({
       month: parseInt(new Date().getMonth().toString()) + 1,
       year: new Date().getFullYear().toString(),
     });
   }, []);
-  if (date.length === 0) { 
+  if (date.length === 0) {
     return <Loader />;
   }
 
@@ -92,7 +92,7 @@ const DashBoardProfesor = () => {
               <p className="total">{info.classesCanceledUser}</p>
             </div>
             <div className="actividadCard">
-            <h3>Classes canceled by teacher</h3>
+              <h3>Classes canceled by teacher</h3>
               <p className="total">{info.classesCanceledTeacher}</p>
             </div>
             <div className="actividadCard">
@@ -105,6 +105,28 @@ const DashBoardProfesor = () => {
             </div>
           </div>
           <div className="totales bg-white shadow-md rounded-lg p-6">
+            <div className="invoice-item flex justify-between border-b pb-2">
+              <span className="font-semibold">Valor por Hora Virtual:</span>
+              <span>
+                $
+                {info.hoursHeldVirtual
+                  ? (info.totalVirtualValue / info.hoursHeldVirtual).toFixed(2)
+                  : 0}{" "}
+                por hora
+              </span>
+            </div>
+            <div className="invoice-item flex justify-between border-b pb-2">
+              <span className="font-semibold">Valor por Hora Presencial:</span>
+              <span>
+                $
+                {info.hoursHeldInPerson
+                  ? (info.totalInPersonValue / info.hoursHeldInPerson).toFixed(
+                      2
+                    )
+                  : 0}{" "}
+                por hora
+              </span>
+            </div>
             <h2 className="text-2xl font-bold mb-4">Totales</h2>
             <div className="invoice space-y-4">
               <div className="invoice-item flex justify-between border-b pb-2">
@@ -127,17 +149,15 @@ const DashBoardProfesor = () => {
                 <span className="font-semibold">Valor Total Presencial:</span>
                 <span>${(info.totalInPersonValue || 0).toFixed(2)}</span>
               </div>
-              <div className="invoice-item flex justify-between border-b pb-2">
-                <span className="font-semibold">Valor por Hora Virtual:</span>
-                <span>${(info.hoursHeldVirtual ? (info.totalVirtualValue / info.hoursHeldVirtual).toFixed(2) : 0)} por hora</span>
-              </div>
-              <div className="invoice-item flex justify-between border-b pb-2">
-                <span className="font-semibold">Valor por Hora Presencial:</span>
-                <span>${(info.hoursHeldInPerson ? (info.totalInPersonValue / info.hoursHeldInPerson).toFixed(2) : 0)} por hora</span>
-              </div>
               <div className="invoice-item flex justify-between text-xl font-bold mt-4">
                 <span>Total Ganado:</span>
-                <span>${((info.totalVirtualValue || 0) + (info.totalInPersonValue || 0)).toFixed(2)}</span>
+                <span>
+                  $
+                  {(
+                    (info.totalVirtualValue || 0) +
+                    (info.totalInPersonValue || 0)
+                  ).toFixed(2)}
+                </span>
               </div>
             </div>
           </div>
@@ -249,7 +269,9 @@ const DashBoardProfesor = () => {
                       </TableRow>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] p-4">
-                      <ClickOnClassEstudentDetail studentId={classData.studentID} />
+                      <ClickOnClassEstudentDetail
+                        studentId={classData.studentID}
+                      />
                     </DialogContent>
                   </Dialog>
                 ))}

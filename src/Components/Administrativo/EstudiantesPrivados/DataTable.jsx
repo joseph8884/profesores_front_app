@@ -237,7 +237,7 @@ export function DataTableDemo({status}) {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full" style={{ overflowY: "scroll" }}>
+      <div className="w-full" style={{ overflowY: "scroll", padding:"30px"}}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
           <h2 className="text-xl font-bold text-gray-900">
             Lista de estudiantes individuales
