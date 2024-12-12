@@ -129,7 +129,6 @@
 
             & div.form {
                 padding: 5px 5px 5px 5%;
-
                 & form {
                     gap: 20px;
 
@@ -163,12 +162,8 @@
                     }
                 }
             }
-
             & div.informacionDetalladaEstudiante {
                 padding: 10px;
-                background-color: white;
-                border-radius: 10px;
-                grid-area: personal_information;
             }
         }
     }

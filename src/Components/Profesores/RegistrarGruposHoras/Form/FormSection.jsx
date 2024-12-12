@@ -18,11 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../ui/select";
+import { Toaster, toast } from "sonner";
 import { Checkbox } from "../../../ui/checkbox";
 import { getStudentsCustomByTeamID } from "../../../../provider/profesor/Grupos/getstudentTeamByTeamId";
 import { postTeamClass } from "../../../../provider/profesor/Grupos/postTeamClass";
 import { postAttendance } from "../../../../provider/profesor/Grupos/postAttendance";
-import {useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const FormSection = ({ groupDATA }) => {
   const [classHeld, setClassHeld] = useState(true);
   const [date, setDate] = useState("");
@@ -93,12 +94,29 @@ const FormSection = ({ groupDATA }) => {
     setClassHeld(value);
   };
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
-
+    if (
+      !date ||
+      !comments ||
+      !topics ||
+      !classType ||
+      !hours ||
+      !teacherId ||
+      !groupDATA.id
+    ) {
+      toast.error("Por favor, completa todos los campos requeridos.");
+      return;
+    }
     const attendedStudents = students.filter(
       (student) => attendance[student.id]
     );
+  
+    if (classHeld && attendedStudents.length === 0) {
+      toast.error("Por favor, selecciona al menos un estudiante.");
+      return;
+    }
+  
+    setLoading(true);
     const formatDate = (date) => {
       const isoString = date.toISOString();
       const formattedDate = isoString.replace("Z", "000000Z");
@@ -115,26 +133,27 @@ const FormSection = ({ groupDATA }) => {
       topic: topics,
       classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
-      cancellationTiming: classHeld === false
-      ? cancellationTiming
-      : "Class helded",
-    canceledBy: classHeld === false ? cancelledBy : "Class helded",
-      //attendance: attendedStudents.map((student) => student.fullName),
+      cancellationTiming: classHeld === false ? cancellationTiming : "Class held",
+      canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
       const response = await postTeamClass(formData);
-      if (classHeld === "true") {
+      if (classHeld === true) {
         attendedStudents.map(async (student) => {
           const attendanceperStudent = {
-            classID: response,
+            classID: response.message,
             studentTeamID: student.id,
             attended: true,
           };
+          console.log("Attendance per student:", attendanceperStudent); 
           await postAttendance(attendanceperStudent);
         });
       }
+      toast.success("Class has been created");
     } catch (error) {
-      console.log("Error creating team class:", error);
+      setLoading(false);
+      toast.error("Something went wrong, please try again.");
+      console.log("Error creating student class:", error);
     } finally {
       setLoading(false);
     }
@@ -332,6 +351,7 @@ const FormSection = ({ groupDATA }) => {
           Submit Attendance
         </Button>
       </form>
+      <Toaster />
     </div>
   );
 };

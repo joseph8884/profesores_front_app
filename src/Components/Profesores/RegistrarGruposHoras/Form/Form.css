@@ -4,7 +4,6 @@
     width: 100vw;
     grid-template-areas: 
     "tituloynotificaciones"
-    "actividad_academica"
     "form"
     "personal_information";
     
@@ -19,7 +18,6 @@
         margin-bottom: 50px;
         grid-template:
         "tituloynotificaciones tituloynotificaciones"10% 
-        "actividad_academica personal_information" auto
         "form personal_information" auto/
         auto auto; 
         gap: 10px;
@@ -37,14 +35,6 @@
                 float: right;
                 gap: 50px;
                 align-items: center;
-            }
-        }
-        & div.resumenDeActividadAcademica{
-            border-radius: 10px;
-            background-color: white;
-            grid-area: actividad_academica;
-            & h3 {
-                font-size: clamp(1rem, 2vw, 1.5rem);
             }
         }
         & div.form{
@@ -129,10 +119,15 @@
         & div.dashboardcontainerform{
             grid-template:
                 "tituloynotificaciones"10% 
-                "actividad_academica" auto
                 "form" auto
                 "personal_information" auto/
                 auto; 
+                & div.form{
+                    padding: 5px 5px 5px 5px;
+                }
+                & div.informacionDetalladaEstudiante{
+                    padding: 10px;
+                }
         }
     }
 

@@ -1,23 +1,32 @@
 export async function changeStatusStudent(id) {
-    const url = `https://profesoresbackend.onrender.com/admin/estudiante/personalizado/estado/${id}`; // URL de la API para crear un estudiante personalizado};
-    const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
+    const url = `https://profesoresbackend.onrender.com/admin/estudiante/personalizado/estado/${id}`;
+    const token = sessionStorage.getItem('token');
 
     try {
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create student');
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to create individual class');
         }
-        return await response.json(); // Retorna la respuesta en formato JSON si es exitosa
+
+        if (contentType && contentType.includes('application/json')) {
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            console.log('Response is not JSON:', responseText);
+            return { message: responseText }; // Return the response text as a message
+        }
     } catch (error) {
-        console.error('Error creating student:', error);
+        console.error('Error updating student status:', error);
         throw error;
     }
 }
-

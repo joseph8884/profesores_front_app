@@ -6,8 +6,12 @@ import "./Form.css";
 import { BellIcon } from "@radix-ui/react-icons";
 import EstudentData from "./EstudentData";
 import FormSection from "./FormSection";
+import { useLocation } from "react-router-dom";
 const Form = () => {
   const [studentData, setStudentData] = useState(null);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const teacherId = params.get("profesorId");
   useEffect(() => {
     const data = localStorage.getItem("selected_student_profesor");
     if (data) {
@@ -31,7 +35,7 @@ const Form = () => {
             </h2>
             <div>
             <BellIcon className="h-6 w-6" />
-            <a href="/profesor/registrarhoras/estudianteindividual">
+            <a href={`/profesor/registrarhoras/estudianteindividual?&profesorId=${teacherId}`}>
               <Button>Back</Button>
             </a>
             

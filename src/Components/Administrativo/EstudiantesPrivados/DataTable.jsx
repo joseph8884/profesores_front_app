@@ -25,14 +25,26 @@ import {
   SheetTitle,
   SheetDescription,
 } from "../../ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../ui/alert-dialog";
+import { Toaster, toast } from "sonner";
 import { MoreHorizontal } from "lucide-react";
 import CrearEditarEstudiante from "./CrearEstudiante";
 import { getStudents } from "../../../provider/adm/EstudiantePersonalizado/getStudents";
 import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/delateStudent";
 import Loader from "../../Loader/Loader";
 import { changeStatusStudent } from "../../../provider/adm/EstudiantePersonalizado/changeStatus";
-import {DataTableDemoTemplate} from "../../ui/DataTableAdjusted"
-export function DataTableDemo({status}) {
+import { DataTableDemoTemplate } from "../../ui/DataTableAdjusted";
+export function DataTableDemo({ status }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
   const [ciudadFilter, setCiudadFilter] = useState("");
@@ -50,7 +62,6 @@ export function DataTableDemo({status}) {
     };
     fetchStudents();
   }, [status]);
-
 
   const filteredData = useMemo(() => {
     let filtered = data;
@@ -201,31 +212,70 @@ export function DataTableDemo({status}) {
                   setLoading(true);
                   try {
                     await changeStatusStudent(student.ID);
+                    toast.success("Estado del estudiante cambiado con éxito");
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
                   } catch (error) {
-                    console.error("Error updating student:", error);
+                    toast.error(
+                      "Error cambiando el estado del estudiante, por favor intentar mas tarde"
+                    );
+                    console.error("Error changing status of student:", error);
                   } finally {
-                    window.location.reload();
                     setLoading(false);
                   }
                 }}
               >
                 <Button variant="ghost">Cambiar estado</Button>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  setLoading(true);
-                  try {
-                    await delateStudentAPI(student.ID);
-                  } catch (error) {
-                    console.error("Error creating student:", error);
-                  } finally {
-                    setLoading(false);
-                    window.location.reload();
-                  }
-                }}
-              >
-                <Button variant="ghost">Eliminar</Button>
+              <DropdownMenuItem>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button variant="ghost">Eliminar</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          setLoading(true);
+                          try {
+                            await delateStudentAPI(student.ID);
+                            toast.success(
+                              "Estudiante eliminado con éxito"
+                            );
+                            setTimeout(() => {
+                              window.location.reload();
+                            }, 2000);
+                          } catch (error) {
+                            toast.error(
+                              "Error cambiando el estado del estudiante, por favor intentar mas tarde"
+                            );
+                            console.error(
+                              "Error changing status of student:",
+                              error
+                            );
+                          } finally {
+                            setLoading(false);
+                          }
+                        }}
+                      >
+                        Yes, delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -237,7 +287,7 @@ export function DataTableDemo({status}) {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full" style={{ overflowY: "scroll", padding:"30px"}}>
+      <div className="w-full" style={{ overflowY: "scroll", padding: "30px" }}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
           <h2 className="text-xl font-bold text-gray-900">
             Lista de estudiantes individuales
@@ -296,8 +346,16 @@ export function DataTableDemo({status}) {
             </SheetContent>
           </Sheet>
         </div>
-        <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"/admin/tablaestudiantes/estudiantesprivados/studentdetail"} localstorage_name={"selected_student"} />
+        <DataTableDemoTemplate
+          columns={columns}
+          dataToShow={filteredData}
+          rowClickToNavigate={
+            "/admin/tablaestudiantes/estudiantesprivados/studentdetail"
+          }
+          localstorage_name={"selected_student"}
+        />
       </div>
+      <Toaster />
     </>
   );
 }

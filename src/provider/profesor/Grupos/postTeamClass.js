@@ -12,10 +12,20 @@ export async function postTeamClass(teamClass) {
             body: JSON.stringify(teamClass) // Convert the team class data to JSON
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create team class');
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to create individual class');
         }
-        return await response.json(); // Return the response in JSON format if successful
+
+        if (contentType && contentType.includes('application/json')) {
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            console.log('Response is not JSON:', responseText);
+            return { message: responseText }; // Return the response text as a message
+        } // Return the response in JSON format if successful
     } catch (error) {
         console.error('Error creating team class:', error);
         throw error;

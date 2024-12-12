@@ -6,8 +6,12 @@ import "./Form.css";
 import { BellIcon } from "@radix-ui/react-icons";
 import GroupData from "./GrupData";
 import FormSection from "./FormSection";
+import { useLocation } from "react-router-dom";
 const FormGroup = () => {
   const [groupDATA, setStudentData] = useState(null);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const teacherId = params.get("profesorId");
   useEffect(() => {
     const data = localStorage.getItem("groupData_profesor");
     if (data) {
@@ -27,50 +31,14 @@ const FormGroup = () => {
         <div className="dashboardcontainerform">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-              Registrar Horas
+              Registrar Horas para grupo: {groupDATA.name}, con el id: {groupDATA.id}.
             </h2>
             <div>
             <BellIcon className="h-6 w-6" />
-            <a href="/profesor/registrarhoras/estudianteindividual">
+            <a href={`/profesor/registrarhoras/grupos?&profesorId=${teacherId}`}>
               <Button>Back</Button>
             </a>
             
-            </div>
-          </div>
-          <div className="resumenDeActividadAcademica">
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Horas Compradas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupDATA.horasPlaneadas}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Horas Restantes
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupDATA.horasRestantes}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Horas Canceladas
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupDATA.horasCanceladas}
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg">
-                <h3>
-                  Canceladas por profesor
-                </h3>
-                <p className="mt-2 text-3xl font-bold">
-                  {groupDATA.horasCanceladasProfesor}
-                </p>
-              </div>
             </div>
           </div>
           < FormSection groupDATA={groupDATA}/>

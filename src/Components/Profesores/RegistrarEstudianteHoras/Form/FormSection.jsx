@@ -57,8 +57,7 @@ const FormSection = ({ data }) => {
       !topics ||
       !classType ||
       !hours ||
-      !data.id ||
-      !classHeld
+      !data.id
     ) {
       toast.error("Por favor, completa todos los campos requeridos.");
       return;
