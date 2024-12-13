@@ -135,7 +135,7 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
             type="number"
             value={bankAccountNumber}
             onChange={(e) => setBankAccountNumber(parseInt(e.target.value))}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             placeholder="Enter bank account number"
           />
         </div>

@@ -154,34 +154,6 @@ const CrearEditarEstudianteCustom = ({ data, context, idGroup }) => {
             />
           </div>
 
-
-
-          {/* Attendance Percentage Field */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Attendance Percentage
-            </label>
-            <input
-              type="number"
-              value={attendancePercentage}
-              onChange={(e) => setAttendancePercentage(e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-
-          {/* Attended Classes Count Field */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Attended Classes Count
-            </label>
-            <input
-              type="number"
-              value={attendedClassesCount}
-              onChange={(e) => setAttendedClassesCount(e.target.value)}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-
           {/* Save Button */}
           <div className="pt-4">
             <Button

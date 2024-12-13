@@ -60,11 +60,6 @@ export function DataTableDemo() {
       cell: ({ row }) => <div>{row.getValue("id")}</div>,
     },
     {
-      accessorKey: "idUser",
-      header: "idUser",
-      cell: ({ row }) => <div>{row.getValue("id")}</div>,
-    },
-    {
       accessorKey: "fullName",
       header: "Name",
       cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
@@ -180,7 +175,7 @@ export function DataTableDemo() {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full" style={{ overflowY: "scroll" }}>
+      <div className="w-full p-10" style={{ overflowY: "scroll" }}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
           <h2 className="text-xl font-bold text-gray-900">
             Lista de profesores inactivos

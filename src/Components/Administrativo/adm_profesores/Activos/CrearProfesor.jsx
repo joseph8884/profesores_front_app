@@ -8,12 +8,10 @@ import CrearEditarProfesorInfoPersonal from "../CrearEditProfesoresInfoPersonal.
 const CrearProfesorDialog = () => {
   return (
     <>
-      <div className="overflow-y-auto max-h-[70vh] p-6">
+      <div className="overflow-y-auto max-h-[70vh] p-5">
         <DialogHeader>
-          <DialogTitle>{"crear"}</DialogTitle>
-          <DialogDescription>
-            Ingrese el nombre y el nit de la empresa
-          </DialogDescription>
+          <DialogTitle className="block text-lg">Crear profesor</DialogTitle>
+          
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <CrearEditarProfesorInfoPersonal data={{}} context="create" />

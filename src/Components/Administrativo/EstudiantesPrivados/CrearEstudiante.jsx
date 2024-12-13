@@ -208,7 +208,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
                 type="number"
                 value={hoursRemaining} // Changed from horasRestantes
                 onChange={(e) => sethoursRemaining(parseInt(e.target.value))} // Changed from setHorasRestantes
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 readOnly
               />
             </div>
