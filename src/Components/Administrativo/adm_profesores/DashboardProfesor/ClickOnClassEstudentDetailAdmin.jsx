@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function ClickOnClassEstudentDetail({ studentId }) {
+function ClickOnClassEstudentDetailAdmin({ studentId }) {
   const [studentData, setStudentData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,11 +10,11 @@ function ClickOnClassEstudentDetail({ studentId }) {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `https://profesoresbackend.onrender.com/profesor/estudiante/personalizado/${studentId}`,
+          `https://profesoresbackend.onrender.com/admin/estudiante/personalizado/estudiante/${studentId}`,
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -43,6 +43,7 @@ function ClickOnClassEstudentDetail({ studentId }) {
         <h1 className="text-xl font-bold text-gray-800">
           {studentData.fullName}
         </h1>
+        <p className="text-gray-600">ID: {studentData.id}</p>
         <p className="text-gray-600">Email: {studentData.email}</p>
         <p className="text-gray-600">Phone: {studentData.phoneNumber}</p>
         <p className="text-gray-600">Office: {studentData.office}</p>
@@ -78,4 +79,4 @@ function ClickOnClassEstudentDetail({ studentId }) {
   );
 }
 
-export default ClickOnClassEstudentDetail;
+export default ClickOnClassEstudentDetailAdmin;

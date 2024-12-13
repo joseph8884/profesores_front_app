@@ -19,6 +19,8 @@ export async function dashboardTeacher(idTeacher, year, month) {
         hoursHeld: data.hoursHeld,
         hoursHeldVirtual: data.hoursHeldVirtual,
         hoursHeldInPerson: data.hoursHeldInPerson,
+        totalVirtualValue: data.totalVirtualValue,
+        totalInPersonValue: data.totalInPersonValue,
       };
       return classList;
     } catch (error) {

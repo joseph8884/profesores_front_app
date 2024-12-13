@@ -13,13 +13,16 @@ import {
   TableRow,
 } from "../../../ui/table";
 import "./ProfesorDetalle.css";
+import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import { BellIcon, DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
 import Loader from "../../../Loader/Loader";
+import ClickOnClassEstudentDetailAdmin from "./ClickOnClassEstudentDetailAdmin";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
-import {individualclassesByTeacherAndYearMonth} from "../../../../provider/adm/Clases/ClasesIndividuales/individualclassesByTeacherAndYearMonth"
-import {teamClassesByTeacherIdAndYearMonth} from "../../../../provider/adm/Clases/ClasesGrupales/teamClassesByTeacherIdAndYearMonth"
-import {dashboardTeacher} from "../../../../provider/adm/profesores/dashboardTeacher"
+import { individualclassesByTeacherAndYearMonth } from "../../../../provider/adm/Clases/ClasesIndividuales/individualclassesByTeacherAndYearMonth";
+import { teamClassesByTeacherIdAndYearMonth } from "../../../../provider/adm/Clases/ClasesGrupales/teamClassesByTeacherIdAndYearMonth";
+import { dashboardTeacher } from "../../../../provider/adm/profesores/dashboardTeacher";
+import ClickOnClassTeamAdmin from "./ClickOnClassTeamAdmin";
 const ProfesoresDashboard = () => {
   const [profesorData, setProfesorData] = useState(null);
   const [classes_grupo, setClasses_grupo] = useState([]);
@@ -97,18 +100,24 @@ const ProfesoresDashboard = () => {
     // Agregar hoja para clases individuales
     if (classes_estudiante.length > 0) {
       const worksheetEstudiante = XLSX.utils.json_to_sheet(classes_estudiante);
-      XLSX.utils.book_append_sheet(workbook, worksheetEstudiante, "ClasesEstudiante");
+      XLSX.utils.book_append_sheet(
+        workbook,
+        worksheetEstudiante,
+        "ClasesEstudiante"
+      );
     }
 
     // Agregar hoja para totales y estadísticas
     const totalsData = [
-      { 
-        "Total Horas Canceladas por Estudiante": teacherInfoClasses.classesCanceledUser,
-        "Total Horas Canceladas por Profesor": teacherInfoClasses.classesCanceledTeacher,
+      {
+        "Total Horas Canceladas por Estudiante":
+          teacherInfoClasses.classesCanceledUser,
+        "Total Horas Canceladas por Profesor":
+          teacherInfoClasses.classesCanceledTeacher,
         "Total Clases Dictadas": teacherInfoClasses.hoursHeld,
         "Total Horas Virtuales": teacherInfoClasses.hoursHeldVirtual,
-        "Total Horas Presenciales": teacherInfoClasses.hoursHeldInPerson
-      }
+        "Total Horas Presenciales": teacherInfoClasses.hoursHeldInPerson,
+      },
     ];
     const worksheetTotals = XLSX.utils.json_to_sheet(totalsData);
     XLSX.utils.book_append_sheet(workbook, worksheetTotals, "Totales");
@@ -179,32 +188,82 @@ const ProfesoresDashboard = () => {
             </div>
           </div>
           <div className="resumenDeActividadAcademica">
-          <div className="actividadCard">
-              <h3>Total de horas canceladas por el estudiante</h3>
+            <div className="actividadCard">
+              <h3>Classes canceled by others</h3>
               <p className="total">{teacherInfoClasses.classesCanceledUser}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas canceladas por el profeosor </h3>
+              <h3>Classes canceled by teacher</h3>
               <p className="total">{teacherInfoClasses.classesCanceledTeacher}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total de clases dictadas</h3>
-              <p className="total">{teacherInfoClasses.hoursHeld}</p>
+              <h3>Classes in person </h3>
+              <p className="total">{teacherInfoClasses.classesHeldInPerson}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total horas virtuales</h3>
-              <p className="total">{teacherInfoClasses.hoursHeldVirtual}</p>
+              <h3>Classes virtual</h3>
+              <p className="total">{teacherInfoClasses.classesHeldVirtual}</p>
             </div>
-            <div className="actividadCard">
-              <h3>Total horas presenciales</h3>
-              <p className="total">{teacherInfoClasses.hoursHeldInPerson}</p>
-            </div>
-            <h3>Total a pagar por horas virtuales {teacherInfoClasses.totalVirtualValue}</h3>
-            <h3>Total a pagar por horas presenciales{teacherInfoClasses.totalInPersonValue}</h3>
-          
           </div>
           <div className="informacionDetalladaEstudiante">
             <CrearEditarProfesorBankData personal_info_teacher={profesorData} />
+          </div>
+          <div className="totales bg-white shadow-md rounded-lg p-6">
+            <div className="invoice-item flex justify-between border-b pb-2">
+              <span className="font-semibold">Valor por Hora Virtual:</span>
+              <span>
+                $
+                {teacherInfoClasses.hoursHeldVirtual
+                  ? (teacherInfoClasses.totalVirtualValue / teacherInfoClasses.hoursHeldVirtual).toFixed(2)
+                  : 0}{" "}
+                por hora
+              </span>
+            </div>
+            <div className="invoice-item flex justify-between border-b pb-2">
+              <span className="font-semibold">Valor por Hora Presencial:</span>
+              <span>
+                $
+                {teacherInfoClasses.hoursHeldInPerson
+                  ? (teacherInfoClasses.totalInPersonValue / teacherInfoClasses.hoursHeldInPerson).toFixed(
+                      2
+                    )
+                  : 0}{" "}
+                por hora
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold mb-4">Totales</h2>
+            <div className="invoice space-y-4">
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Horas Totales:</span>
+                <span>{teacherInfoClasses.hoursHeld || 0} horas</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Horas Virtuales:</span>
+                <span>{teacherInfoClasses.hoursHeldVirtual || 0} horas</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Horas Presenciales:</span>
+                <span>{teacherInfoClasses.hoursHeldInPerson || 0} horas</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Valor Total Virtual:</span>
+                <span>${(teacherInfoClasses.totalVirtualValue || 0).toFixed(2)}</span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">Valor Total Presencial:</span>
+                <span>${(teacherInfoClasses.totalInPersonValue || 0).toFixed(2)}</span>
+              </div>
+              <div className="invoice-item flex justify-between text-xl font-bold mt-4">
+                <span>Total Ganado:</span>
+                <span>
+                  $
+                  {(
+                    (teacherInfoClasses.totalVirtualValue || 0) +
+                    (teacherInfoClasses.totalInPersonValue || 0)
+                  ).toFixed(2)}
+                </span>
+              </div>
+            </div>
           </div>
           <div className="ultimas_clases_grupo">
             <h2>
@@ -214,7 +273,8 @@ const ProfesoresDashboard = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>clase ID</TableHead>
-                  <TableHead>teacherID</TableHead>
+                  <TableHead>teacher ID</TableHead>
+                  <TableHead>team ID</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Tipo de clase</TableHead>
                   <TableHead>Duracion</TableHead>
@@ -224,32 +284,54 @@ const ProfesoresDashboard = () => {
               </TableHeader>
               <TableBody>
                 {classes_grupo.map((classData) => (
-                  <TableRow key={classData.id}>
-                    <TableCell>{classData.id}</TableCell>
-                    <TableCell>{classData.teacherID}</TableCell>
-                    <TableCell>
-                      {new Date(classData.dateTime).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>{classData.classType}</TableCell>
-                    <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.cancellationTiming}</TableCell>
-                    <TableCell>{classData.canceledBy}</TableCell>
-                    <TableCell>
-                      <div
-                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHeld ? "bg-green-500" : "bg-red-500"
-                        }`}
-                      >
-                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
-                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
-                        {/* Texto del estado */}
-                        <span>
-                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
-                          {/* Updated logic for status */}
-                        </span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  <Dialog key={classData.id}>
+                    <DialogTrigger asChild>
+                      <TableRow>
+                        <TableCell>{classData.id}</TableCell>
+                        <TableCell>{classData.teacherID}</TableCell>
+                        <TableCell>{classData.teamID}</TableCell>
+                        <TableCell>
+                          {new Date(classData.dateTime).toLocaleString(
+                            "es",
+                            {
+                              weekday: "long", // e.g., Monday
+                              year: "numeric", // e.g., 2024
+                              month: "long", // e.g., December
+                              day: "numeric", // e.g., 9
+                              hour: "2-digit", // e.g., 01
+                              minute: "2-digit", // e.g., 30
+                              second: "2-digit", // e.g., 45
+                              hour12: true, // e.g., AM/PM format
+                            }
+                          )}
+                        </TableCell>
+                        <TableCell>{classData.classType}</TableCell>
+                        <TableCell>{classData.duration} H</TableCell>
+                        <TableCell>{classData.cancellationTiming}</TableCell>
+                        <TableCell>{classData.canceledBy}</TableCell>
+                        <TableCell>
+                          <div
+                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                              classData.classHeld
+                                ? "bg-green-500"
+                                : "bg-red-500"
+                            }`}
+                          >
+                            {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                            <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                            {/* Texto del estado */}
+                            <span>
+                              {classData.classHeld ? "Completed" : "Cancelled"}{" "}
+                              {/* Updated logic for status */}
+                            </span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] p-4">
+                      <ClickOnClassTeamAdmin teamID={classData.teamID} />
+                    </DialogContent>
+                  </Dialog>
                 ))}
               </TableBody>
             </Table>
@@ -262,7 +344,8 @@ const ProfesoresDashboard = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>clase ID</TableHead>
-                  <TableHead>teacherID</TableHead>
+                  <TableHead>teacher ID</TableHead>
+                  <TableHead>Estudiante ID</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Tipo de clase</TableHead>
                   <TableHead>Duracion</TableHead>
@@ -272,32 +355,56 @@ const ProfesoresDashboard = () => {
               </TableHeader>
               <TableBody>
                 {classes_estudiante.map((classData) => (
-                  <TableRow key={classData.id}>
-                    <TableCell>{classData.id}</TableCell>
-                    <TableCell>{classData.teacherID}</TableCell>
-                    <TableCell>
-                      {new Date(classData.dateTime).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>{classData.classType}</TableCell>
-                    <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.cancellationTiming}</TableCell>
-                    <TableCell>{classData.canceledBy}</TableCell>
-                    <TableCell>
-                      <div
-                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHeld ? "bg-green-500" : "bg-red-500"
-                        }`}
-                      >
-                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
-                        <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
-                        {/* Texto del estado */}
-                        <span>
-                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
-                          {/* Updated logic for status */}
-                        </span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  <Dialog key={classData.id}>
+                    <DialogTrigger asChild>
+                      <TableRow key={classData.id}>
+                        <TableCell>{classData.id}</TableCell>
+                        <TableCell>{classData.teacherID}</TableCell>
+                        <TableCell>{classData.studentID}</TableCell>
+                        <TableCell>
+                          {new Date(classData.dateTime).toLocaleString(
+                            "es",
+                            {
+                              weekday: "long", // e.g., Monday
+                              year: "numeric", // e.g., 2024
+                              month: "long", // e.g., December
+                              day: "numeric", // e.g., 9
+                              hour: "2-digit", // e.g., 01
+                              minute: "2-digit", // e.g., 30
+                              second: "2-digit", // e.g., 45
+                              hour12: true, // e.g., AM/PM format
+                            }
+                          )}
+                        </TableCell>
+                        <TableCell>{classData.classType}</TableCell>
+                        <TableCell>{classData.duration} H</TableCell>
+                        <TableCell>{classData.cancellationTiming}</TableCell>
+                        <TableCell>{classData.canceledBy}</TableCell>
+                        <TableCell>
+                          <div
+                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
+                              classData.classHeld
+                                ? "bg-green-500"
+                                : "bg-red-500"
+                            }`}
+                          >
+                            {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
+                            <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                            {/* Texto del estado */}
+                            <span>
+                              {classData.classHeld ? "Completed" : "Cancelled"}{" "}
+                              {/* Updated logic for status */}
+                            </span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] p-4">
+                      <ClickOnClassEstudentDetailAdmin
+                        studentId={classData.studentID}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 ))}
               </TableBody>
             </Table>

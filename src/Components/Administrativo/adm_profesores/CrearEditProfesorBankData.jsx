@@ -75,7 +75,7 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
         try {
           await postBankData(formattedData);
         } catch (error) {
-          console.error("Error creating student:", error);
+          console.error("Error posting bank data:", error);
         }        
       } finally {
         setLoading(false);
