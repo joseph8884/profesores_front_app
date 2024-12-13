@@ -5,8 +5,11 @@ const NavWeb = ()=>{
   const logout = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userType");
+    sessionStorage.removeItem("username_admin");
     window.location.href = "/login";
   }
+  const username = sessionStorage.getItem("username_admin");
+
     return(  
         <div className="hidden md:flex flex-col w-64 bg-blue-900 text-white min-h-screen">
         <div className="p-4">
@@ -25,7 +28,7 @@ const NavWeb = ()=>{
               className="h-10 w-10 rounded-full"
             />
             <div>
-              <p className="font-semibold">Gustavo Xavier</p>
+              <p className="font-semibold">{username}</p>
               <Button variant="ghost" className="text-red-500" onClick={logout}>
                 
                 Log out

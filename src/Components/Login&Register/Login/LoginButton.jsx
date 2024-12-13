@@ -31,15 +31,8 @@ const LoginButton = ({ username, password }) => {
     } else {
       console.error("Error al iniciar sesión");
     }
-    // poner tiempo de espera de mas, 5 segundos mas
-      // poner tiempo de espera de mas, 5 segundos mas
- //       setTimeout(() => {
-   //       setLoading(false); // Desactiva el loader después de 5 segundos
-     // }, 5 * 1000); // 5 segundos en milisegundos
-    setLoading(false); // Desactiva el loader
+    setLoading(false);
   };
-
-  // Función para decodificar el token JWT
   const parseJwt = (token) => {
     if (!token) return {};
     const base64Url = token.split(".")[1];
@@ -56,8 +49,7 @@ const LoginButton = ({ username, password }) => {
 
   const handleClick = (event) => {
     event.preventDefault();
-    console.log("Username:", username);
-    console.log("Password:", password);
+    sessionStorage.setItem("username_admin", username); 
     setTimeout(() => {
       handleLogin();
     }, 3 * 1000); // Puedes ajustar este tiempo según sea necesario
