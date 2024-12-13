@@ -20,6 +20,12 @@ export async function getAllTeams(status) {
             hoursSpented: team.hoursSpented,
             photo: team.photo,
             status: team.status,
+            teacherID: {
+                id: team.teacherID.id,
+                fullName: team.teacherID.fullName,
+                username: team.teacherID.username,
+                status: team.teacherID.status,               
+            }
         }));
         return teamsList;
     } catch (error) {  

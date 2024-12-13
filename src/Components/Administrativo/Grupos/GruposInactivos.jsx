@@ -11,23 +11,18 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../../ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../ui/select";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import Loader from "../../Loader/Loader";
 import { BellIcon } from "@radix-ui/react-icons";
 import { getAllTeams } from "../../../provider/adm/Grupos/getAllTeams";
-
+import ScrollListProfesores from "./ScrollListProfesores";
+import { Toaster } from "sonner";
 const GruposEmpresasInactivos = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [profesorSelectedToFilter, setprofesorSelectedToFilter] =
+    React.useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [ciudadFilter, setCiudadFilter] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
   const itemsPerPage = 6; // Ajusta este valor según sea necesario
@@ -75,15 +70,18 @@ const GruposEmpresasInactivos = () => {
           );
         })
       );
+      //filtrar por profesor seleccionado
+      if (profesorSelectedToFilter) {
+        filtered = filtered.filter(
+          (item) => item.teacherID.fullName === profesorSelectedToFilter
+        );
+      }
     }
 
-
     return filtered;
-  }, [data, searchTerm, loading]);
+  }, [data, searchTerm, loading, profesorSelectedToFilter]);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -201,7 +199,9 @@ const GruposEmpresasInactivos = () => {
 
       <div className="flex-1 p-6" style={{ overflowY: "scroll" }}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
-          <h2 className="text-xl font-bold text-gray-900">Lista de grupos inactivos</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Lista de grupos inactivos
+          </h2>
           <BellIcon className="h-6 w-6" />
         </div>
         <div className="flex items-center py-4 justify-between">
@@ -211,31 +211,18 @@ const GruposEmpresasInactivos = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Select
-            value={ciudadFilter}
-            onValueChange={(value) => setCiudadFilter(value)}
-          >
-            <SelectTrigger className="w-[100%]">
-              <SelectValue placeholder="Seleccione una cuidad para filtrar" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
-              <SelectItem value="BOGOTÁ">BOGOTÁ</SelectItem>
-              <SelectItem value="CALI">CALI</SelectItem>
-              <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
-            </SelectContent>
-          </Select>
+          <ScrollListProfesores profesorSelectedToFilter={profesorSelectedToFilter} setprofesorSelectedToFilter={setprofesorSelectedToFilter} setLoading={setLoading} />
+          
 
           <Button
             variant="ghost"
             onClick={() => {
               setSearchTerm("");
-              setCiudadFilter("");
+              setprofesorSelectedToFilter("");
             }}
           >
             Clear filters
           </Button>
-          
         </div>
 
         {/* Sección de Cartas */}
@@ -275,6 +262,7 @@ const GruposEmpresasInactivos = () => {
           </PaginationContent>
         </Pagination>
       </div>
+      <Toaster asChild />
     </div>
   );
 };

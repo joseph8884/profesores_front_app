@@ -1,15 +1,21 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import ScrollListProfesores from "./ScrollListProfesores";
+import Loader from "../../Loader/Loader";
 const TeamCRUD = ({
   teamName,
   setTeamName,
-  hoursSpented,
-  setHoursSpented,
   photo,
-  setPhoto,
   handleFileChange,
+  setTeacherID,
+  teacherNameprev,
+  setteacherNameprev,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   return (
     <>
+      {loading && <Loader />}
       <form className="space-y-4 mb-6">
         <h3 className="text-lg font-semibold">Manage Team</h3>
         <div
@@ -37,7 +43,7 @@ const TeamCRUD = ({
           <input
             value={teamName}
             onChange={(e) => {
-              setTeamName(e.target.value)
+              setTeamName(e.target.value);
             }}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
             placeholder="Enter team name"
@@ -45,31 +51,13 @@ const TeamCRUD = ({
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Hours Spend
+            Teacher name
           </label>
-          <input
-            type="number"
-            value={hoursSpented}
-            onChange={(e) => setHoursSpented(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            placeholder="Enter hours purchased"
-            readOnly
-          />
-        </div>
-
-        {
-          //Esto hay que borrarlo
-        }
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Photo
-          </label>
-          <input
-            type="text"
-            value={photo}
-            onChange={(e) => setPhoto(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            placeholder="Enter photo URL"
+          <ScrollListProfesores
+            setTeacherID={setTeacherID}
+            setprofesorSelectedToFilter={setteacherNameprev}
+            profesorSelectedToFilter={teacherNameprev}
+            setLoading={setLoading}
           />
         </div>
       </form>

@@ -11,10 +11,20 @@ export async function changeStatusGroup(id) {
             },
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create student');
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to create individual class');
         }
-        return await response.json(); // Retorna la respuesta en formato JSON si es exitosa
+
+        if (contentType && contentType.includes('application/json')) {
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            console.log('Response is not JSON:', responseText);
+            return { message: responseText }; // Return the response text as a message
+        }// Retorna la respuesta en formato JSON si es exitosa
     } catch (error) {
         console.error('Error creating student:', error);
         throw error;

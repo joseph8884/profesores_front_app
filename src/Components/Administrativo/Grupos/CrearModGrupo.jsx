@@ -11,10 +11,12 @@ const CrearModGrupo = ({ initialData, context }) => {
   const [nit, setNit] = useState(initialData.companyNIT || "");
   const [idCompany, setidCompany] = useState(initialData.companyID || "");
   const [name, setName] = useState(initialData.companyName || "");
+  const [teacherID, setTeacherID] = useState("");
+  const [teacherNameprev,setteacherNameprev] = useState(initialData.teacherID ? initialData.teacherID.fullName : "");
   const [loading, setLoading] = useState(false);
 
   // Variables de estado para el equipo
-  const [teamName, setTeamName] = useState(String(initialData.name)||"" );
+  const [teamName, setTeamName] = useState(initialData.name||"" );
   const [photo, setPhoto] = useState("");
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -33,9 +35,8 @@ const CrearModGrupo = ({ initialData, context }) => {
     const combinedData = {
       name: teamName,
       companyID: idCompany,
-      hoursPurchased: 0, // Este dato no existe en la lógica
-      hoursSpented: initialData.hoursSpented,
       photo: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
+      teacherID: teacherID,
     };
 
     if (context === "create") {
@@ -55,7 +56,7 @@ const CrearModGrupo = ({ initialData, context }) => {
         console.error("Error updating student:", error);
       } finally {
         setLoading(false);
-        window.location.href = "/admin/gruposvista/grupos";
+        window.location.reload();
       }
     }
   };
@@ -100,6 +101,9 @@ const CrearModGrupo = ({ initialData, context }) => {
           photo={photo}
           setPhoto={setPhoto}
           handleFileChange={handleFileChange}
+          setTeacherID={setTeacherID}
+          teacherNameprev={teacherNameprev}
+          setteacherNameprev={setteacherNameprev}
         />
         <Button
           onClick={handleSubmit}

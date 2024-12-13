@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavMobile from "../Nav/NavMobile";
 import NavWeb from "../Nav/NavWeb";
-import Card from "./Card"; // Importa el componente de las cartas
+import Card from "./Card";
 import {
   Pagination,
   PaginationContent,
@@ -11,13 +11,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../../ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../ui/select";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import {
@@ -31,11 +24,12 @@ import ManageTeamCompany from "./CrearModGrupo";
 import Loader from "../../Loader/Loader";
 import { BellIcon } from "@radix-ui/react-icons";
 import { getAllTeams } from "../../../provider/adm/Grupos/getAllTeams";
-
+import ScrollListProfesores from "./ScrollListProfesores";
+import { Toaster } from "sonner";
 const GruposEmpresas = () => {
+  const [profesorSelectedToFilter, setprofesorSelectedToFilter] = React.useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [ciudadFilter, setCiudadFilter] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
   const itemsPerPage = 6; // Ajusta este valor según sea necesario
@@ -84,14 +78,15 @@ const GruposEmpresas = () => {
         })
       );
     }
-
+    //filtrar por profesor seleccionado
+    if (profesorSelectedToFilter) {
+      filtered = filtered.filter((item) => item.teacherID.fullName === profesorSelectedToFilter);
+    }
 
     return filtered;
-  }, [data, searchTerm, loading]);
+  }, [data, searchTerm, loading, profesorSelectedToFilter]);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -219,26 +214,14 @@ const GruposEmpresas = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Select
-            value={ciudadFilter}
-            onValueChange={(value) => setCiudadFilter(value)}
-          >
-            <SelectTrigger className="w-[100%]">
-              <SelectValue placeholder="Seleccione una cuidad para filtrar" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
-              <SelectItem value="BOGOTÁ">BOGOTÁ</SelectItem>
-              <SelectItem value="CALI">CALI</SelectItem>
-              <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
-            </SelectContent>
-          </Select>
+          <ScrollListProfesores profesorSelectedToFilter={profesorSelectedToFilter} setprofesorSelectedToFilter={setprofesorSelectedToFilter} setLoading={setLoading} />
+          
 
           <Button
             variant="ghost"
             onClick={() => {
               setSearchTerm("");
-              setCiudadFilter("");
+              setprofesorSelectedToFilter("");
             }}
           >
             Clear filters
@@ -299,6 +282,7 @@ const GruposEmpresas = () => {
           </PaginationContent>
         </Pagination>
       </div>
+      <Toaster asChild />
     </div>
   );
 };

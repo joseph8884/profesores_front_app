@@ -17,13 +17,15 @@ import {
 import { Button } from "../../ui/button";
 import { changeStatusGroup } from "../../../provider/adm/Grupos/changeStatusTeam";
 import {delateTeamAPI} from "../../../provider/adm/Grupos/deleteTeam";
+import { toast } from "sonner";
 const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
   // Determinar el color del encabezado y del círculo según el estado
   const statusColor = status ? "bg-green-500" : "bg-red-500";
   const statusText = status ? "Activo" : "Inactivo";
 
-  return (
+  return (   
     <ContextMenu>
+      
       <ContextMenuTrigger>
         <div
           className="bg-white shadow-lg rounded-lg p-4 relative"
@@ -50,11 +52,13 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
           {/* Información */}
           <div className="mt-4">
             <h3 className="text-lg font-bold">{name}</h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-600">
               Nombre de la empresa: {companyName}
             </p>
-            <p className="text-sm text-gray-400">NIT: {nit}</p>
-            <p className="text-sm text-gray-400">Id Team: {data.ID}</p>
+            <p className="text-sm text-gray-600">NIT: {nit}</p>
+            <p className="text-sm text-gray-600">Id Team: {data.ID}</p>
+            <p className="text-sm text-gray-600">Teacher name: {data.teacherID.fullName}</p>
+            <p className="text-sm text-gray-600">Teacher status: {data.teacherID.status ? "Activo" : "Inactivo"}</p>
           </div>
         </div>
       </ContextMenuTrigger>
@@ -93,14 +97,19 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
           <Button variant={"ghost"}>Eliminar</Button>
         </ContextMenuItem>
         <ContextMenuItem
-          onClick={async (value) => {
+          onClick={async () => {
             try {
               await changeStatusGroup(data.ID);
+              toast.success("Estado del estudiante cambiado con éxito");
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
             } catch (error) {
-              console.error("Error updating student:", error);
-            } finally {
-              window.location.reload();
-            }
+              toast.error(
+                "Error cambiando el estado del estudiante, por favor intentar mas tarde"
+              );
+              console.error("Error changing status of student:", error);
+            } 
           }}
         >
           <Button variant={"ghost"}>Cambiar estado</Button>
