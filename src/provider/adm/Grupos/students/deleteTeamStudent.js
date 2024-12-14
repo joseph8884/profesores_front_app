@@ -1,5 +1,5 @@
 export async function deleteTeamStudent(id) {
-    const url = `https://profesoresbackend.onrender.com/admin/estudiante/equipo/eliminar/${id}`; // Id del estudiante para eliminar del equipo
+    const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/equipo/eliminar/${id}`; // Id del estudiante para eliminar del equipo
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

@@ -1,7 +1,7 @@
 
 export async function teacherbyIdUser(IdUser) {
     try {
-      const url = `https://profesoresbackend.onrender.com/profesor/informacion/?idUser=${IdUser}`; 
+      const url = `${process.env.REACT_APP_API_URL}/profesor/informacion/?idUser=${IdUser}`; 
       const token = sessionStorage.getItem("token"); // Retrieve the JWT token from session storage
       const resp = await fetch(url, {
         method: "GET",

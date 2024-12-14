@@ -1,5 +1,5 @@
 export async function putCompany(companyData, id) {
-    const url = `https://profesoresbackend.onrender.com/admin/equipo/empresa/actualizar/${id}`; 
+    const url = `${process.env.REACT_APP_API_URL}/admin/equipo/empresa/actualizar/${id}`; 
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

@@ -1,6 +1,6 @@
 export async function getStudentsCustomWithDate(idteam, month, year) {
     try{
-        const url = `https://profesoresbackend.onrender.com/admin/estudiante/equipo/equipo/?teamId=${idteam}&year=${year}&month=${month}`;;
+        const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/equipo/equipo/?teamId=${idteam}&year=${year}&month=${month}`;;
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',

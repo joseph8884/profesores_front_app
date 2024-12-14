@@ -1,5 +1,5 @@
 export async function deleteIndividualClass(id) {
-    const url = `https://profesoresbackend.onrender.com/admin/clase/individual/eliminar/${id}`; // URL de la API para eliminar una clase individual
+    const url = `${process.env.REACT_APP_API_URL}/admin/clase/individual/eliminar/${id}`; // URL de la API para eliminar una clase individual
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

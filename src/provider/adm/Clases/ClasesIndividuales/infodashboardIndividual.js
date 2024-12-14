@@ -1,7 +1,7 @@
 
 export async function infodashboardIndividual(idStudent, year, month) {
     try {
-      const url = `https://profesoresbackend.onrender.com/admin/clase/individual/dashboard/?studentID=${idStudent}&year=${year}&month=${month}`; 
+      const url = `${process.env.REACT_APP_API_URL}/admin/clase/individual/dashboard/?studentID=${idStudent}&year=${year}&month=${month}`; 
       const token = sessionStorage.getItem("token"); // Retrieve the JWT token from session storage
       const resp = await fetch(url, {
         method: "GET",

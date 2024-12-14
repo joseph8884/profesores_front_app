@@ -1,5 +1,5 @@
 export async function addHoursEndpoint(hoursObject) {
-    const url = `https://profesoresbackend.onrender.com/admin/estudiante/personalizado/agregar-horas`; // URL de la API para crear un estudiante personalizado};
+    const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/personalizado/agregar-horas`; // URL de la API para crear un estudiante personalizado};
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

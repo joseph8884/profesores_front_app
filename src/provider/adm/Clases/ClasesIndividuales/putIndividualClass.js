@@ -1,5 +1,5 @@
 export async function putIndividualClass(individualClass, id) {
-    const url = `https://profesoresbackend.onrender.com/admin/clase/individual/actualizar/${id}`;
+    const url = `${process.env.REACT_APP_API_URL}/admin/clase/individual/actualizar/${id}`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

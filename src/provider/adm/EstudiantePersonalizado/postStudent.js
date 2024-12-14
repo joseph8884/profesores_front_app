@@ -1,5 +1,5 @@
 export async function createEstudent(estudent) {
-    const url = 'https://profesoresbackend.onrender.com/admin/estudiante/personalizado/crear';
+    const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/personalizado/crear`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

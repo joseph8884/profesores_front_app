@@ -1,6 +1,6 @@
 export async function getStudentsCustomByTeamID(id) {
     try {
-        const url = `https://profesoresbackend.onrender.com/profesor/equipo/estudiantes/${id}`; // URL to the backend API endpoint
+        const url = `${process.env.REACT_APP_API_URL}/profesor/equipo/estudiantes/${id}`; // URL to the backend API endpoint
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',

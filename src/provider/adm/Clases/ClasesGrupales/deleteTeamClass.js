@@ -1,5 +1,5 @@
 export async function deleteTeamClass(id) {
-    const url = `https://profesoresbackend.onrender.com/admin/clase/equipo/eliminar/${id}`; // URL de la API para eliminar una clase grupal
+    const url = `${process.env.REACT_APP_API_URL}/admin/clase/equipo/eliminar/${id}`; // URL de la API para eliminar una clase grupal
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

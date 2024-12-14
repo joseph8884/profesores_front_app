@@ -1,5 +1,5 @@
 export async function postIndividualClass(individualClass) {
-    const url = 'https://profesoresbackend.onrender.com/profesor/estudiante/personalizado/crear/clase';
+    const url = `${process.env.REACT_APP_API_URL}/profesor/estudiante/personalizado/crear/clase`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

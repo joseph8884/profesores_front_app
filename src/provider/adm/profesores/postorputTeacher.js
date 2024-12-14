@@ -4,8 +4,8 @@ export async function postorputTeacher(teacherData, id) {
         'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
         'Content-Type': 'application/json'
     };
-    const putUrl = `https://profesoresbackend.onrender.com/admin/profesor/actualizar/${id}`;
-    const postUrl = 'https://profesoresbackend.onrender.com/admin/profesor/crear';
+    const putUrl = `${process.env.REACT_APP_API_URL}/admin/profesor/actualizar/${id}`;
+    const postUrl = `${process.env.REACT_APP_API_URL}/admin/profesor/crear`;
 
     try {
         const putResponse = await fetch(putUrl, {

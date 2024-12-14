@@ -1,5 +1,5 @@
 export async function postTeamClass(teamClass) {
-    const url = 'https://profesoresbackend.onrender.com/profesor/equipo/crear/clase';
+    const url = `${process.env.REACT_APP_API_URL}/profesor/equipo/crear/clase`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

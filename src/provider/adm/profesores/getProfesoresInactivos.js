@@ -1,6 +1,6 @@
 export async function getAllProfesoresInactivos() {
     try{
-        const url = 'https://profesoresbackend.onrender.com/admin/profesor/inactivos';
+        const url = `${process.env.REACT_APP_API_URL}/admin/profesor/inactivos`;
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',

@@ -1,5 +1,5 @@
 export async function delateCompany(idCompany) {
-    const url = `https://profesoresbackend.onrender.com/admin/equipo/empresa/eliminar/${idCompany}`; // URL de la API para crear un estudiante personalizado};
+    const url = `${process.env.REACT_APP_API_URL}/admin/equipo/empresa/eliminar/${idCompany}`; // URL de la API para crear un estudiante personalizado};
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

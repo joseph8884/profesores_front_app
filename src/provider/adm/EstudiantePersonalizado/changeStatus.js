@@ -1,5 +1,5 @@
 export async function changeStatusStudent(id) {
-    const url = `https://profesoresbackend.onrender.com/admin/estudiante/personalizado/estado/${id}`;
+    const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/personalizado/estado/${id}`;
     const token = sessionStorage.getItem('token');
 
     try {

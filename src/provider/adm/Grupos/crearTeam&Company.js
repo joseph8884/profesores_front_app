@@ -1,5 +1,5 @@
 export async function creaCompany(companyData) {
-    const url = 'https://profesoresbackend.onrender.com/admin/equipo/empresa/crear';
+    const url = `${process.env.REACT_APP_API_URL}/admin/equipo/empresa/crear`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

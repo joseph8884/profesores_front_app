@@ -1,5 +1,5 @@
 export async function getAttendances() {
-    const url = 'https://profesoresbackend.onrender.com/admin/clase/equipo/asistencia/asistencias';
+    const url = `${process.env.REACT_APP_API_URL}/admin/clase/equipo/asistencia/asistencias`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

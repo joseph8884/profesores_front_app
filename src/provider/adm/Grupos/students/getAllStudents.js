@@ -1,6 +1,6 @@
 export async function getAllStudents() {
     try {
-        const url = 'https://profesoresbackend.onrender.com/admin/estudiante/equipo/estudiantes';
+        const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/equipo/estudiantes`;
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',

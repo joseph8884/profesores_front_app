@@ -1,5 +1,5 @@
 export async function putBankData(teacherData) {
-    const url = 'https://profesoresbackend.onrender.com/admin/profesorbanco/actualizar';
+    const url = `${process.env.REACT_APP_API_URL}/admin/profesorbanco/actualizar`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {

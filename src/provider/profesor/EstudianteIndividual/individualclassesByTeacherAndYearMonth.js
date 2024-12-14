@@ -1,6 +1,6 @@
 export async function individualclassesByTeacherAndYearMonth(idTeacher, year, month) {
     try {
-      const url = `https://profesoresbackend.onrender.com/profesor/estudiante/personalizado/clases/profesor/?teacherID=${idTeacher}&year=${year}&month=${month}`; 
+      const url = `${process.env.REACT_APP_API_URL}/profesor/estudiante/personalizado/clases/profesor/?teacherID=${idTeacher}&year=${year}&month=${month}`; 
       const token = sessionStorage.getItem("token"); // Retrieve the JWT token from session storage
       const resp = await fetch(url, {
         method: "GET",
