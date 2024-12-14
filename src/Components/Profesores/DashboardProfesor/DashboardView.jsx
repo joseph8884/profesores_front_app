@@ -184,7 +184,16 @@ const DashBoardProfesor = () => {
                         <TableCell>{classData.teacherID}</TableCell>
                         <TableCell>{classData.teamID}</TableCell>
                         <TableCell>
-                          {new Date(classData.dateTime).toLocaleDateString()}
+                          {new Date(classData.dateTime).toLocaleString("es", {
+                            weekday: "long", // e.g., Monday
+                            year: "numeric", // e.g., 2024
+                            month: "long", // e.g., December
+                            day: "numeric", // e.g., 9
+                            hour: "2-digit", // e.g., 01
+                            minute: "2-digit", // e.g., 30
+                            second: "2-digit", // e.g., 45
+                            hour12: true, // e.g., AM/PM format
+                          })}
                         </TableCell>
                         <TableCell>{classData.classType}</TableCell>
                         <TableCell>{classData.duration} H</TableCell>
@@ -240,7 +249,16 @@ const DashBoardProfesor = () => {
                         <TableCell>{classData.teacherID}</TableCell>
                         <TableCell>{classData.studentID}</TableCell>
                         <TableCell>
-                          {new Date(classData.dateTime).toLocaleDateString()}
+                          {new Date(classData.dateTime).toLocaleString("es", {
+                            weekday: "long", // e.g., Monday
+                            year: "numeric", // e.g., 2024
+                            month: "long", // e.g., December
+                            day: "numeric", // e.g., 9
+                            hour: "2-digit", // e.g., 01
+                            minute: "2-digit", // e.g., 30
+                            second: "2-digit", // e.g., 45
+                            hour12: true, // e.g., AM/PM format
+                          })}
                         </TableCell>
                         <TableCell>{classData.classType}</TableCell>
                         <TableCell>{classData.duration} H</TableCell>

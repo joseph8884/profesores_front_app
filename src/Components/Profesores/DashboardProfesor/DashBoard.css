@@ -99,6 +99,8 @@
             grid-area: ultimas_clases_grupo;
             padding: 20px;
             overflow-x: auto;
+            max-width: 400px;
+            overflow-y: auto;
         }
         & div.ultimas_clases_estudiante{
             padding: 20px;
@@ -106,6 +108,8 @@
             border-radius: 10px;
             grid-area: ultimas_clases_estudiante;
             overflow-x: auto;
+            max-width: 400px;
+            overflow-y: auto;
         }
     }
 }

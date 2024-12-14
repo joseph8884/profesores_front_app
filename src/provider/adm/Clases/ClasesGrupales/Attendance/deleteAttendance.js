@@ -1,5 +1,5 @@
 export async function deleteAttendance(id) {
-    const url = `https://profesoresbackend.onrender.com/admin/clase/equipo/asistencia/eliminar/${id}`; // URL de la API para eliminar una asistencia
+    const url = `${process.env.REACT_APP_API_URL}/admin/clase/equipo/asistencia/eliminar/${id}`; // URL de la API para eliminar una asistencia
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
