@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 export async function teamClassesByTeacherIdAndYearMonth(id, year, month) {
     try {
       const url = `${process.env.REACT_APP_API_URL}/admin/clase/equipo/clases/profesor/?teacherID=${id}&year=${year}&month=${month}`; 
@@ -33,6 +34,7 @@ export async function teamClassesByTeacherIdAndYearMonth(id, year, month) {
       console.log('classList', classList);  
       return classList;
     } catch (error) {
+      toast.error("No se encontraron clases para este profesor, por favor intente mas tarde");
       console.error("Error al obtener los estudiantes:", error);
       return [];
     }

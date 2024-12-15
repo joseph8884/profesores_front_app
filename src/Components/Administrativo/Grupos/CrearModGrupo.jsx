@@ -41,22 +41,25 @@ const CrearModGrupo = ({ initialData, context }) => {
 
     if (context === "create") {
       try {
-        console.log("Data on create", combinedData);
         await createTeam(combinedData);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         console.error("Error creating student:", error);
       } finally {
         setLoading(false);
-        window.location.reload();
       }
     } else {
       try {
         await editTeam(initialData.ID, combinedData);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         console.error("Error updating student:", error);
       } finally {
         setLoading(false);
-        window.location.reload();
       }
     }
   };

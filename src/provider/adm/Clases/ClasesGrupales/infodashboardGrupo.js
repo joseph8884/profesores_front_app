@@ -1,4 +1,4 @@
-
+import {toast} from "sonner"
 export async function infodashboardGrupo(idGroup, year, month) {
     try {
       const url = `${process.env.REACT_APP_API_URL}/admin/clase/equipo/dashboard/?teamID=${idGroup}&year=${year}&month=${month}`; 
@@ -22,6 +22,7 @@ export async function infodashboardGrupo(idGroup, year, month) {
       };
       return classList;
     } catch (error) {
+      toast.error("No se encontro informacion de las clases, por favor intente mas tarde");
       console.error("Error fetching classes:", error);
       return [];
     }

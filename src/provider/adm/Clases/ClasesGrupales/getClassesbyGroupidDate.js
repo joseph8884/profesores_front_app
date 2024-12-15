@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 export async function getClassesbyGroupIDDate(idGroup, year, month) {
     try {
       const url = `${process.env.REACT_APP_API_URL}/admin/clase/equipo/clases/?teamID=${idGroup}&year=${year}&month=${month}`; 
@@ -26,6 +27,7 @@ export async function getClassesbyGroupIDDate(idGroup, year, month) {
       }));
       return classList;
     } catch (error) {
+      toast.error("No se encontraron clases, por favor intente mas tarde");
       console.error("Error al obtener los estudiantes:", error);
       return [];
     }

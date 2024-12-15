@@ -12,6 +12,17 @@ import {
   TableHeader,
   TableRow,
 } from "../../../ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../../ui/alert-dialog";
 import "./GrupoDetalle.css";
 import CrearModGrupo from "../CrearModGrupo";
 import { BellIcon, DownloadIcon, PersonIcon } from "@radix-ui/react-icons";
@@ -26,6 +37,7 @@ import Loader from "../../../Loader/Loader";
 import { deleteTeamClass } from "../../../../provider/adm/Clases/ClasesGrupales/deleteTeamClass";
 import ModificarClasesGrupo from "./classes/ModificarClasesGrupo";
 import { infodashboardGrupo } from "../../../../provider/adm/Clases/ClasesGrupales/infodashboardGrupo";
+import { Toaster } from "sonner";
 const GroupDetail = () => {
   const [groupData, setGroupData] = useState(null);
   const [classes, setClasses] = useState([]);
@@ -64,7 +76,7 @@ const GroupDetail = () => {
       "Tipo de Clase": clase.classType,
       Fecha: new Date(clase.dateTime).toLocaleDateString(),
       Duración: `${clase.duration} H`,
-      "Estado": clase.classHeld ? "Completada" : "Cancelada",
+      Estado: clase.classHeld ? "Completada" : "Cancelada",
       "Razón de Cancelación": clase.cancellationReason,
       "Momento de Cancelación": clase.cancellationTiming,
       "Cancelado por": clase.canceledBy,
@@ -73,13 +85,15 @@ const GroupDetail = () => {
 
     // Datos de totales y estadísticas
     const totalsData = [
-      { 
-        "Total Horas Canceladas por Estudiante": inforDashboard.classesCanceledUser,
-        "Total Horas Canceladas por Profesor": inforDashboard.classesCanceledTeacher,
+      {
+        "Total Horas Canceladas por Estudiante":
+          inforDashboard.classesCanceledUser,
+        "Total Horas Canceladas por Profesor":
+          inforDashboard.classesCanceledTeacher,
         "Total Clases Dictadas": inforDashboard.hoursHeld,
         "Total Horas Virtuales": inforDashboard.hoursHeldVirtual,
-        "Total Horas Presenciales": inforDashboard.hoursHeldInPerson
-      }
+        "Total Horas Presenciales": inforDashboard.hoursHeldInPerson,
+      },
     ];
     const totalsWorksheet = XLSX.utils.json_to_sheet(totalsData);
 
@@ -152,7 +166,10 @@ const GroupDetail = () => {
               </Button>
               <a
                 href={`/admin/gruposvista/grupos/groupdetail/studentsgroupcrud?nameGroup=${encodeURIComponent(
-                  groupData.name)}&teamId=${groupData.ID}&year=${date.year}&month=${date.month}`}
+                  groupData.name
+                )}&teamId=${groupData.ID}&year=${date.year}&month=${
+                  date.month
+                }`}
               >
                 <Button>
                   <PersonIcon />
@@ -162,7 +179,7 @@ const GroupDetail = () => {
             </div>
           </div>
           <div className="resumenDeActividadAcademica">
-          <div className="actividadCard">
+            <div className="actividadCard">
               <h3>Total de horas canceladas por el estudiante</h3>
               <p className="total">{inforDashboard.classesCanceledUser}</p>
             </div>
@@ -182,7 +199,6 @@ const GroupDetail = () => {
               <h3>Total horas presenciales</h3>
               <p className="total">{inforDashboard.hoursHeldInPerson}</p>
             </div>
-          
           </div>
           <div className="pie">
             <PieChart />
@@ -234,20 +250,48 @@ const GroupDetail = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <TrashIcon
-                        className="w-6 h-6 text-gray-400"
-                        onClick={async () => {
-                          try {
-                            setLoading(true);
-                            await deleteTeamClass(classData.id);
-                          } catch (error) {
-                            console.log("Error deleting class:", error);
-                          } finally {
-                            setLoading(false);
-                            window.location.reload();
-                          }
-                        }}
-                      />
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <TrashIcon className="w-6 h-6 text-gray-400" />
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              ¿Estás absolutamente seguro?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Esta acción no se puede deshacer. Esto eliminará
+                              permanentemente la clase y todos sus datos
+                              asociados.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                setLoading(true);
+                                try {
+                                  setLoading(true);
+                                  await deleteTeamClass(classData.id);
+                                  setTimeout(() => {
+                                    window.location.reload();
+                                  }, 2000);
+                                } catch (error) {
+                                  console.error(
+                                    "Error eliminando la clase:",
+                                    error
+                                  );
+                                } finally {
+                                  setLoading(false);
+                                }
+                              }}
+                            >
+                              Sí, eliminar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                       <Dialog>
                         <DialogTrigger asChild>
                           <Pencil1Icon className="w-6 h-6 text-gray-400" />
@@ -264,6 +308,7 @@ const GroupDetail = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

@@ -7,6 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../ui/alert-dialog";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 import CrearCompany from "./CrearEditCompany.jsx";
 import { TrashIcon } from "@radix-ui/react-icons";
@@ -29,11 +40,13 @@ const CompanyCRUD = ({
     setLoading(true);
     try {
       await delateCompany(idCompany);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error("Error creating student:", error);
     } finally {
       setLoading(false);
-      window.location.reload();
     }
   };
   return (
@@ -70,10 +83,32 @@ const CompanyCRUD = ({
                 ))}
               </SelectContent>
             </Select>
-            <TrashIcon
-              className="w-6 h-6 text-gray-400"
-              onClick={async () => handleDeleteCompany()}
-            />
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <TrashIcon
+                  className="w-6 h-6 text-gray-400"
+                />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    ¿Estás absolutamente seguro?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta acción no se puede deshacer. Esto eliminará
+                    permanentemente a la compañia y todos sus datos asociados.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={async () => handleDeleteCompany()} 
+                  >
+                    Sí, eliminar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <Dialog>
               <DialogTrigger asChild>
                 <Pencil1Icon className="w-6 h-6 text-gray-400" />

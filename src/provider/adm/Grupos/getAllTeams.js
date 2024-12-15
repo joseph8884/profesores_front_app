@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export async function getAllTeams(status) {
     try{
         const url = `${process.env.REACT_APP_API_URL}/admin/equipo/teams/${status}`; 
@@ -29,6 +31,7 @@ export async function getAllTeams(status) {
         }));
         return teamsList;
     } catch (error) {  
+        toast.error("Error al obtener los equipos, intente mas tarde");
         console.error('Error al obtener los equipos:', error);
         throw error;
     }

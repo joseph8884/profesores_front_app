@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 export async function creaCompany(companyData) {
     const url = `${process.env.REACT_APP_API_URL}/admin/equipo/empresa/crear`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
@@ -12,14 +13,26 @@ export async function creaCompany(companyData) {
             body: JSON.stringify(companyData) // Convert the company data to JSON
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create company');
+            toast.error("Error al crear compañio", responseText);    
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to put student');
         }
 
-        const data = await response.json();
-        return data; // Return the response data
+        if (contentType && contentType.includes('application/json')) {
+            toast.error("Error al crear compañia", responseText);
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            console.log('Response is not JSON:', responseText);
+            toast.success("Compañia creada con éxito");
+            return { message: responseText }; // Return the response text as a message
+        }
     } catch (error) {
-        console.error('Error creating company:', error);
+        toast.error("Error al crear compañia");
+        console.error('Error creating compañia:', error);
         throw error;
     }
 }
@@ -38,14 +51,25 @@ export async function createTeam(teamData) {
             body: JSON.stringify(teamData) // Convert the team data to JSON
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create team');
+            toast.error("Error al crear Team", responseText);    
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to put student');
         }
 
-        const data = await response.json();
-        return data; // Return the response data
+        if (contentType && contentType.includes('application/json')) {
+            toast.error("Error al crear Team", responseText);  
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            toast.success("Team creada con éxito");
+            return { message: responseText }; // Return the response text as a message
+        }
     } catch (error) {
-        console.error('Error creating team:', error);
+        toast.error("Error al crear Team");
+        console.error('Error creating Team:', error);
         throw error;
     }
 }
@@ -65,12 +89,25 @@ export async function editTeam(id,team) {
             body: JSON.stringify(team) // Convert the company data to JSON
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create student');
+            toast.error("Error al editar Team", responseText);    
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to put student');
         }
-        return await response.json(); // Retorna la respuesta en formato JSON si es exitosa
+
+        if (contentType && contentType.includes('application/json')) {
+            toast.error("Error al editar Team", responseText);  
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            toast.success("Team editado con éxito");
+            return { message: responseText }; // Return the response text as a message
+        }
     } catch (error) {
-        console.error('Error creating student:', error);
+        toast.error("Error al editar Team");
+        console.error('Error creating Team:', error);
         throw error;
     }
 }

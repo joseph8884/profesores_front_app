@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Button } from "../../../ui/button";
 import { Input } from "../../../ui/input";
 import { BellIcon } from "@radix-ui/react-icons";
@@ -33,7 +33,18 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../../../ui/pagination";
-import { Sheet, SheetTrigger, SheetContent } from "../../../ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../../ui/alert-dialog";
+import { Sheet, SheetTrigger } from "../../../ui/sheet";
 import { MoreHorizontal } from "lucide-react";
 //import CrearEditarEstudiante from "./CreaEditStudentCustom";
 import { getStudentsCustomWithDate } from "../../../../provider/adm/Grupos/students/getStudetsCustombyTeamid";
@@ -43,7 +54,7 @@ import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import CrearEditarEstudianteCustom from "./CreaEditStudentCustom";
 import { deleteTeamStudent } from "../../../../provider/adm/Grupos/students/deleteTeamStudent";
-
+import { Toaster } from "sonner";
 const StudentsGroupCRUD = () => {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -65,7 +76,11 @@ const StudentsGroupCRUD = () => {
     setLoading(true);
     const fetchStudents = async () => {
       try {
-        const data_fromAPI = await getStudentsCustomWithDate(teamId, month, year);
+        const data_fromAPI = await getStudentsCustomWithDate(
+          teamId,
+          month,
+          year
+        );
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -339,6 +354,7 @@ const StudentsGroupCRUD = () => {
           </PaginationContent>
         </Pagination>
       </div>
+      <Toaster />
     </div>
   );
 };
@@ -417,19 +433,45 @@ const tableConfig = (setLoading) => {
                 </Sheet>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  try {
-                    await deleteTeamStudent(student.id);
-                  } catch (error) {
-                    console.error("Error creating student:", error);
-                  } finally {
-                    window.location.reload();
-                  }
-                }}
-              >
-                <Button variant="ghost">Eliminar</Button>
+              <DropdownMenuItem>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button variant="ghost">Eliminar</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        ¿Estás absolutamente seguro?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Esta acción no se puede deshacer. Esto eliminará
+                        permanentemente al estudiante y todos sus datos
+                        asociados.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          try {
+                            await deleteTeamStudent(student.id);
+                            setTimeout(() => {
+                              window.location.reload();
+                            }, 2000);
+                          } catch (error) {
+                            console.error(
+                              "Error eliminando al estudiante:",
+                              error
+                            );
+                          }
+                        }}
+                      >
+                        Sí, eliminar
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

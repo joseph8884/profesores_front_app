@@ -14,18 +14,27 @@ import {
   SheetHeader,
   SheetTitle,
 } from "../../ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../ui/alert-dialog";
 import { Button } from "../../ui/button";
 import { changeStatusGroup } from "../../../provider/adm/Grupos/changeStatusTeam";
-import {delateTeamAPI} from "../../../provider/adm/Grupos/deleteTeam";
-import { toast } from "sonner";
+import { delateTeamAPI } from "../../../provider/adm/Grupos/deleteTeam";
 const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
   // Determinar el color del encabezado y del círculo según el estado
   const statusColor = status ? "bg-green-500" : "bg-red-500";
   const statusText = status ? "Activo" : "Inactivo";
 
-  return (   
+  return (
     <ContextMenu>
-      
       <ContextMenuTrigger>
         <div
           className="bg-white shadow-lg rounded-lg p-4 relative"
@@ -57,8 +66,12 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
             </p>
             <p className="text-sm text-gray-600">NIT: {nit}</p>
             <p className="text-sm text-gray-600">Id Team: {data.ID}</p>
-            <p className="text-sm text-gray-600">Teacher name: {data.teacherID.fullName}</p>
-            <p className="text-sm text-gray-600">Teacher status: {data.teacherID.status ? "Activo" : "Inactivo"}</p>
+            <p className="text-sm text-gray-600">
+              Teacher name: {data.teacherID.fullName}
+            </p>
+            <p className="text-sm text-gray-600">
+              Teacher status: {data.teacherID.status ? "Activo" : "Inactivo"}
+            </p>
           </div>
         </div>
       </ContextMenuTrigger>
@@ -84,35 +97,54 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
           </Sheet>
         </ContextMenuItem>
         <ContextMenuItem
-          onClick={async (value) => {
-            try {
-              await delateTeamAPI(data.ID);
-            } catch (error) {
-              console.error("Error updating student:", error);
-            } finally {
-              window.location.reload();
-            }
-          }}
-        >
-          <Button variant={"ghost"}>Eliminar</Button>
-        </ContextMenuItem>
-        <ContextMenuItem
           onClick={async () => {
             try {
               await changeStatusGroup(data.ID);
-              toast.success("Estado del estudiante cambiado con éxito");
               setTimeout(() => {
                 window.location.reload();
               }, 2000);
             } catch (error) {
-              toast.error(
-                "Error cambiando el estado del estudiante, por favor intentar mas tarde"
-              );
               console.error("Error changing status of student:", error);
-            } 
+            }
           }}
         >
           <Button variant={"ghost"}>Cambiar estado</Button>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button variant={"ghost"}>Eliminar</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  ¿Estás absolutamente seguro?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Esta acción no se puede deshacer. Esto eliminará
+                  permanentemente al grupo y todos sus datos asociados.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    try {
+                      await delateTeamAPI(data.ID);
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 2000);
+                    } catch (error) {
+                      console.error("Error eliminando al estudiante:", error);
+                    }
+                  }}
+                >
+                  Sí, eliminar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

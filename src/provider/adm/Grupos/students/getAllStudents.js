@@ -1,3 +1,4 @@
+import {toast} from "sonner"
 export async function getAllStudents() {
     try {
         const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/equipo/estudiantes`;
@@ -22,6 +23,7 @@ export async function getAllStudents() {
         console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;
     } catch (error) {
+        toast.error("Error al obtener todos los estudiantes")
         console.error('Error al obtener los estudiantes:', error);
         throw error;
     }

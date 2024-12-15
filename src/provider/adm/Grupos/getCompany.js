@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export async function getCompanys() {
     try{
         const url = `${process.env.REACT_APP_API_URL}/admin/equipo/empresa/todas`;
@@ -16,7 +18,8 @@ export async function getCompanys() {
             nit: company.nit,
         }));
         return companyList;
-    } catch (error) {  
+    } catch (error) {
+        toast.error("Error al obtener compañias, intente mas tarde");  
         console.error('Error al obtener compañias:', error);
         throw error;
     }
