@@ -78,7 +78,7 @@ const ModificarClases = ({ data }) => {
     };
 
     var formData = {
-      teacherID: 2,
+      teacherID: data.teacherID,
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,
@@ -89,8 +89,8 @@ const ModificarClases = ({ data }) => {
       cancellationReason: cancellationReason,
       cancellationTiming: classHeld === false
         ? cancellationTiming
-        : "Class helded",
-      canceledBy: classHeld === false ? cancelledBy : "Class helded",
+        : "Class held",
+      canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
       await putIndividualClass(formData, data.id);

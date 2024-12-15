@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 export async function individualclassesByTeacherAndYearMonth(idStudent, year, month) {
     try {
       const url = `${process.env.REACT_APP_API_URL}/admin/clase/individual/clases/profesor/?teacherID=${idStudent}&year=${year}&month=${month}`; 
@@ -24,11 +25,12 @@ export async function individualclassesByTeacherAndYearMonth(idStudent, year, mo
         cancellationTiming: student.cancellationTiming,
         canceledBy: student.canceledBy,
       }));
+      toast.success("Estudiantes obtenidos con éxito");
       return classList;
     } catch (error) {
       console.error("Error al obtener los estudiantes:", error);
+      toast.error("No hay estudiantes por obtener, intente mas tarde o otra fecha.", error);
       return [];
     }
-    // Asegúrate de que esto retorne la respuesta completa
   }
   

@@ -79,14 +79,10 @@ const CrearEditarEstudiante = ({ data, context }) => {
       if (context === "create") {
         try {
           await createEstudent(updatedData);
-          toast.success("Estudiante creado con éxito");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         } catch (error) {
-          toast.error(
-            "Error al crear el estudiante, por favor intente de nuevo", error
-          );
           console.error("Error creating student", error);
         } finally {
           setLoading(false);
@@ -94,14 +90,10 @@ const CrearEditarEstudiante = ({ data, context }) => {
       } else {
         try {
           await updateStudentAPI(data.ID, updatedData);
-          toast.success("Estudiante actualizado con éxito");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         } catch (error) {
-          toast.error(
-            "Error actualizando la información del estudiante, por favor intentar mas tarde", error
-          );
           console.error("Error changing data of student:", error);
         } finally {
           setLoading(false);

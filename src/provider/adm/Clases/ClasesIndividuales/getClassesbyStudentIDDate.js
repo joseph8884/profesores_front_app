@@ -1,3 +1,4 @@
+import {toast} from "sonner"
 export async function getClassesbyStudentIDDate(idStudent, year, month) {
   try {
     const url = `${process.env.REACT_APP_API_URL}/admin/clase/individual/clases/?studentID=${idStudent}&year=${year}&month=${month}`; 
@@ -24,10 +25,11 @@ export async function getClassesbyStudentIDDate(idStudent, year, month) {
       cancellationTiming: student.cancellationTiming,
       canceledBy: student.canceledBy,
     }));
+    toast.success("Estudiantes obtenidos con éxito");
     return classList;
   } catch (error) {
     console.error("Error al obtener los estudiantes:", error);
+    toast.error("No hay estudiantes por obtener, intente mas tarde o otra fecha.", error);
     return [];
   }
-  // Asegúrate de que esto retorne la respuesta completa
 }

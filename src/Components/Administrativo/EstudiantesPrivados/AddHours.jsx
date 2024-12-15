@@ -39,11 +39,13 @@ const AddHours = ({ idStudent }) => {
 
     try {
         await addHoursEndpoint(add);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
     } catch (error) {
-      console.error("Error creating student:", error);
+      console.error("Error adding hours to student:", error);
     } finally {
       setLoading(false);
-      window.location.reload();
     }
   };
 

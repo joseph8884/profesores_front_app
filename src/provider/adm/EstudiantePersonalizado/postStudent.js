@@ -1,3 +1,4 @@
+import {toast} from "sonner"
 export async function createEstudent(estudent) {
     const url = `${process.env.REACT_APP_API_URL}/admin/estudiante/personalizado/crear`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
@@ -16,14 +17,17 @@ export async function createEstudent(estudent) {
         const responseText = await response.text(); // Read the response as text
 
         if (!response.ok) {
+            toast.error("Error al crear Estudiante", responseText);    
             console.error('Server responded with:', responseText);
-            throw new Error('Failed to post student');
+            throw new Error('Failed to put student');
         }
 
         if (contentType && contentType.includes('application/json')) {
+            toast.error("Error al crear Estudiante", responseText);
             return JSON.parse(responseText); // Attempt to parse the response as JSON
         } else {
             console.log('Response is not JSON:', responseText);
+            toast.success("Estudiante creado con éxito");
             return { message: responseText }; // Return the response text as a message
         }
     } catch (error) {

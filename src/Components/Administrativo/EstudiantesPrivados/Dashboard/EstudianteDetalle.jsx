@@ -14,6 +14,17 @@ import {
   TableHeader,
   TableRow,
 } from "../../../ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../../ui/alert-dialog";
 import { BellIcon } from "@radix-ui/react-icons";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import Calendar from "./Calendar";
@@ -23,10 +34,11 @@ import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import ModificarClases from "./classes/ModificarClases";
-import {getClassesbyStudentIDDate} from "../../../../provider/adm/Clases/ClasesIndividuales/getClassesbyStudentIDDate";
-import {deleteIndividualClass} from "../../../../provider/adm/Clases/ClasesIndividuales/deleteIndividualClass";
-import {infodashboardIndividual} from "../../../../provider/adm/Clases/ClasesIndividuales/infodashboardIndividual";
+import { getClassesbyStudentIDDate } from "../../../../provider/adm/Clases/ClasesIndividuales/getClassesbyStudentIDDate";
+import { deleteIndividualClass } from "../../../../provider/adm/Clases/ClasesIndividuales/deleteIndividualClass";
+import { infodashboardIndividual } from "../../../../provider/adm/Clases/ClasesIndividuales/infodashboardIndividual";
 import Loader from "../../../Loader/Loader";
+import { Toaster } from "sonner";
 const StudentDetail = () => {
   const [studentData, setStudentData] = useState(null);
   const [classes, setClasses] = useState([]);
@@ -42,8 +54,7 @@ const StudentDetail = () => {
       month: parseInt(new Date().getMonth().toString()) + 1,
       year: new Date().getFullYear().toString(),
     });
-    
-  },[] );
+  }, []);
 
   const exportToExcel = () => {
     if (!studentData) {
@@ -70,7 +81,7 @@ const StudentDetail = () => {
       "Tipo de Clase": clase.classType,
       Fecha: new Date(clase.dateTime).toLocaleDateString(),
       Duración: `${clase.duration} H`,
-      "Estado": clase.classHeld ? "Completada" : "Cancelada",
+      Estado: clase.classHeld ? "Completada" : "Cancelada",
       "Razón de Cancelación": clase.cancellationReason,
       "Momento de Cancelación": clase.cancellationTiming,
       "Cancelado por": clase.canceledBy,
@@ -79,13 +90,15 @@ const StudentDetail = () => {
 
     // Datos de totales y estadísticas
     const totalsData = [
-      { 
-        "Total Horas Canceladas por Estudiante": studentInfoClasses.classesCanceledUser,
-        "Total Horas Canceladas por Profesor": studentInfoClasses.classesCanceledTeacher,
+      {
+        "Total Horas Canceladas por Estudiante":
+          studentInfoClasses.classesCanceledUser,
+        "Total Horas Canceladas por Profesor":
+          studentInfoClasses.classesCanceledTeacher,
         "Total Clases Dictadas": studentInfoClasses.hoursHeld,
         "Total Horas Virtuales": studentInfoClasses.hoursHeldVirtual,
-        "Total Horas Presenciales": studentInfoClasses.hoursHeldInPerson
-      }
+        "Total Horas Presenciales": studentInfoClasses.hoursHeldInPerson,
+      },
     ];
     const totalsWorksheet = XLSX.utils.json_to_sheet(totalsData);
 
@@ -107,13 +120,16 @@ const StudentDetail = () => {
   if (!studentData) {
     return (
       <div className="flex">
-         <Loader />
+        <Loader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex" style={{ overflowY: 'hidden', height: '100vh', }}>
+    <div
+      className="min-h-screen flex"
+      style={{ overflowY: "hidden", height: "100vh" }}
+    >
       {loading && <Loader />}
       <NavMobile />
       <NavWeb />
@@ -121,8 +137,8 @@ const StudentDetail = () => {
         <div className="dashboardcontainerstudentviewadmin">
           <div className="tituloynotificaciones">
             <h2 className="text-xl font-bold text-gray-900">
-                Informacion Estudiante {studentData.fullName} con id=
-                {studentData.ID}
+              Informacion Estudiante {studentData.fullName} con id=
+              {studentData.ID}
             </h2>
             <BellIcon className="h-6 w-6" />
           </div>
@@ -161,13 +177,15 @@ const StudentDetail = () => {
             </div>
           </div>
           <div className="resumenDeActividadAcademica">
-          <div className="actividadCard">
+            <div className="actividadCard">
               <h3>Total de horas canceladas por el estudiante</h3>
               <p className="total">{studentInfoClasses.classesCanceledUser}</p>
             </div>
             <div className="actividadCard">
               <h3>Total de horas canceladas por el profeosor </h3>
-              <p className="total">{studentInfoClasses.classesCanceledTeacher}</p>
+              <p className="total">
+                {studentInfoClasses.classesCanceledTeacher}
+              </p>
             </div>
             <div className="actividadCard">
               <h3>Total de clases dictadas</h3>
@@ -181,7 +199,6 @@ const StudentDetail = () => {
               <h3>Total horas presenciales</h3>
               <p className="total">{studentInfoClasses.hoursHeldInPerson}</p>
             </div>
-          
           </div>
           <div className="calendario">
             <PieChart />
@@ -234,28 +251,56 @@ const StudentDetail = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <TrashIcon
-                        className="w-6 h-6 text-gray-400"
-                        onClick={async () => {
-                          try{
-                            setLoading(true);
-                            await deleteIndividualClass(classData.id);
-                          } catch (error) {
-                            console.log("Error deleting class:", error);
-                          } finally {
-                            setLoading(false);
-                            window.location.reload(); 
-                          }                     
-                        }}                        
-                      />
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <TrashIcon
+                            className="w-6 h-6 text-gray-400"
+                          />
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              ¿Estás absolutamente seguro?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Esta acción no se puede deshacer. Esto eliminará
+                              permanentemente la clase con ID {classData.id} y todos sus datos
+                              asociados.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                setLoading(true);
+                                try {
+                                  await deleteIndividualClass(classData.id);
+                                  setTimeout(() => {
+                                    window.location.reload();
+                                  }, 2000);
+                                } catch (error) {
+                            
+                                  console.error(
+                                    "Error eliminando al estudiante:",
+                                    error
+                                  );
+                                } finally {
+                                  setLoading(false);
+                                }
+                              }}
+                            >
+                              Sí, eliminar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                       <Dialog>
                         <DialogTrigger asChild>
                           <Pencil1Icon className="w-6 h-6 text-gray-400" />
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[825px]">
-                          <ModificarClases
-                            data={classData}
-                          />
+                          <ModificarClases data={classData} />
                         </DialogContent>
                       </Dialog>
                     </TableCell>
@@ -266,6 +311,7 @@ const StudentDetail = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

@@ -236,34 +236,28 @@ export function DataTableDemo({ status }) {
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        Are you absolutely sure?
+                        ¿Estás absolutamente seguro?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
+                        Esta acción no se puede deshacer. Esto eliminará
+                        permanentemente al estudiante y todos sus datos
+                        asociados.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={async (e) => {
                           e.stopPropagation();
                           setLoading(true);
                           try {
                             await delateStudentAPI(student.ID);
-                            toast.success(
-                              "Estudiante eliminado con éxito"
-                            );
                             setTimeout(() => {
                               window.location.reload();
                             }, 2000);
                           } catch (error) {
-                            toast.error(
-                              "Error cambiando el estado del estudiante, por favor intentar mas tarde"
-                            );
                             console.error(
-                              "Error changing status of student:",
+                              "Error eliminando al estudiante:",
                               error
                             );
                           } finally {
@@ -271,7 +265,7 @@ export function DataTableDemo({ status }) {
                           }
                         }}
                       >
-                        Yes, delete
+                        Sí, eliminar
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

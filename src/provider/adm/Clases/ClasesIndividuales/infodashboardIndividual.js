@@ -1,4 +1,4 @@
-
+import { toast } from "sonner";
 export async function infodashboardIndividual(idStudent, year, month) {
     try {
       const url = `${process.env.REACT_APP_API_URL}/admin/clase/individual/dashboard/?studentID=${idStudent}&year=${year}&month=${month}`; 
@@ -22,9 +22,9 @@ export async function infodashboardIndividual(idStudent, year, month) {
       };
       return classList;
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      console.error("Error al obtener los estudiantes:", error);
+      toast.error("No informacion de los estudiantes por obtener, intente mas tarde o otra fecha.", error);
       return [];
-    }
-    // Asegúrate de que esto retorne la respuesta completa
+    } 
   }
   
