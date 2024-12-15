@@ -13,6 +13,7 @@ import {
 } from "../../ui/select";
 import AddHours from "./AddHours";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
+import { Toaster, toast } from "sonner";
 
 const CrearEditarEstudiante = ({ data, context }) => {
   const [file, setFile] = useState(null);
@@ -47,40 +48,28 @@ const CrearEditarEstudiante = ({ data, context }) => {
     const phoneRegex = /^[0-9]+$/;
 
     if (!fullName || !nameRegex.test(fullName)) {
-      // Changed from name to fullName
-      alert("Please enter a valid name.");
+      toast.error("Please enter a valid name.");
       return false;
     }
     if (!email || !emailRegex.test(email)) {
-      alert("Please enter a valid email.");
+      toast.error("Please enter a valid email.");
       return false;
     }
     if (!phoneNumber || !phoneRegex.test(phoneNumber)) {
-      alert("Please enter a valid phone number.");
+      toast.error("Please enter a valid phone number.");
       return false;
     }
-    if (hoursRemaining < 0 || isNaN(hoursRemaining)) {
-      // Changed from horasPlaneadas
-      alert("Hours purchased is invalid.");
-      return false;
-    }
-    if (fileError) {
-      alert(fileError);
-      return false;
-    }
-    return true;
   };
 
   const handleSave = async () => {
-    if (!validateFields()) return;
+    
+    if (validateFields()) return;
 
     if (window.confirm("Are you sure you want to save the changes?")) {
       setLoading(true);
-
       const updatedData = {
         fullName,
         email,
-        countryCode: "1",
         phoneNumber,
         hoursRemaining,
         photo:
@@ -90,20 +79,32 @@ const CrearEditarEstudiante = ({ data, context }) => {
       if (context === "create") {
         try {
           await createEstudent(updatedData);
+          toast.success("Estudiante creado con éxito");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } catch (error) {
-          console.error("Error creating student:", error);
+          toast.error(
+            "Error al crear el estudiante, por favor intente de nuevo", error
+          );
+          console.error("Error creating student", error);
         } finally {
           setLoading(false);
-          window.location.reload();
         }
       } else {
         try {
           await updateStudentAPI(data.ID, updatedData);
+          toast.success("Estudiante actualizado con éxito");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } catch (error) {
-          console.error("Error updating student:", error);
+          toast.error(
+            "Error actualizando la información del estudiante, por favor intentar mas tarde", error
+          );
+          console.error("Error changing data of student:", error);
         } finally {
           setLoading(false);
-          window.location.href = "/admin/tablaestudiantes/estudiantesprivados";
         }
       }
     }
@@ -227,13 +228,17 @@ const CrearEditarEstudiante = ({ data, context }) => {
         {/* Save Button */}
         <div className="pt-4">
           <Button
+            type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md"
             onClick={handleSave}
           >
-            Save Changes
+            Save Changess
           </Button>
         </div>
+        
       </form>
+
+      <Toaster />
     </>
   );
 };
