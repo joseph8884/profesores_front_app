@@ -38,7 +38,7 @@ export async function creaCompany(companyData) {
 }
 
 export async function createTeam(teamData) {
-    const url = 'https://profesoresbackend.onrender.com/admin/equipo/crear';
+    const url = `${process.env.REACT_APP_API_URL}/admin/equipo/crear`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
@@ -76,7 +76,7 @@ export async function createTeam(teamData) {
 
 
 export async function editTeam(id,team) {
-    const url = `https://profesoresbackend.onrender.com/admin/equipo/actualizar/${id}`; // URL de la API para crear un estudiante personalizado};
+    const url = `${process.env.REACT_APP_API_URL}/admin/equipo/actualizar/${id}`; // URL de la API para crear un estudiante personalizado};
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
 
     try {
