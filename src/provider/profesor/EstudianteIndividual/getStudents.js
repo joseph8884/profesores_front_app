@@ -1,6 +1,6 @@
 export async function getStudentsCustom() {
     try {
-        const url = `${process.env.REACT_APP_API_URL}/profesor/estudiante/personalizado`; // URL to the backend API endpoint
+        const url = `${process.env.REACT_APP_API_URL}/profesor/estudiante/personalizado/`; // URL to the backend API endpoint
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',
