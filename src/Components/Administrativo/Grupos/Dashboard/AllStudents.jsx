@@ -88,7 +88,7 @@ const StudentsGroupCRUD = () => {
     };
     fetchStudents();
     setLoading(false);
-  }, []);
+  }, [month, year, teamId]);
   //Filter
 
   const filteredData = useMemo(() => {
