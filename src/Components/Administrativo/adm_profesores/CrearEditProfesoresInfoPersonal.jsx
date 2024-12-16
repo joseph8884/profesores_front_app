@@ -141,13 +141,9 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
               <SelectValue placeholder="Tipo de identificacion" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="C.C">Cedula de Ciudadania</SelectItem>
-              <SelectItem value="T.I">Tarjeta de identidad</SelectItem>
+              <SelectItem value="CC">Cedula de Ciudadania</SelectItem>
               <SelectItem value="Pasaporte">Pasaporte</SelectItem>
               <SelectItem value="Visa">Visa</SelectItem>
-              <SelectItem value="Carnet Extranjeria">
-                Carnet de extranjería
-              </SelectItem>
             </SelectContent>
           </Select>
         </div>
