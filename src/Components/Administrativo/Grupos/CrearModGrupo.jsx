@@ -11,7 +11,7 @@ const CrearModGrupo = ({ initialData, context }) => {
   const [nit, setNit] = useState(initialData.companyNIT || "");
   const [idCompany, setidCompany] = useState(initialData.companyID || "");
   const [name, setName] = useState(initialData.companyName || "");
-  const [teacherID, setTeacherID] = useState("");
+  const [teacherID, setTeacherID] = useState(initialData.teacherID ? initialData.teacherID.id : "");
   const [teacherNameprev,setteacherNameprev] = useState(initialData.teacherID ? initialData.teacherID.fullName : "");
   const [loading, setLoading] = useState(false);
 
