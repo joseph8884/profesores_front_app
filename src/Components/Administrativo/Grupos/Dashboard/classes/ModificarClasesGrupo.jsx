@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "../../../../ui/select";
 import {putTeamClass} from "../../../../../provider/adm/Clases/ClasesGrupales/putTeamClass";
-
+import { toast } from "sonner";
 const ModificarClasesGrupo = ({ data }) => {
   const [classHeld, setClassHeld] = useState(data.classHeld || false);
   const [date, setDate] = useState(data.dateTime || "");
@@ -26,9 +26,9 @@ const ModificarClasesGrupo = ({ data }) => {
   const [comments, setComments] = useState(data.comment || "");
   const [topics, setTopics] = useState(data.topic || "");
   const [cancellationTiming, setCancellationTiming] = useState(
-    data.cancellationTiming || ""
+    data.cancellationTiming || "Late"
   );
-  const [cancelledBy, setCancelledBy] = useState(data.canceledBy || "");
+  const [cancelledBy, setCancelledBy] = useState(data.canceledBy || "Teacher");
   const [cancellationReason, setCancellationReason] = useState(
     data.cancellationReason || ""
   );
@@ -69,16 +69,35 @@ const ModificarClasesGrupo = ({ data }) => {
   };
   
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
+    if (
+      !date ||
+      !comments ||
+      !topics ||
+      !classType ||
+      !hours ||
+      !data.teacherID ||
+      !data.teamID 
+    ) {
+      toast.error("Por favor, completa todos los campos requeridos.");
+      return;
+    }
+    if (classHeld === false) {
+      if (cancelledBy==="Class held" || cancellationTiming==="Class held"){
+        toast.error("Por favor, completa todos los campos requeridos.");
+        return;
+      }
+    }
+    setLoading(true);
     const formatDate = (date) => {
       const isoString = date.toISOString();
       const formattedDate = isoString.replace("Z", "000000Z");
       return formattedDate;
     };
+    
 
     var formData = {
-      teacherID: 2,
+      teacherID: data.teacherID,
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,
@@ -89,11 +108,14 @@ const ModificarClasesGrupo = ({ data }) => {
       cancellationReason: cancellationReason,
       cancellationTiming: classHeld === false
         ? cancellationTiming
-        : "Class helded",
-      canceledBy: classHeld === false ? cancelledBy : "Class helded",
+        : "Class held",
+      canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
       await putTeamClass(formData, data.id);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.log("Error creating team class:", error);
     } finally {
@@ -241,7 +263,7 @@ const ModificarClasesGrupo = ({ data }) => {
                     <SelectValue placeholder="Cancelled by" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Student">Student</SelectItem>
+                    <SelectItem value="Team">Team</SelectItem>
                     <SelectItem value="Teacher">Teacher</SelectItem>
                   </SelectContent>
                 </Select>

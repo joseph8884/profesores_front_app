@@ -31,8 +31,8 @@ const FormSection = ({ groupDATA }) => {
   const [hours, setHours] = useState("");
   const [comments, setComments] = useState("");
   const [topics, setTopics] = useState("");
-  const [cancellationTiming, setCancellationTiming] = useState("");
-  const [cancelledBy, setCancelledBy] = useState("");
+  const [cancellationTiming, setCancellationTiming] = useState("Late");
+  const [cancelledBy, setCancelledBy] = useState("Teacher");
   const [cancellationReason, setCancellationReason] = useState("");
   const [loading, setLoading] = useState(true); // Estado para manejar el loading
   const [students, setStudents] = useState([]);

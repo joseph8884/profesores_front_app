@@ -21,7 +21,7 @@
         grid-template:
         "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10%
         "actions actions actions" auto
-        "actividad_academica actividad_academica personal_information" 15%
+        "actividad_academica actividad_academica personal_information" auto
         "grafica pie personal_information" auto
         "last_classes last_classes personal_information" auto/
          35% 35% auto; 
@@ -115,6 +115,8 @@
             background-color: white;
             border-radius: 10px;
             grid-area: last_classes;
+            max-height: 400px;
+            overflow-y: auto;
         }
     }
 }
