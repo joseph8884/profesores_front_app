@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export async function getAllProfesoresInactivos() {
     try{
         const url = `${process.env.REACT_APP_API_URL}/admin/profesor/inactivos`;
@@ -22,7 +24,8 @@ export async function getAllProfesoresInactivos() {
             idUser: profesor.idUser,
         }));
         return proflist;
-    } catch (error) {  
+    } catch (error) {
+        toast.error('Error al obtener los profesores', error.message);  
         console.error('Error al obtener los equipos:', error);
         throw error;
     }

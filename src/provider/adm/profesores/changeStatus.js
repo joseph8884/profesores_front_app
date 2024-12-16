@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 export async function changeStatusProfesor(id) {
     const url = `${process.env.REACT_APP_API_URL}/admin/profesor/estado/${id}`; // URL de la API para crear un estudiante personalizado};
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
@@ -11,12 +12,26 @@ export async function changeStatusProfesor(id) {
             },
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create student');
+            toast.error("Error al cambiar estado del profesor", responseText);    
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to put student');
         }
-        return await response.json(); // Retorna la respuesta en formato JSON si es exitosa
+
+        if (contentType && contentType.includes('application/json')) {
+            toast.error("Error al cambiar estado del profesor", responseText);
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            console.log('Response is not JSON:', responseText);
+            toast.success("Estado del profesor actualizado con éxito");
+            return { message: responseText }; // Return the response text as a message
+        }
     } catch (error) {
-        console.error('Error creating student:', error);
+        toast.error("Error al cambiar estado del profesor", error.message); 
+        console.error('Error al cambiar estado del grupo:', error);
         throw error;
     }
 }

@@ -19,13 +19,24 @@ import {
   SheetTitle,
   SheetDescription,
 } from "../../../ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../../ui/alert-dialog";
 import { MoreHorizontal } from "lucide-react";
 import Loader from "../../../Loader/Loader";
 import { getAllProfesoresActivos } from "../../../../provider/adm/profesores/getProfesoresActivos";
 import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import CrearProfesorDialog from "./CrearProfesor";
-import {deleteProfesor} from "../../../../provider/adm/profesores/deleteProfesor";
-import {changeStatusProfesor} from "../../../../provider/adm/profesores/changeStatus";
+import { deleteProfesor } from "../../../../provider/adm/profesores/deleteProfesor";
+import { changeStatusProfesor } from "../../../../provider/adm/profesores/changeStatus";
 import CrearEditarProfesorPersonalInfo from "../CrearEditProfesoresInfoPersonal";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
 export function DataTableDemo() {
@@ -45,14 +56,12 @@ export function DataTableDemo() {
     fetchStudents();
   }, []);
 
-
   const filteredData = useMemo(() => {
     let filtered = data;
 
     if (searchTerm) {
       filtered = filtered.filter((item) =>
         ["fullName", "email", "id"].some((key) => {
-          // Updated to use "fullName"
           const value = item[key];
           return (
             typeof value === "string" &&
@@ -63,8 +72,6 @@ export function DataTableDemo() {
     }
     return filtered;
   }, [data, searchTerm]);
-
-
 
   const columns = [
     {
@@ -153,14 +160,17 @@ export function DataTableDemo() {
                   >
                     <SheetHeader>
                       <SheetTitle className="text-xl font-bold mb-4">
-                        Editar estudiante individual
+                        Editar profesor
                       </SheetTitle>
                       <SheetDescription>
-                        Llena los datos para editar un estudiante{" "}
+                        Llena los datos para editar profesor{" "}
                         {profesor.fullName}.
                       </SheetDescription>
                     </SheetHeader>
-                  <CrearEditarProfesorPersonalInfo data={profesor} context={"edit"} />
+                    <CrearEditarProfesorPersonalInfo
+                      data={profesor}
+                      context={"edit"}
+                    />
                   </SheetContent>
                 </Sheet>
               </DropdownMenuItem>
@@ -183,44 +193,74 @@ export function DataTableDemo() {
                         Editar profesor informacion bancaria
                       </SheetTitle>
                       <SheetDescription>
-                        Llena los datos para editar{" "}
-                        {profesor.fullName}.
+                        Llena los datos para editar {profesor.fullName}.
                       </SheetDescription>
                     </SheetHeader>
-                  <CrearEditarProfesorBankData personal_info_teacher={profesor} context={"edit"} />
+                    <CrearEditarProfesorBankData
+                      personal_info_teacher={profesor}
+                      context={"edit"}
+                    />
                   </SheetContent>
                 </Sheet>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-               onClick={async (value) => {
-                setLoading(true)  
-                try { 
-                await changeStatusProfesor(profesor.id) 
-                }catch (error) {
-                  console.error("Error updating student:", error);
-                } finally {
-                  window.location.reload();
-                  setLoading(false);
-                }
-              }}>
-                <Button variant="ghost">Cambiar estado</Button>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={async (e) => {
-                  e.stopPropagation();
+                onClick={async (value) => {
                   setLoading(true);
                   try {
-                    await deleteProfesor(profesor.id);
+                    await changeStatusProfesor(profesor.id);
                   } catch (error) {
-                    console.error("Error creating student:", error);
+                    console.error("Error updating student:", error);
                   } finally {
-                    setLoading(false);
                     window.location.reload();
+                    setLoading(false);
                   }
                 }}
               >
-                <Button variant="ghost">Eliminar</Button>
+                <Button variant="ghost">Cambiar estado</Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button variant="ghost">Eliminar</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        ¿Estás absolutamente seguro?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Esta acción no se puede deshacer. Esto eliminará
+                        permanentemente al profesor y todos sus datos
+                        asociados.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          setLoading(true);
+                          try {
+                            await deleteProfesor(profesor.id);
+                             setTimeout(() => {
+                              window.location.reload();
+                            }, 2000);
+                          } catch (error) {
+                            console.error(
+                              "Error eliminando al estudiante:",
+                              error
+                            );
+                          } finally {
+                            setLoading(false);
+                          }
+                        }}
+                      >
+                        Sí, eliminar
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -228,7 +268,6 @@ export function DataTableDemo() {
       },
     },
   ];
-
 
   return (
     <>
@@ -248,7 +287,6 @@ export function DataTableDemo() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-
           <Button
             variant="ghost"
             onClick={() => {
@@ -258,15 +296,20 @@ export function DataTableDemo() {
             Clear filters
           </Button>
           <Dialog>
-              <DialogTrigger asChild>
-                <Button>Crear nuevo profesor +</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[400px]">
-                <CrearProfesorDialog/>
-              </DialogContent>
-            </Dialog>
+            <DialogTrigger asChild>
+              <Button>Crear nuevo profesor +</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[400px]">
+              <CrearProfesorDialog />
+            </DialogContent>
+          </Dialog>
         </div>
-        <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={"/admin/profesores/dashboard"} localstorage_name={"selected_teacher"} />
+        <DataTableDemoTemplate
+          columns={columns}
+          dataToShow={filteredData}
+          rowClickToNavigate={"/admin/profesores/dashboard"}
+          localstorage_name={"selected_teacher"}
+        />
       </div>
     </>
   );

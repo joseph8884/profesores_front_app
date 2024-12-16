@@ -12,8 +12,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
 import { postorputTeacher } from "../../../provider/adm/profesores/postorputTeacher";
@@ -74,8 +72,6 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
       console.error("Error updating student:", error);
     } finally {
       setLoading(false);
-
-      //window.location.reload();
     }
   };
 

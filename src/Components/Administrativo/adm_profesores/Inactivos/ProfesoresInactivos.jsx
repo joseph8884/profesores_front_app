@@ -2,6 +2,7 @@ import React from "react";
 import NavMobile from "../../Nav/NavMobile";
 import NavWeb from "../../Nav/NavWeb";
 import { DataTableDemo } from "./DataTable";
+import { Toaster } from "sonner"; 
 
 const ProfesoresInactivos = () => {
   return (
@@ -9,6 +10,7 @@ const ProfesoresInactivos = () => {
       <NavMobile />
       <NavWeb />
       <DataTableDemo />
+      <Toaster />
     </div>
   );
 };

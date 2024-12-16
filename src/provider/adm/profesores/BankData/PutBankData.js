@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 export async function putBankData(teacherData) {
     const url = `${process.env.REACT_APP_API_URL}/admin/profesorbanco/actualizar`;
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
@@ -12,14 +13,25 @@ export async function putBankData(teacherData) {
             body: JSON.stringify(teacherData) // Convert the team data to JSON
         });
 
+        const contentType = response.headers.get('content-type');
+        const responseText = await response.text(); // Read the response as text
+
         if (!response.ok) {
-            throw new Error('Failed to create team');
+            toast.error("Error al editar información bancaria del profesor", responseText);    
+            console.error('Server responded with:', responseText);
+            throw new Error('Failed to put student');
         }
 
-        const data = await response.json();
-        return data; // Return the response data
+        if (contentType && contentType.includes('application/json')) {
+            toast.error("Error al editar información bancaria del profesor", responseText);  
+            return JSON.parse(responseText); // Attempt to parse the response as JSON
+        } else {
+            toast.success("Información subida con éxito");
+            return { message: responseText }; // Return the response text as a message
+        }
     } catch (error) {
-        console.error('Error creating team:', error);
+        toast.error("Error al editar información bancaria del profesor");
+        console.error('Error creating Team:', error);
         throw error;
     }
 }

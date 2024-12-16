@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 
 export async function dashboardTeacher(idTeacher, year, month) {
     try {
@@ -24,6 +25,7 @@ export async function dashboardTeacher(idTeacher, year, month) {
       };
       return classList;
     } catch (error) {
+      toast.error("Error fetching información classes", error.message);
       console.error("Error fetching classes:", error);
       return [];
     }

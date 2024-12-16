@@ -67,6 +67,9 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
       try {
         if (bankdata) {
           await putBankData(formattedData);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } 
       } catch (error) {
         console.error("Error updating student:", error);
@@ -74,12 +77,14 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
         console.log("trying to post it ...");
         try {
           await postBankData(formattedData);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } catch (error) {
           console.error("Error posting bank data:", error);
         }        
       } finally {
         setLoading(false);
-        //window.location.reload();
       }
     }
   };

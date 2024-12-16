@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export async function postorputTeacher(teacherData, id) {
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
     const headers = {
@@ -53,6 +55,7 @@ export async function postorputTeacher(teacherData, id) {
                 return { message: responseText }; // Return the response text as a message
             }
         } catch (postError) {
+            toast.error("Error al crear o actualizar el profesor", postError.message);  
             throw new Error(`Both PUT and POST requests failed: ${putError.message}, ${postError.message}`);
         }
     }

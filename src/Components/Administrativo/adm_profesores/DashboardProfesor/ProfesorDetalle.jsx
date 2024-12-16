@@ -23,6 +23,7 @@ import { individualclassesByTeacherAndYearMonth } from "../../../../provider/adm
 import { teamClassesByTeacherIdAndYearMonth } from "../../../../provider/adm/Clases/ClasesGrupales/teamClassesByTeacherIdAndYearMonth";
 import { dashboardTeacher } from "../../../../provider/adm/profesores/dashboardTeacher";
 import ClickOnClassTeamAdmin from "./ClickOnClassTeamAdmin";
+import { Toaster } from "sonner";
 const ProfesoresDashboard = () => {
   const [profesorData, setProfesorData] = useState(null);
   const [classes_grupo, setClasses_grupo] = useState([]);
@@ -411,6 +412,7 @@ const ProfesoresDashboard = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
