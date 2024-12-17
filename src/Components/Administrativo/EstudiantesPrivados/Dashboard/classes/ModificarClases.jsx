@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "../../../../ui/select";
 import {putIndividualClass} from "../../../../../provider/adm/Clases/ClasesIndividuales/putIndividualClass";
-
+import { toast } from "sonner";
 const ModificarClases = ({ data }) => {
   const [classHeld, setClassHeld] = useState(data.classHeld || false);
   const [date, setDate] = useState(data.dateTime || "");
@@ -69,8 +69,26 @@ const ModificarClases = ({ data }) => {
   };
   
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
+    if (
+      !date ||
+      !comments ||
+      !topics ||
+      !classType ||
+      !hours ||
+      !data.teacherID ||
+      !data.studentID
+    ) {
+      toast.error("Por favor, completa todos los campos requeridos. dsa");
+      return;
+    }
+    if (classHeld === false) {
+      if (cancelledBy === "Class held" || cancellationTiming === "Class held") {
+        toast.error("Por favor, completa todos los campos requeridos.");
+        return;
+      }
+    }
+    setLoading(true);
     const formatDate = (date) => {
       const isoString = date.toISOString();
       const formattedDate = isoString.replace("Z", "000000Z");

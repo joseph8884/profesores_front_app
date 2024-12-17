@@ -86,12 +86,12 @@ const DashBoardProfesor = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Classes canceled by others</h3>
-              <p className="total">{info.classesCanceledUser}</p>
+              <h3>Classes canceled in time</h3>
+              <p className="total">info</p>
             </div>
             <div className="actividadCard">
-              <h3>Classes canceled by teacher</h3>
-              <p className="total">{info.classesCanceledTeacher}</p>
+              <h3>Classes canceled late</h3>
+              <p className="total">info</p>
             </div>
             <div className="actividadCard">
               <h3>Classes in person </h3>
@@ -103,6 +103,7 @@ const DashBoardProfesor = () => {
             </div>
           </div>
           <div className="totales bg-white shadow-md rounded-lg p-6">
+            falta la info aca de las clases tarde y a tiempo
             <div className="invoice-item flex justify-between border-b pb-2">
               <span className="font-semibold">Valor por Hora Virtual:</span>
               <span>

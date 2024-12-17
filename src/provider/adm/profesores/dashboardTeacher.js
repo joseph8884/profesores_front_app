@@ -25,7 +25,7 @@ export async function dashboardTeacher(idTeacher, year, month) {
       };
       return classList;
     } catch (error) {
-      toast.error("Error fetching información classes", error.message);
+      toast.error("Error fetching información classes, intente llenar los datos bancarios o intentelo mas tarde.", error.message);
       console.error("Error fetching classes:", error);
       return [];
     }

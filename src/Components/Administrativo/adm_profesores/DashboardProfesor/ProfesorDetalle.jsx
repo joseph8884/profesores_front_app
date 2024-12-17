@@ -190,12 +190,12 @@ const ProfesoresDashboard = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Classes canceled by others</h3>
-              <p className="total">{teacherInfoClasses.classesCanceledUser}</p>
+              <h3>Classes canceled in time</h3>
+              <p className="total">info</p>
             </div>
             <div className="actividadCard">
-              <h3>Classes canceled by teacher</h3>
-              <p className="total">{teacherInfoClasses.classesCanceledTeacher}</p>
+              <h3>Classes canceled late</h3>
+              <p className="total">info</p>
             </div>
             <div className="actividadCard">
               <h3>Classes in person </h3>
