@@ -110,12 +110,12 @@ const FormSection = ({ groupDATA }) => {
     const attendedStudents = students.filter(
       (student) => attendance[student.id]
     );
-  
+
     if (classHeld && attendedStudents.length === 0) {
       toast.error("Por favor, selecciona al menos un estudiante.");
       return;
     }
-  
+
     setLoading(true);
     const formatDate = (date) => {
       const isoString = date.toISOString();
@@ -133,7 +133,8 @@ const FormSection = ({ groupDATA }) => {
       topic: topics,
       classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
-      cancellationTiming: classHeld === false ? cancellationTiming : "Class held",
+      cancellationTiming:
+        classHeld === false ? cancellationTiming : "Class held",
       canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
@@ -145,7 +146,7 @@ const FormSection = ({ groupDATA }) => {
             studentTeamID: student.id,
             attended: true,
           };
-          console.log("Attendance per student:", attendanceperStudent); 
+          console.log("Attendance per student:", attendanceperStudent);
           await postAttendance(attendanceperStudent);
         });
       }
@@ -231,10 +232,13 @@ const FormSection = ({ groupDATA }) => {
                   <SelectValue placeholder="Duration" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={0.5}>30 minutes</SelectItem>
                   <SelectItem value={1}>1 hour</SelectItem>
+                  <SelectItem value={1.5}>1:30 hours</SelectItem>
                   <SelectItem value={2}>2 hours</SelectItem>
+                  <SelectItem value={2.5}>2:30 hours</SelectItem>
                   <SelectItem value={3}>3 hours</SelectItem>
+                  <SelectItem value={3.5}>3:30 hours</SelectItem>
+                  <SelectItem value={4}>4 hours</SelectItem>
                 </SelectContent>
               </Select>
             </label>

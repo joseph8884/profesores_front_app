@@ -24,7 +24,7 @@
         "personal_information actividad_academica actividad_academica" auto
         "personal_information grafica calendario" auto
         "personal_information last_classes last_classes" auto/
-         auto auto 35%; 
+         auto auto auto; 
         gap: 10px;
         & div.tituloynotificaciones{
             background-color: white;

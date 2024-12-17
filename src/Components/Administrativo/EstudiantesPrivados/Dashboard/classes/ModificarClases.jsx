@@ -175,10 +175,13 @@ const ModificarClases = ({ data }) => {
                 <SelectValue placeholder="Duration" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={0.5}>30 minutes</SelectItem>
                 <SelectItem value={1}>1 hour</SelectItem>
+                <SelectItem value={1.5}>1:30 hours</SelectItem>
                 <SelectItem value={2}>2 hours</SelectItem>
+                <SelectItem value={2.5}>2:30 hours</SelectItem>
                 <SelectItem value={3}>3 hours</SelectItem>
+                <SelectItem value={3.5}>3:30 hours</SelectItem>
+                <SelectItem value={4}>4 hours</SelectItem>
               </SelectContent>
             </Select>
           </label>

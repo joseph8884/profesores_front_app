@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../ui/select";
-import {putTeamClass} from "../../../../../provider/adm/Clases/ClasesGrupales/putTeamClass";
+import { putTeamClass } from "../../../../../provider/adm/Clases/ClasesGrupales/putTeamClass";
 import { toast } from "sonner";
 const ModificarClasesGrupo = ({ data }) => {
   const [classHeld, setClassHeld] = useState(data.classHeld || false);
@@ -61,13 +61,13 @@ const ModificarClasesGrupo = ({ data }) => {
   const formatDateForInput = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -77,13 +77,13 @@ const ModificarClasesGrupo = ({ data }) => {
       !classType ||
       !hours ||
       !data.teacherID ||
-      !data.teamID 
+      !data.teamID
     ) {
       toast.error("Por favor, completa todos los campos requeridos.");
       return;
     }
     if (classHeld === false) {
-      if (cancelledBy==="Class held" || cancellationTiming==="Class held"){
+      if (cancelledBy === "Class held" || cancellationTiming === "Class held") {
         toast.error("Por favor, completa todos los campos requeridos.");
         return;
       }
@@ -94,7 +94,6 @@ const ModificarClasesGrupo = ({ data }) => {
       const formattedDate = isoString.replace("Z", "000000Z");
       return formattedDate;
     };
-    
 
     var formData = {
       teacherID: data.teacherID,
@@ -106,9 +105,8 @@ const ModificarClasesGrupo = ({ data }) => {
       topic: topics,
       classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
-      cancellationTiming: classHeld === false
-        ? cancellationTiming
-        : "Class held",
+      cancellationTiming:
+        classHeld === false ? cancellationTiming : "Class held",
       canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
@@ -192,15 +190,22 @@ const ModificarClasesGrupo = ({ data }) => {
         <div className="flex flex-col">
           <label className="mb-2 font-semibold">
             Duration (hours):
-            <Select name="hours" onValueChange={(value)=>setHours(parseFloat(value))} value={hours}>
+            <Select
+              name="hours"
+              onValueChange={(value) => setHours(parseFloat(value))}
+              value={hours}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Duration" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={0.5}>30 minutes</SelectItem>
                 <SelectItem value={1}>1 hour</SelectItem>
+                <SelectItem value={1.5}>1:30 hours</SelectItem>
                 <SelectItem value={2}>2 hours</SelectItem>
+                <SelectItem value={2.5}>2:30 hours</SelectItem>
                 <SelectItem value={3}>3 hours</SelectItem>
+                <SelectItem value={3.5}>3:30 hours</SelectItem>
+                <SelectItem value={4}>4 hours</SelectItem>
               </SelectContent>
             </Select>
           </label>
@@ -230,7 +235,6 @@ const ModificarClasesGrupo = ({ data }) => {
           </label>
         </div>
         {classHeld === false && (
-            
           <div className="cancellation md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
               <label className="mb-2 font-semibold">
