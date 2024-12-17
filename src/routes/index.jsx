@@ -32,7 +32,7 @@ const Routes = () => {
 
   const routesForPublic  = [
     {
-      path: "/login",
+      path: "/",
       element: <LoginForm />,
       errorElement: <ErrorBoundary />
     },
