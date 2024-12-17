@@ -17,6 +17,7 @@ import Calendar from "../../../Components/Administrativo/EstudiantesPrivados/Das
 import { BellIcon } from "@radix-ui/react-icons";
 import Loader from "../../Loader/Loader";
 import ClickOnClassEstudentDetail from "./ClickOnClassEstudentDetail";
+import ClickOnClassTeamDetail from "./ClickOnClassTeamDetail";
 import { individualclassesByTeacherAndYearMonth } from "../../../provider/profesor/EstudianteIndividual/individualclassesByTeacherAndYearMonth";
 import { teamClassesByTeacherIdAndYearMonth } from "../../../provider/profesor/Grupos/teamClassesByTeacherIdAndYearMonth";
 import { infoDashboardTeacher } from "../../../provider/profesor/infoDashboardTeacher";
@@ -216,7 +217,7 @@ const DashBoardProfesor = () => {
                       </TableRow>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px] p-4">
-                      dasdas team
+                      <ClickOnClassTeamDetail teamID={classData.teamID} />
                     </DialogContent>
                   </Dialog>
                 ))}

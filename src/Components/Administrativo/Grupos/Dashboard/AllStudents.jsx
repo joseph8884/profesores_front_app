@@ -253,13 +253,14 @@ const StudentsGroupCRUD = () => {
       <NavWeb />
 
       {loading && <Loader />}
-      <div className="w-full" style={{ overflowY: "scroll" }}>
+      <div className="w-full p-5" style={{ overflowY: "scroll" }}>
         <div className="bg-white rounded-lg flex justify-between items-center p-5">
           <h2 className="text-xl font-bold text-gray-900">
             Lista de estudiantes del grupo <u>{nameGroup}</u>
           </h2>
           <BellIcon className="h-6 w-6" />
         </div>
+        <h3>Esta informacion esta en base a lo calculado para el mes {month} del año {year}</h3>
         <div className="flex items-center py-4 justify-between">
           <a href="/admin/gruposvista/grupos/groupdetail">
             <Button>Back</Button>

@@ -116,6 +116,8 @@
             background-color: white;
             border-radius: 10px;
             grid-area: last_classes;
+            max-height: 400px;
+            overflow-x: auto;
         }
     }
 }

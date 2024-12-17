@@ -16,8 +16,6 @@ const CrearEditarEstudianteCustom = ({ data, context, idGroup }) => {
   const [email, setEmail] = useState(data.email || "");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
-  const [attendancePercentage, setAttendancePercentage] = useState(data.attendancePercentage || 0);
-  const [attendedClassesCount, setAttendedClassesCount] = useState(data.attendedClassesCount || 0);
 
   const validateFields = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,16 +35,6 @@ const CrearEditarEstudianteCustom = ({ data, context, idGroup }) => {
       alert("Please enter a valid phone number.");
       return false;
     }
-    if (attendancePercentage < 0) {
-      // Changed from horasPlaneadas
-      alert("Hours purchased cannot be negative.");
-      return false;
-    }
-    if (attendedClassesCount < 0) {
-      // Changed from horasRestantes
-      alert("Hours spent cannot be negative.");
-      return false;
-    }
     return true;
   };
 
@@ -60,9 +48,9 @@ const CrearEditarEstudianteCustom = ({ data, context, idGroup }) => {
         teamID: idGroup,
         fullName,
         phoneNumber,
-        email,       
-        attendancePercentage,
-        attendedClassesCount
+        email, 
+        attendedClassesCount: 0,
+        attendancePercentage: 0,       
       };
       if (context === "create") {
         try {
@@ -72,7 +60,7 @@ const CrearEditarEstudianteCustom = ({ data, context, idGroup }) => {
           console.error("Error creating student:", error);
         } finally {
           setLoading(false);
-          window.location.reload();
+          //window.location.reload();
         }
       } else {
         try {

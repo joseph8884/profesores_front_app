@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function ClickOnClassTeamAdmin({ teamID }) {
+function ClickOnClassTeamDetail({ teamID }) {
   const [teamData, setTeamData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ function ClickOnClassTeamAdmin({ teamID }) {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/admin/equipo/team/${teamID}`,
+          `${process.env.REACT_APP_API_URL}/profesor/equipo/${teamID}`,
           {
             method: "GET",
             headers: {
@@ -52,7 +52,7 @@ function ClickOnClassTeamAdmin({ teamID }) {
           Status: {teamData.status ? "Active" : "Inactive"}
         </p>
         <h3 className="text-lg font-semibold text-gray-800 mt-4">
-          Profesor a cargo
+          Teacher in charge
         </h3>
         <p className="text-gray-600">ID: {teamData.teacherID.id}</p>
         <p className="text-gray-600">
@@ -71,7 +71,7 @@ function ClickOnClassTeamAdmin({ teamID }) {
           Identification Number: {teamData.teacherID.identificationNumber}
         </p>
         <p className="text-gray-600">
-          Status: {teamData.teacherID.status ? "Active" : "Inactive"}
+          Status teacher: {teamData.teacherID.status ? "Active" : "Inactive"}
         </p>
         <p className="text-gray-600">
           Register Date:{" "}
@@ -83,4 +83,4 @@ function ClickOnClassTeamAdmin({ teamID }) {
   );
 }
 
-export default ClickOnClassTeamAdmin;
+export default ClickOnClassTeamDetail;

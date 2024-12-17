@@ -10,7 +10,7 @@ function ClickOnClassEstudentDetailAdmin({ studentId }) {
       try {
         const token = sessionStorage.getItem("token");
         const response = await fetch(
-          `https://profesoresbackend.onrender.com/admin/estudiante/personalizado/estudiante/${studentId}`,
+          `${process.env.REACT_APP_API_URL}/admin/estudiante/personalizado/estudiante/${studentId}`,
           {
             method: "GET",
             headers: {

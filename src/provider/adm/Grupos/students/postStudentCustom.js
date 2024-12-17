@@ -32,7 +32,7 @@ export async function createEstudentCustom(estudent) {
         }
     } catch (error) {
         toast.error("Error al crear estudiante de este grupo");
-        console.error('Error creating compañia:', error);
+        console.error('Error creating estudiante de este grupo:', error);
         throw error;
     }
 }
