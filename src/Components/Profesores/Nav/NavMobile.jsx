@@ -35,7 +35,7 @@ const NavMobile = () => {
   const handleLogout = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userType");
-    window.location.href = "/login";
+    window.location.href = "/";
   }
   return (
     <Sheet>

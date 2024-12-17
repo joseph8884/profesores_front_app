@@ -16,7 +16,7 @@ const NavMobile = () => {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("userType");
       sessionStorage.removeItem("username_admin");
-      window.location.href = "/login";
+      window.location.href = "/";
     }
     const username = sessionStorage.getItem("username_admin");
 

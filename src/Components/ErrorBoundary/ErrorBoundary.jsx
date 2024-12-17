@@ -17,7 +17,7 @@ class ErrorBoundary extends React.Component {
 
   handleGoHome = () => {
     const navigate = useNavigate();
-    navigate("/login");
+    navigate("/");
   };
 
   render() {

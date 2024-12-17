@@ -27,7 +27,7 @@ const NavWeb = ()=>{
   const logout = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userType");
-    window.location.href = "/login";
+    window.location.href = "/";
   }
     return(  
         <div className="hidden md:flex flex-col w-64 bg-blue-900 text-white min-h-screen">
