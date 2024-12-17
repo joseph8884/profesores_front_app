@@ -144,6 +144,7 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
               <SelectItem value="CC">Cedula de Ciudadania</SelectItem>
               <SelectItem value="Pasaporte">Pasaporte</SelectItem>
               <SelectItem value="Visa">Visa</SelectItem>
+              <SelectItem value="Cedula de Extranjeria">Cedula de Extranjeria</SelectItem>
             </SelectContent>
           </Select>
         </div>

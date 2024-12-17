@@ -210,6 +210,7 @@ const ProfesoresDashboard = () => {
             <CrearEditarProfesorBankData personal_info_teacher={profesorData} />
           </div>
           <div className="totales bg-white shadow-md rounded-lg p-6">
+          falta lo de contar las horas de canceladas a tiempo y tarde
             <div className="invoice-item flex justify-between border-b pb-2">
               <span className="font-semibold">Valor por Hora Virtual:</span>
               <span>

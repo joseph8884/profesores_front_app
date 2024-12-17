@@ -14,6 +14,7 @@ const CrearModGrupo = ({ initialData, context }) => {
   const [teacherID, setTeacherID] = useState(initialData.teacherID ? initialData.teacherID.id : "");
   const [teacherNameprev,setteacherNameprev] = useState(initialData.teacherID ? initialData.teacherID.fullName : "");
   const [loading, setLoading] = useState(false);
+  const [hoursPlanned, setHoursPlanned] = useState(initialData.hoursPlanned || ""); 
 
   // Variables de estado para el equipo
   const [teamName, setTeamName] = useState(initialData.name||"" );
@@ -34,6 +35,7 @@ const CrearModGrupo = ({ initialData, context }) => {
     setLoading(true);
     const combinedData = {
       name: teamName,
+      //hoursPlanned: hoursPlanned,
       companyID: idCompany,
       photo: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
       teacherID: teacherID,
@@ -107,6 +109,8 @@ const CrearModGrupo = ({ initialData, context }) => {
           setTeacherID={setTeacherID}
           teacherNameprev={teacherNameprev}
           setteacherNameprev={setteacherNameprev}
+          hoursPlanned={hoursPlanned}
+          setHoursPlanned={setHoursPlanned}
         />
         <Button
           onClick={handleSubmit}

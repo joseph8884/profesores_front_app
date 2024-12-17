@@ -24,6 +24,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
   const [hoursRemaining, sethoursRemaining] = useState(
     parseInt(data.hoursRemaining) || ""
   );
+  const [hoursPlanned, setHoursPlanned] = useState("");
   const [ciudad, setCiudad] = useState(data.office || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
 
@@ -62,7 +63,6 @@ const CrearEditarEstudiante = ({ data, context }) => {
   };
 
   const handleSave = async () => {
-    
     if (validateFields()) return;
 
     if (window.confirm("Are you sure you want to save the changes?")) {
@@ -72,6 +72,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
         email,
         phoneNumber,
         hoursRemaining,
+        //hoursPlanned,
         photo:
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
         office: ciudad,
@@ -190,6 +191,17 @@ const CrearEditarEstudiante = ({ data, context }) => {
             </SelectContent>
           </Select>
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Horas planeadas
+          </label>
+          <input
+            type="number"
+            value={hoursPlanned} // Changed from horasRestantes
+            onChange={(e) => setHoursPlanned(parseInt(e.target.value))} // Changed from setHorasRestantes
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
+        </div>
         {context !== "create" && (
           <div>
             {/* Hours Spent Field */}
@@ -227,9 +239,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
             Save Changess
           </Button>
         </div>
-        
       </form>
-
       <Toaster />
     </>
   );

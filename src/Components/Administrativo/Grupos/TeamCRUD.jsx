@@ -10,6 +10,8 @@ const TeamCRUD = ({
   setTeacherID,
   teacherNameprev,
   setteacherNameprev,
+  hoursPlanned,
+  setHoursPlanned,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -58,6 +60,17 @@ const TeamCRUD = ({
             setprofesorSelectedToFilter={setteacherNameprev}
             profesorSelectedToFilter={teacherNameprev}
             setLoading={setLoading}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Horas planeadas
+          </label>
+          <input
+            type="number"
+            value={hoursPlanned} // Changed from horasRestantes
+            onChange={(e) => setHoursPlanned(parseInt(e.target.value))} // Changed from setHorasRestantes
+            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
         </div>
       </form>

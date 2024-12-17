@@ -178,14 +178,12 @@ const StudentDetail = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Total de horas canceladas por el estudiante</h3>
-              <p className="total">{studentInfoClasses.classesCanceledUser}</p>
+              <h3>Total de horas canceladas a tiempo</h3>
+              <p className="total"> No info </p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas canceladas por el profeosor </h3>
-              <p className="total">
-                {studentInfoClasses.classesCanceledTeacher}
-              </p>
+              <h3>Total de horas canceladas tarde </h3>
+              <p className="total">No info</p>
             </div>
             <div className="actividadCard">
               <h3>Total de clases dictadas</h3>
@@ -216,6 +214,7 @@ const StudentDetail = () => {
                 <TableRow>
                   <TableHead>clase ID</TableHead>
                   <TableHead>teacherID</TableHead>
+                  <TableHead>teacher name</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Tipo de clase</TableHead>
                   <TableHead>Duracion</TableHead>
@@ -228,8 +227,18 @@ const StudentDetail = () => {
                   <TableRow key={classData.id}>
                     <TableCell>{classData.id}</TableCell>
                     <TableCell>{classData.teacherID}</TableCell>
+                    <TableCell>info faltante</TableCell>
                     <TableCell>
-                      {new Date(classData.dateTime).toLocaleDateString()}
+                      {new Date(classData.dateTime).toLocaleString("es", {
+                        weekday: "long", // e.g., Monday
+                        year: "numeric", // e.g., 2024
+                        month: "long", // e.g., December
+                        day: "numeric", // e.g., 9
+                        hour: "2-digit", // e.g., 01
+                        minute: "2-digit", // e.g., 30
+                        second: "2-digit", // e.g., 45
+                        hour12: true, // e.g., AM/PM format
+                      })}
                     </TableCell>
                     <TableCell>{classData.classType}</TableCell>
                     <TableCell>{classData.duration} H</TableCell>
@@ -253,9 +262,7 @@ const StudentDetail = () => {
                     <TableCell>
                       <AlertDialog>
                         <AlertDialogTrigger>
-                          <TrashIcon
-                            className="w-6 h-6 text-gray-400"
-                          />
+                          <TrashIcon className="w-6 h-6 text-gray-400" />
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
@@ -264,8 +271,8 @@ const StudentDetail = () => {
                             </AlertDialogTitle>
                             <AlertDialogDescription>
                               Esta acción no se puede deshacer. Esto eliminará
-                              permanentemente la clase con ID {classData.id} y todos sus datos
-                              asociados.
+                              permanentemente la clase con ID {classData.id} y
+                              todos sus datos asociados.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -280,7 +287,6 @@ const StudentDetail = () => {
                                     window.location.reload();
                                   }, 2000);
                                 } catch (error) {
-                            
                                   console.error(
                                     "Error eliminando al estudiante:",
                                     error
