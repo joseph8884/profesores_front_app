@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/auth/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import LoginForm from '../Components/Login&Register/Login/LoginForm.jsx';
-import Register from '../Components/Login&Register/Register/Register.jsx';
 //Admin components
 
 import HomeAdministrativo from '../Components/Administrativo/Home/Home.jsx';
@@ -34,11 +33,6 @@ const Routes = () => {
     {
       path: "/",
       element: <LoginForm />,
-      errorElement: <ErrorBoundary />
-    },
-    {
-      path: "/register",
-      element: <Register />,
       errorElement: <ErrorBoundary />
     },
   ];

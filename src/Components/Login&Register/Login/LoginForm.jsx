@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
 import "./LoginForm.css";
 import LoginButton from "./LoginButton.jsx";
+import { Toaster } from "sonner";
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -55,6 +56,7 @@ const LoginForm = () => {
           </form>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
