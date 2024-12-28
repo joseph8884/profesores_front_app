@@ -13,7 +13,8 @@ export async function teamClassesByTeacherIdAndYearMonth(id, year, month) {
       const data = await resp.json();
       const classList = data.map((group) => ({
         id: group.id,
-        teacherID: group.teacherID,
+        teacherId: group.teacherId,
+        teacherName:group.teacherName,
         classType: group.classType,
         dateTime: group.dateTime,
         duration: group.duration,

@@ -227,8 +227,8 @@ const GroupDetail = () => {
                 {classes.map((classData) => (
                   <TableRow key={classData.id}>
                     <TableCell>{classData.id}</TableCell>
-                    <TableCell>{classData.teacherID}</TableCell>
-                    <TableCell>info faltante</TableCell>
+                    <TableCell>{classData.teacherId}</TableCell>
+                    <TableCell>{classData.teacherName}</TableCell>
                     <TableCell>
                       {new Date(classData.dateTime).toLocaleString("es", {
                         weekday: "long", // e.g., Monday

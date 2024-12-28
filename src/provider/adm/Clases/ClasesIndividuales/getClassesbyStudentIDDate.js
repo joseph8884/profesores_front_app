@@ -13,7 +13,8 @@ export async function getClassesbyStudentIDDate(idStudent, year, month) {
     const data = await resp.json();
     const classList = data.map((student) => ({
       id: student.id,
-      teacherID: student.teacherID,
+      teacherId: student.teacherId,
+      teacherName:student.teacherName,
       classType: student.classType,
       dateTime: student.dateTime,
       duration: student.duration,
