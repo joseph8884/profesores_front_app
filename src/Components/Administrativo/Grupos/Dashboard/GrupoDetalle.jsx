@@ -180,12 +180,12 @@ const GroupDetail = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Total de horas canceladas a tiempo</h3>
-              <p className="total"> No info </p>
+              <h3>Total de horas canceladas tarde grupo virtual</h3>
+              <p className="total">{inforDashboard.hoursCanceledStudentLateVirtual}</p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas canceladas tarde </h3>
-              <p className="total">No info</p>
+              <h3>Total de horas canceladas tarde grupo presencial</h3>
+              <p className="total">{inforDashboard.hoursCanceledStudentLateInPerson}</p>
             </div>
             <div className="actividadCard">
               <h3>Total de clases dictadas</h3>
@@ -200,12 +200,17 @@ const GroupDetail = () => {
               <p className="total">{inforDashboard.hoursHeldInPerson}</p>
             </div>
           </div>
-          <div className="pie">
-            <PieChart />
-          </div>
-          <div className="grafica">
-            <Chart />
-          </div>
+          {inforDashboard.monthlyClassStats && (
+            <>
+               <div className="pie">
+                <PieChart data={inforDashboard} />
+              </div>
+              <div className="grafica">
+                <Chart data={inforDashboard} />
+              </div>
+            </>
+          )}
+          
           <div className="informacionDetalladaEstudiante">
             <CrearModGrupo initialData={groupData} />
           </div>
