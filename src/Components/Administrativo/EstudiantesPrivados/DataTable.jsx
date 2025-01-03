@@ -44,8 +44,10 @@ import { delateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/
 import Loader from "../../Loader/Loader";
 import { changeStatusStudent } from "../../../provider/adm/EstudiantePersonalizado/changeStatus";
 import { DataTableDemoTemplate } from "../../ui/DataTableAdjusted";
+import ScrollListProfesores from "../Grupos/ScrollListProfesores";
 export function DataTableDemo({ status }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [profesorSelectedToFilter, setprofesorSelectedToFilter] = React.useState("");
   const [statusFilter, setStatusFilter] = useState(null);
   const [ciudadFilter, setCiudadFilter] = useState("");
   const [data, setData] = useState([]);
@@ -86,9 +88,12 @@ export function DataTableDemo({ status }) {
     if (ciudadFilter) {
       filtered = filtered.filter((item) => item.office === ciudadFilter);
     }
+    if (profesorSelectedToFilter) {
+      filtered = filtered.filter((item) => item.teacherDescription.fullName === profesorSelectedToFilter);
+    }
 
     return filtered;
-  }, [data, searchTerm, statusFilter, ciudadFilter]);
+  }, [data, searchTerm, statusFilter, ciudadFilter, profesorSelectedToFilter]);
 
   // Manejador para cambiar el filtro de estado
 
@@ -141,6 +146,13 @@ export function DataTableDemo({ status }) {
       header: "Ciudad a la que pertenece",
       cell: ({ row }) => (
         <div className="text-center">{row.getValue("office")}</div>
+      ),
+    },
+    {
+      accessorKey: "teacherDescription",
+      header: "Nombre del profesor",
+      cell: ({ row }) => (
+        <div className="text-center">{row.getValue("teacherDescription").fullName}</div>
       ),
     },
     {
@@ -309,6 +321,8 @@ export function DataTableDemo({ status }) {
               <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
             </SelectContent>
           </Select>
+          <ScrollListProfesores profesorSelectedToFilter={profesorSelectedToFilter} setprofesorSelectedToFilter={setprofesorSelectedToFilter} setLoading={setLoading} />
+          
 
           <Button
             variant="ghost"
@@ -316,6 +330,7 @@ export function DataTableDemo({ status }) {
               setStatusFilter(null);
               setSearchTerm("");
               setCiudadFilter("");
+              setprofesorSelectedToFilter("");
             }}
           >
             Clear filters

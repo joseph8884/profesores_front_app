@@ -21,12 +21,11 @@ export async function getAllTeams(status) {
             hoursPurchased: team.hoursPurchased,
             hoursSpented: team.hoursSpented,
             photo: team.photo,
+            hoursPlanned: team.hoursPlanned,
             status: team.status,
-            teacherID: {
-                id: team.teacherID.id,
-                fullName: team.teacherID.fullName,
-                username: team.teacherID.username,
-                status: team.teacherID.status,               
+            teacherDescription: {
+                id: team.teacherDescription.id,
+                fullName: team.teacherDescription.fullName,            
             }
         }));
         return teamsList;

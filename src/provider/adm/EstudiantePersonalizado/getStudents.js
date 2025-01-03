@@ -19,6 +19,11 @@ export async function getStudents(status) {
             hoursRemaining: student.hoursRemaining,
             office: student.office,
             status: student.status,
+            hoursPlanned: student.hoursPlanned, 
+            teacherDescription:{
+                id: student.teacherDescription.id,
+                fullName: student.teacherDescription.fullName
+            },
             latestPurchasedHour: student.latestPurchasedHour ? {
                 id: student.latestPurchasedHour.id,
                 studentID: student.latestPurchasedHour.studentID,

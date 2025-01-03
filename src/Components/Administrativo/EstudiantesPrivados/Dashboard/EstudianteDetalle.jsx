@@ -178,12 +178,12 @@ const StudentDetail = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Total de horas canceladas a tiempo</h3>
-              <p className="total"> No info </p>
+              <h3>Total de horas canceladas tarde estudiante virtual</h3>
+              <p className="total">{studentInfoClasses.hoursCanceledStudentLateVirtual} </p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas canceladas tarde </h3>
-              <p className="total">No info</p>
+              <h3>Total de horas canceladas tarde estudiante presencial </h3>
+              <p className="total">{studentInfoClasses.hoursCanceledStudentLateInPerson}</p>
             </div>
             <div className="actividadCard">
               <h3>Total de clases dictadas</h3>
@@ -198,13 +198,16 @@ const StudentDetail = () => {
               <p className="total">{studentInfoClasses.hoursHeldInPerson}</p>
             </div>
           </div>
-          <div className="calendario">
-            <PieChart />
-          </div>
-
-          <div className="grafica">
-            <Chart />
-          </div>
+          {studentInfoClasses.monthlyClassStats && (
+            <>
+              <div className="calendario">
+                <PieChart data={studentInfoClasses} />
+              </div>
+              <div className="grafica">
+                <Chart data={studentInfoClasses} />
+              </div>
+            </>
+          )}
           <div className="informacionDetalladaEstudiante">
             <ModifircarEstudiante data={studentData} context={"editar"} />
           </div>

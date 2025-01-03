@@ -67,10 +67,7 @@ const Card = ({ image, name, companyName, nit, status, onClick, data }) => {
             <p className="text-sm text-gray-600">NIT: {nit}</p>
             <p className="text-sm text-gray-600">Id Team: {data.ID}</p>
             <p className="text-sm text-gray-600">
-              Teacher name: {data.teacherID.fullName}
-            </p>
-            <p className="text-sm text-gray-600">
-              Teacher status: {data.teacherID.status ? "Activo" : "Inactivo"}
+              Teacher name: {data.teacherDescription.fullName}
             </p>
           </div>
         </div>
