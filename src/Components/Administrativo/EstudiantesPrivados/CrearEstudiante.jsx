@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../../ui/button";
-import PhoneInput from "react-phone-input-2";
+import PhoneInput from 'react-phone-input-2'
 import { createEstudent } from "../../../provider/adm/EstudiantePersonalizado/postStudent";
 import { updateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/putStudent";
 import Loader from "../../Loader/Loader";
