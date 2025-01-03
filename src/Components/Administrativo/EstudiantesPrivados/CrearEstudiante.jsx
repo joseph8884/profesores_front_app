@@ -14,17 +14,19 @@ import {
 import AddHours from "./AddHours";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 import { Toaster, toast } from "sonner";
+import ScrollListProfesores from "../Grupos/ScrollListProfesores"
 
 const CrearEditarEstudiante = ({ data, context }) => {
   const [file, setFile] = useState(null);
-  const [fileError, setFileError] = useState("");
   const [fullName, setFullName] = useState(data.fullName || "");
   const [email, setEmail] = useState(data.email || "");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
   const [hoursRemaining, sethoursRemaining] = useState(
     parseInt(data.hoursRemaining) || ""
   );
-  const [hoursPlanned, setHoursPlanned] = useState("");
+  const [teacherID, setTeacherID] = useState(data.teacherDescription ? data.teacherDescription.id : "");
+  const [teacherNameprev,setteacherNameprev] = useState(data.teacherDescription ? data.teacherDescription.fullName : "");
+  const [hoursPlanned, setHoursPlanned] = useState("" || data.hoursPlanned);
   const [ciudad, setCiudad] = useState(data.office || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
 
@@ -39,7 +41,6 @@ const CrearEditarEstudiante = ({ data, context }) => {
       reader.readAsDataURL(selectedFile);
     } else {
       setFile("");
-      setFileError("Please select a valid image file (jpg, jpeg, or png).");
     }
   };
 
@@ -72,7 +73,8 @@ const CrearEditarEstudiante = ({ data, context }) => {
         email,
         phoneNumber,
         hoursRemaining,
-        //hoursPlanned,
+        hoursPlanned,
+        //teacherID,
         photo:
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
         office: ciudad,
@@ -184,13 +186,25 @@ const CrearEditarEstudiante = ({ data, context }) => {
               <SelectValue placeholder="Seleccione una cuidad" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
-              <SelectItem value="BOGOTÁ">BOGOTÁ</SelectItem>
+              <SelectItem value="MEDELLIN">MEDELLÍN</SelectItem>
+              <SelectItem value="BOGOTA">BOGOTÁ</SelectItem>
               <SelectItem value="CALI">CALI</SelectItem>
               <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
             </SelectContent>
           </Select>
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Profesor asignado
+          </label>
+          <ScrollListProfesores
+            setTeacherID={setTeacherID}
+            setprofesorSelectedToFilter={setteacherNameprev}
+            profesorSelectedToFilter={teacherNameprev}
+            setLoading={setLoading}
+          />
+        </div>
+        
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Horas planeadas

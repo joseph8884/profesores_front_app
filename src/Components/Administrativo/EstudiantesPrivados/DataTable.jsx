@@ -315,8 +315,8 @@ export function DataTableDemo({ status }) {
               <SelectValue placeholder="Seleccione una cuidad para filtrar" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="MEDELLÍN">MEDELLÍN</SelectItem>
-              <SelectItem value="BOGOTÁ">BOGOTÁ</SelectItem>
+              <SelectItem value="MEDELLIN">MEDELLÍN</SelectItem>
+              <SelectItem value="BOGOTA">BOGOTÁ</SelectItem>
               <SelectItem value="CALI">CALI</SelectItem>
               <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
             </SelectContent>
