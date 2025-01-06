@@ -140,15 +140,13 @@ const FormSection = ({ groupDATA }) => {
     try {
       const response = await postTeamClass(formData);
       if (classHeld === true) {
-        attendedStudents.map(async (student) => {
-          const attendanceperStudent = {
-            classID: response.message,
-            studentTeamID: student.id,
-            attended: true,
-          };
-          console.log("Attendance per student:", attendanceperStudent);
-          await postAttendance(attendanceperStudent);
-        });
+        const attendanceList = attendedStudents.map((student) => ({
+          classID: response.message,
+          studentTeamID: student.id,
+          attended: true,
+        }));
+        console.log("Attendance list:", attendanceList);
+        await postAttendance(attendanceList);
       }
       toast.success("Class has been created");
     } catch (error) {

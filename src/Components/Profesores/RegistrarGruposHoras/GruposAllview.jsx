@@ -224,8 +224,8 @@ const GruposEmpresasProfesor = () => {
               key={index}
               image={item.photo}
               name={item.name}
-              companyName={item.company.name}
-              nit={item.company.nit}
+              companyName={item.companyID.name}
+              nit={item.companyID.nit}
               status={item.status}
               data={item}
               onClick={() => handleRowClick(item)}

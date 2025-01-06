@@ -13,16 +13,17 @@ export async function getAllTeams(id) {
         const teamsList = data.map((team) => ({
             id: team.id,
             name: team.name,
-            company: {
+            companyID: {
                 id: team.companyID.id,
                 name: team.companyID.name,
                 nit: team.companyID.nit
             },
+            hoursPlanned: team.hoursPlanned,
             photo: team.photo,
             status: team.status,
-            teacherID: {
-                id: team.teacherID.id,
-                name: team.teacherID.fullName,
+            teacherDescription: {
+                id: team.teacherDescription.id,
+                fullName: team.teacherDescription.fullName,
             }
         }));
         return teamsList;

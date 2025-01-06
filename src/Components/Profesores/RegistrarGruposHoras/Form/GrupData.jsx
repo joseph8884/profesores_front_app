@@ -35,7 +35,7 @@ const GroupData = ({ groupData }) => {
           </label>
           <input
             type="text"
-            value={groupData.company.name}
+            value={groupData.companyID.name}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter company name"
             readOnly
@@ -49,7 +49,7 @@ const GroupData = ({ groupData }) => {
           </label>
           <input
             type="text"
-            value={groupData.company.nit}
+            value={groupData.companyID.nit}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter company NIT"
             readOnly
@@ -63,7 +63,7 @@ const GroupData = ({ groupData }) => {
           </label>
           <input
             type="text"
-            value={groupData.teacherID.name}
+            value={groupData.teacherDescription.fullName}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter teacher name"
             readOnly
