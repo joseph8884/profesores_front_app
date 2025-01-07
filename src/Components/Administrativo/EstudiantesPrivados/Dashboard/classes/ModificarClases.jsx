@@ -16,10 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../ui/select";
-import {putIndividualClass} from "../../../../../provider/adm/Clases/ClasesIndividuales/putIndividualClass";
+import {postORputIndividualClass} from "../../../../../provider/adm/Clases/ClasesIndividuales/postORputIndividualClass";
 import { toast } from "sonner";
-const ModificarClases = ({ data }) => {
-  const [classHeld, setClassHeld] = useState(data.classHeld || false);
+import ScrollListProfesores from "../../../Grupos/ScrollListProfesores"
+const ModificarClases = ({ data, studentID }) => {
+  const [classHeld, setClassHeld] = useState(data.classHeld || true);
   const [date, setDate] = useState(data.dateTime || "");
   const [classType, setClassType] = useState(data.classType || "Virtual");
   const [hours, setHours] = useState(data.duration || "");
@@ -32,6 +33,8 @@ const ModificarClases = ({ data }) => {
   const [cancellationReason, setCancellationReason] = useState(
     data.cancellationReason || ""
   );
+  const [teacherID, setTeacherID] = useState(data.teacherDescription ? data.teacherDescription.id : "");
+  const [teacherNameprev,setteacherNameprev] = useState(data.teacherDescription ? data.teacherDescription.fullName : "");
   const [loading, setLoading] = useState(false);
 
   // Handle input changes
@@ -70,18 +73,6 @@ const ModificarClases = ({ data }) => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !date ||
-      !comments ||
-      !topics ||
-      !classType ||
-      !hours ||
-      !data.teacherID ||
-      !data.studentID
-    ) {
-      toast.error("Por favor, completa todos los campos requeridos. dsa");
-      return;
-    }
     if (classHeld === false) {
       if (cancelledBy === "Class held" || cancellationTiming === "Class held") {
         toast.error("Por favor, completa todos los campos requeridos.");
@@ -94,13 +85,12 @@ const ModificarClases = ({ data }) => {
       const formattedDate = isoString.replace("Z", "000000Z");
       return formattedDate;
     };
-
     var formData = {
-      teacherID: data.teacherID,
+      teacherID: data.teacherId || teacherID,
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,
-      studentID: data.studentID,
+      studentID: data.studentID || studentID,
       comment: comments,
       topic: topics,
       classHeld: classHeld === true ? true : false,
@@ -111,7 +101,7 @@ const ModificarClases = ({ data }) => {
       canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
-      await putIndividualClass(formData, data.id);
+      await postORputIndividualClass(formData, data.id);
     } catch (error) {
       console.log("Error creating team class:", error);
     } finally {
@@ -152,6 +142,19 @@ const ModificarClases = ({ data }) => {
             </Select>
           </label>
         </div>
+        { !data.teacherId && (
+          <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Profesor asignado
+          </label>
+          <ScrollListProfesores
+            setTeacherID={setTeacherID}
+            setprofesorSelectedToFilter={setteacherNameprev}
+            profesorSelectedToFilter={teacherNameprev}
+            setLoading={setLoading}
+          />
+        </div>
+        )}
 
         <div className="flex flex-col">
           <label className="mb-2 font-semibold">

@@ -179,11 +179,15 @@ const StudentDetail = () => {
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
               <h3>Total de horas canceladas tarde estudiante virtual</h3>
-              <p className="total">{studentInfoClasses.hoursCanceledStudentLateVirtual} </p>
+              <p className="total">
+                {studentInfoClasses.hoursCanceledStudentLateVirtual}{" "}
+              </p>
             </div>
             <div className="actividadCard">
               <h3>Total de horas canceladas tarde estudiante presencial </h3>
-              <p className="total">{studentInfoClasses.hoursCanceledStudentLateInPerson}</p>
+              <p className="total">
+                {studentInfoClasses.hoursCanceledStudentLateInPerson}
+              </p>
             </div>
             <div className="actividadCard">
               <h3>Total de clases dictadas</h3>
@@ -212,6 +216,14 @@ const StudentDetail = () => {
             <ModifircarEstudiante data={studentData} context={"editar"} />
           </div>
           <div className="ultimasclasesvistas">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>Crear Clase</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[825px]">
+                <ModificarClases data={{}} studentID={studentData.ID} />
+              </DialogContent>
+            </Dialog>
             <Table>
               <TableHeader>
                 <TableRow>
