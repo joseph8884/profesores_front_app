@@ -5,7 +5,7 @@ import { Input } from "../../ui/input";
 import { BellIcon } from "@radix-ui/react-icons";
 import { getStudentsCustom } from "../../../provider/profesor/EstudianteIndividual/getStudents";
 import Loader from "../../Loader/Loader";
-import {useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export function DataTableDemo() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +34,10 @@ export function DataTableDemo() {
     return data.filter((item) =>
       ["name", "email", "id"].some((key) => {
         const value = item[key];
-        return typeof value === 'string' && value.toLowerCase().includes(searchTerm.toLowerCase());
+        return (
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchTerm.toLowerCase())
+        );
       })
     );
   }, [searchTerm, loading, data]);
@@ -75,24 +78,24 @@ export function DataTableDemo() {
       cell: ({ row }) => (
         <div className="text-center">{row.getValue("hoursRemaining")}</div>
       ),
-    }, 
+    },
     {
       accessorKey: "office",
       header: "office",
       cell: ({ row }) => (
         <div className="text-center">{row.getValue("office")}</div>
       ),
-    }
+    },
   ];
 
   return (
-    <div className="w-full">
-            {loading && <Loader />}
-            <div className="bg-white rounded-lg flex justify-between items-center p-5">
-            <h2 className="text-xl font-bold text-gray-900">
-              Lista de estudiantes individuales
-            </h2>
-            <BellIcon className="h-6 w-6" />
+    <div className="w-full" style={{ overflowY: "scroll", padding: "30px" }}>
+      {loading && <Loader />}
+      <div className="bg-white rounded-lg flex justify-between items-center p-5">
+        <h2 className="text-xl font-bold text-gray-900">
+          Lista de estudiantes individuales
+        </h2>
+        <BellIcon className="h-6 w-6" />
       </div>
       <div className="flex items-center py-4 justify-between">
         <Input
@@ -106,8 +109,12 @@ export function DataTableDemo() {
         </Button>
       </div>
 
-      <DataTableDemoTemplate columns={columns} dataToShow={filteredData}  rowClickToNavigate={`/profesor/registrarhoras/estudianteindividual/estudiante?&profesorId=${teacherId}`} localstorage_name={"selected_student_profesor"} />
-
+      <DataTableDemoTemplate
+        columns={columns}
+        dataToShow={filteredData}
+        rowClickToNavigate={`/profesor/registrarhoras/estudianteindividual/estudiante?&profesorId=${teacherId}`}
+        localstorage_name={"selected_student_profesor"}
+      />
     </div>
   );
 }
