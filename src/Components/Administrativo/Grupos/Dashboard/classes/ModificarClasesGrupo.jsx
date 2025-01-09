@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../../../../ui/button";
 import {
   DialogDescription,
@@ -16,10 +16,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../ui/select";
-import { putTeamClass } from "../../../../../provider/adm/Clases/ClasesGrupales/putTeamClass";
+import { postORputTeamClass } from "../../../../../provider/adm/Clases/ClasesGrupales/postORputTeamClass";
 import { toast } from "sonner";
-const ModificarClasesGrupo = ({ data }) => {
-  const [classHeld, setClassHeld] = useState(data.classHeld || false);
+import ListofStudents from "./ListofStudents";
+import {postORputAttendance} from "../../../../../provider/adm/Clases/ClasesGrupales/postorputAttendance"
+import { getAttendancebyClassID } from "../../../../../provider/adm/Clases/ClasesGrupales/getAttendancebyClassID";
+import { getStdentTeambyId } from "../../../../../provider/adm/Grupos/students/getStdentTeambyId";
+import ScrollListProfesores from "../../../Grupos/ScrollListProfesores";
+const ModificarClasesGrupo = ({ data, teamID }) => {
+  const [classHeld, setClassHeld] = useState(data.classHeld || true);
   const [date, setDate] = useState(data.dateTime || "");
   const [classType, setClassType] = useState(data.classType || "Virtual");
   const [hours, setHours] = useState(data.duration || "");
@@ -32,7 +37,58 @@ const ModificarClasesGrupo = ({ data }) => {
   const [cancellationReason, setCancellationReason] = useState(
     data.cancellationReason || ""
   );
+  const [students, setStudents] = useState([]);
+  const [attendance, setAttendance] = useState(
+    students.reduce((acc, student) => {
+      acc[student.id] = false;
+      return acc;
+    }, {})
+  );
+  const [teacherID, setTeacherID] = useState(
+    data.teacher ? data.teacher.id : ""
+  );
+  const [teacherNameprev, setteacherNameprev] = useState(
+    data.teacher ? data.teacher.fullName : ""
+  );
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (students.length === 0) {
+      const fetchGroups = async () => {
+        try {
+          const data_fromAPI = await getStdentTeambyId(teamID);
+          setStudents(data_fromAPI);
+        } catch (error) {
+          console.error("Error fetching students:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchGroups();
+    }
+  }, [students, teamID]);
+  useEffect(() => {
+    if (data.id && students.length > 0) {
+      const fetchAttendance = async () => {
+        const classID = data.id; // Ajusta según sea necesario
+        try {
+          const attendanceList = await getAttendancebyClassID(classID);
+          const initialAttendance = students.reduce((acc, student) => {
+            acc[student.id] = attendanceList.some(
+              (attendance) =>
+                attendance.studentTeamID === student.id && attendance.attended
+            );
+            return acc;
+          }, {});
+          setAttendance(initialAttendance);
+          console.log(attendanceList)
+        } catch {
+          console.log("No hay lista de estudiantes para esta clase");
+        }
+      };
+
+      fetchAttendance();
+    }
+  }, [students, data.id]);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -70,37 +126,33 @@ const ModificarClasesGrupo = ({ data }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !date ||
-      !comments ||
-      !topics ||
-      !classType ||
-      !hours ||
-      !data.teacherID ||
-      !data.teamID
-    ) {
-      toast.error("Por favor, completa todos los campos requeridos.");
-      return;
-    }
     if (classHeld === false) {
       if (cancelledBy === "Class held" || cancellationTiming === "Class held") {
         toast.error("Por favor, completa todos los campos requeridos.");
         return;
       }
     }
+
     setLoading(true);
     const formatDate = (date) => {
       const isoString = date.toISOString();
       const formattedDate = isoString.replace("Z", "000000Z");
       return formattedDate;
     };
+    const attendedStudents = students.filter(
+      (student) => attendance[student.id]
+    );
+    if (classHeld && attendedStudents.length === 0) {
+      toast.error("Por favor, selecciona al menos un estudiante.");
+      return;
+    }
 
     var formData = {
-      teacherID: data.teacherID,
+      teacherID: data.teacherID || teacherID,
       classType,
       dateTime: formatDate(new Date(date)),
       duration: hours,
-      teamID: data.teamID,
+      teamID: data.teamID || teamID,
       comment: comments,
       topic: topics,
       classHeld: classHeld === true ? true : false,
@@ -110,7 +162,32 @@ const ModificarClasesGrupo = ({ data }) => {
       canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
-      await putTeamClass(formData, data.id);
+      const response = await postORputTeamClass(formData, data.id);
+      if (Number.isInteger(response.message)) {
+        if (classHeld === true) {
+          const attendanceList = attendedStudents.map((student) => ({
+            classID: response.message,
+            studentTeamID: student.id,
+            attended: true,
+          }));
+          console.log("Attendance list:", attendanceList);
+          await postORputAttendance(attendanceList);
+        }
+        toast.success("Class has been created");
+      } else {
+        if (classHeld === true) {
+          const attendanceList = attendedStudents.map((student) => ({
+            //Aca necesito el id del attendance list
+            classID: response.message,
+            studentTeamID: student.id,
+            attended: true,
+          }));
+          console.log("Attendance list:", attendanceList);
+          await postORputAttendance(attendanceList);
+        }
+
+      }
+      console.log(response);
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -154,6 +231,19 @@ const ModificarClasesGrupo = ({ data }) => {
             </Select>
           </label>
         </div>
+        {!data.teacherId && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Profesor asignado
+            </label>
+            <ScrollListProfesores
+              setTeacherID={setTeacherID}
+              setprofesorSelectedToFilter={setteacherNameprev}
+              profesorSelectedToFilter={teacherNameprev}
+              setLoading={setLoading}
+            />
+          </div>
+        )}
 
         <div className="flex flex-col">
           <label className="mb-2 font-semibold">
@@ -234,6 +324,13 @@ const ModificarClasesGrupo = ({ data }) => {
             />
           </label>
         </div>
+        {classHeld === true && (
+          <ListofStudents
+            students={students}
+            attendance={attendance}
+            setAttendance={setAttendance}
+          />
+        )}
         {classHeld === false && (
           <div className="cancellation md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">

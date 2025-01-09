@@ -25,6 +25,10 @@ export async function getClassesbyGroupIDDate(idGroup, year, month) {
         cancellationReason: group.cancellationReason,
         cancellationTiming: group.cancellationTiming,
         canceledBy: group.canceledBy,
+        teacher:{
+          id: group.teacher.id,
+          fullName: group.teacher.fullName, 
+        }
       }));
       return classList;
     } catch (error) {

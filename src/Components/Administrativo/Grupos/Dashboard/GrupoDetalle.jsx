@@ -181,11 +181,15 @@ const GroupDetail = () => {
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
               <h3>Total de horas canceladas tarde grupo virtual</h3>
-              <p className="total">{inforDashboard.hoursCanceledStudentLateVirtual}</p>
+              <p className="total">
+                {inforDashboard.hoursCanceledStudentLateVirtual}
+              </p>
             </div>
             <div className="actividadCard">
               <h3>Total de horas canceladas tarde grupo presencial</h3>
-              <p className="total">{inforDashboard.hoursCanceledStudentLateInPerson}</p>
+              <p className="total">
+                {inforDashboard.hoursCanceledStudentLateInPerson}
+              </p>
             </div>
             <div className="actividadCard">
               <h3>Total de clases dictadas</h3>
@@ -202,7 +206,7 @@ const GroupDetail = () => {
           </div>
           {inforDashboard.monthlyClassStats && (
             <>
-               <div className="pie">
+              <div className="pie">
                 <PieChart data={inforDashboard} />
               </div>
               <div className="grafica">
@@ -210,11 +214,19 @@ const GroupDetail = () => {
               </div>
             </>
           )}
-          
+
           <div className="informacionDetalladaEstudiante">
             <CrearModGrupo initialData={groupData} />
           </div>
           <div className="ultimasclasesvistas">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>Crear Clase</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[825px]">
+                <ModificarClasesGrupo data={{}} teamID={groupData.ID} />
+              </DialogContent>
+            </Dialog>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -313,7 +325,7 @@ const GroupDetail = () => {
                           <Pencil1Icon className="w-6 h-6 text-gray-400" />
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[825px]">
-                          <ModificarClasesGrupo data={classData} />
+                          <ModificarClasesGrupo data={classData} teamID={groupData.ID} />
                         </DialogContent>
                       </Dialog>
                     </TableCell>
