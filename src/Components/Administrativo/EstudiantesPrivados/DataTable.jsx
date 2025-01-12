@@ -47,7 +47,8 @@ import { DataTableDemoTemplate } from "../../ui/DataTableAdjusted";
 import ScrollListProfesores from "../Grupos/ScrollListProfesores";
 export function DataTableDemo({ status }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [profesorSelectedToFilter, setprofesorSelectedToFilter] = React.useState("");
+  const [profesorSelectedToFilter, setprofesorSelectedToFilter] =
+    React.useState("");
   const [statusFilter, setStatusFilter] = useState(null);
   const [ciudadFilter, setCiudadFilter] = useState("");
   const [data, setData] = useState([]);
@@ -89,7 +90,9 @@ export function DataTableDemo({ status }) {
       filtered = filtered.filter((item) => item.office === ciudadFilter);
     }
     if (profesorSelectedToFilter) {
-      filtered = filtered.filter((item) => item.teacherDescription.fullName === profesorSelectedToFilter);
+      filtered = filtered.filter(
+        (item) => item.teacherDescription.fullName === profesorSelectedToFilter
+      );
     }
 
     return filtered;
@@ -152,7 +155,9 @@ export function DataTableDemo({ status }) {
       accessorKey: "teacherDescription",
       header: "Nombre del profesor",
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("teacherDescription").fullName}</div>
+        <div className="text-center">
+          {row.getValue("teacherDescription").fullName}
+        </div>
       ),
     },
     {
@@ -191,13 +196,9 @@ export function DataTableDemo({ status }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation(); // Evitar que el clic en el menú de acciones active el clic en la fila
-                }}
-              >
+              <DropdownMenuItem>
                 <Sheet>
-                  <SheetTrigger asChild>
+                  <SheetTrigger>
                     {/* Este botón será visible solo en pantallas pequeñas */}
                     <Button variant="ghost">Editar</Button>
                   </SheetTrigger>
@@ -321,8 +322,11 @@ export function DataTableDemo({ status }) {
               <SelectItem value="BARRANQUILLA">BARRANQUILLA</SelectItem>
             </SelectContent>
           </Select>
-          <ScrollListProfesores profesorSelectedToFilter={profesorSelectedToFilter} setprofesorSelectedToFilter={setprofesorSelectedToFilter} setLoading={setLoading} />
-          
+          <ScrollListProfesores
+            profesorSelectedToFilter={profesorSelectedToFilter}
+            setprofesorSelectedToFilter={setprofesorSelectedToFilter}
+            setLoading={setLoading}
+          />
 
           <Button
             variant="ghost"

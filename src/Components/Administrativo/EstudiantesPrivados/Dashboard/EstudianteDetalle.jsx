@@ -213,7 +213,7 @@ const StudentDetail = () => {
             </>
           )}
           <div className="informacionDetalladaEstudiante">
-            <ModifircarEstudiante data={studentData} context={"editar"} />
+            <ModifircarEstudiante data={studentData} context={"editar"} flag={1} />
           </div>
           <div className="ultimasclasesvistas">
             <Dialog>

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "../../ui/button";
-import PhoneInput from 'react-phone-input-2'
+import PhoneInput from "react-phone-input-2";
 import { createEstudent } from "../../../provider/adm/EstudiantePersonalizado/postStudent";
 import { updateStudentAPI } from "../../../provider/adm/EstudiantePersonalizado/putStudent";
 import Loader from "../../Loader/Loader";
@@ -14,34 +14,51 @@ import {
 import AddHours from "./AddHours";
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 import { Toaster, toast } from "sonner";
-import ScrollListProfesores from "../Grupos/ScrollListProfesores"
+import ScrollListProfesores from "../Grupos/ScrollListProfesores";
+import { uploadPhoto } from "../../../provider/adm/uploadPhoto";
 
-const CrearEditarEstudiante = ({ data, context }) => {
-  const [file, setFile] = useState(null);
+const CrearEditarEstudiante = ({ data, context, flag }) => {
+  const [file, setFile] = useState(data.photo);
   const [fullName, setFullName] = useState(data.fullName || "");
   const [email, setEmail] = useState(data.email || "");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
   const [hoursRemaining, sethoursRemaining] = useState(
     parseInt(data.hoursRemaining) || ""
   );
-  const [teacherID, setTeacherID] = useState(data.teacherDescription ? data.teacherDescription.id : "");
-  const [teacherNameprev,setteacherNameprev] = useState(data.teacherDescription ? data.teacherDescription.fullName : "");
+  const [teacherID, setTeacherID] = useState(
+    data.teacherDescription ? data.teacherDescription.id : ""
+  );
+  const [teacherNameprev, setteacherNameprev] = useState(
+    data.teacherDescription ? data.teacherDescription.fullName : ""
+  );
   const [hoursPlanned, setHoursPlanned] = useState("" || data.hoursPlanned);
   const [ciudad, setCiudad] = useState(data.office || "");
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
+  const fileInputRef = useRef(null); // Referencia al input de archivo
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
+    console.log("dsa")
     const selectedFile = e.target.files[0];
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (selectedFile && allowedTypes.includes(selectedFile.type)) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFile(reader.result); // Almacena la imagen como una URL de datos
-      };
-      reader.readAsDataURL(selectedFile);
+      try {
+        await uploadPhoto("/admin/estudiante/personalizado/actualizar/foto/", data.ID, selectedFile);
+        
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFile(reader.result); // Almacena la imagen como una URL de datos
+        };
+        reader.readAsDataURL(selectedFile);
+      } catch (error) {
+        console.error("Error uploading photo:", error);
+      }
     } else {
       setFile("");
     }
+        // Restablece el valor del input de archivo
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
   };
 
   const validateFields = () => {
@@ -111,24 +128,31 @@ const CrearEditarEstudiante = ({ data, context }) => {
       {/* Form */}
       <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
         {/* Vista previa de la imagen */}
-        <div
+        { data.ID && flag && (
+          <div
           className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer"
-          onClick={() => document.getElementById("fileInput").click()}
+          onClick={(e) => {
+            
+            fileInputRef.current.click()
+          }}
         >
           <img
-            src={file || data.photo}
+            src={file }
             alt="uploadimage"
             className="h-32 w-32 object-cover rounded-full"
           />
-
           <input
-            type="file"
-            id="fileInput"
-            accept="image/jpeg, image/jpg, image/png"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{display: "none"}}
+          
+          // Oculta el input de archivo
+        />
         </div>
+        )} 
+
 
         {/* Full Name Field */}
         <div>
@@ -204,7 +228,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
             setLoading={setLoading}
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Horas planeadas
