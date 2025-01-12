@@ -10,27 +10,44 @@ export async function getStudents(status) {
             }
         });
         const data = await resp.json();
-        const studentsList = data.map((student) => ({
-            ID: student.id,
-            fullName: student.fullName,
-            email: student.email,
-            phoneNumber: student.phoneNumber,
-            photo: student.photo,
-            hoursRemaining: student.hoursRemaining,
-            office: student.office,
-            status: student.status,
-            hoursPlanned: student.hoursPlanned, 
-            teacherDescription:{
-                id: student.teacherDescription.id,
-                fullName: student.teacherDescription.fullName
-            },
-            latestPurchasedHour: student.latestPurchasedHour ? {
-                id: student.latestPurchasedHour.id,
-                studentID: student.latestPurchasedHour.studentID,
-                adminID: student.latestPurchasedHour.adminID,
-                hours: student.latestPurchasedHour.hours,
-                date: student.latestPurchasedHour.date
-            } : null
+        const studentsList = await Promise.all(data.map(async (student) => {
+            let photoUrl = '/default_profile_photo.png';
+            try {
+                const photoResp = await fetch(`${process.env.REACT_APP_API_URL}/photos/estudiante/personalizado/${student.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+                        'Content-Type': 'image/jpeg'
+                    }
+                });
+                if (!photoResp.ok) throw new Error('Photo not found');
+                const photoBlob = await photoResp.blob();
+                photoUrl = URL.createObjectURL(photoBlob);
+            } catch (error) {
+                console.error(`Error fetching photo for student ${student.id}:`, error);
+            }
+            return {
+                ID: student.id,
+                fullName: student.fullName,
+                email: student.email,
+                phoneNumber: student.phoneNumber,
+                photo: photoUrl,
+                hoursRemaining: student.hoursRemaining,
+                office: student.office,
+                status: student.status,
+                hoursPlanned: student.hoursPlanned, 
+                teacherDescription:{
+                    id: student.teacherDescription.id,
+                    fullName: student.teacherDescription.fullName
+                },
+                latestPurchasedHour: student.latestPurchasedHour ? {
+                    id: student.latestPurchasedHour.id,
+                    studentID: student.latestPurchasedHour.studentID,
+                    adminID: student.latestPurchasedHour.adminID,
+                    hours: student.latestPurchasedHour.hours,
+                    date: student.latestPurchasedHour.date
+                } : null
+            };
         }));
         return studentsList;
     } catch (error) {  

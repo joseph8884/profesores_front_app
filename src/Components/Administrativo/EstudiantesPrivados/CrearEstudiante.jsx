@@ -74,7 +74,7 @@ const CrearEditarEstudiante = ({ data, context }) => {
         phoneNumber,
         hoursRemaining,
         hoursPlanned,
-        //teacherID,
+        teacherID,
         photo:
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgMBAHkQ9ysAAAAASUVORK5CYII=",
         office: ciudad,

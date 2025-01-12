@@ -80,7 +80,7 @@ const GruposEmpresas = () => {
     }
     //filtrar por profesor seleccionado
     if (profesorSelectedToFilter) {
-      filtered = filtered.filter((item) => item.teacherID.fullName === profesorSelectedToFilter);
+      filtered = filtered.filter((item) => item.teacherDescription.fullName === profesorSelectedToFilter);
     }
 
     return filtered;
