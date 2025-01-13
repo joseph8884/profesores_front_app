@@ -10,12 +10,28 @@ export async function getStudentsCustom() {
             }
         });
         const data = await resp.json();
-        const studentsList = data.map((student) => ({
+        const studentsList = await Promise.all(data.map(async (student) => {
+            let photoUrl = '/default_profile_photo.png';
+            try {
+                const photoResp = await fetch(`${process.env.REACT_APP_API_URL}/photos/estudiante/personalizado/${student.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+                        'Content-Type': 'image/jpeg'
+                    }
+                });
+                if (!photoResp.ok) throw new Error('Photo not found');
+                const photoBlob = await photoResp.blob();
+                photoUrl = URL.createObjectURL(photoBlob);
+            } catch (error) {
+                console.error(`Error fetching photo for student ${student.id}:`, error);
+            }
+            return{
             id: student.id,
             fullName: student.fullName,
             email: student.email,
             phoneNumber: student.phoneNumber,
-            photo: student.photo,
+            photo: photoUrl,
             hoursRemaining: student.hoursRemaining,
             office: student.office,
             status: student.status,
@@ -26,6 +42,7 @@ export async function getStudentsCustom() {
                 hours: student.latestPurchasedHour.hours,
                 date: student.latestPurchasedHour.date
             } : null
+        }
         }));
         console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;

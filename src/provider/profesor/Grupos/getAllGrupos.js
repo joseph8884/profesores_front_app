@@ -10,7 +10,23 @@ export async function getAllTeams(id) {
             }
         });
         const data = await resp.json();
-        const teamsList = data.map((team) => ({
+        const teamsList = await Promise.all(data.map(async (team) => {
+            let photoUrl = '/images/photosDefaultTeam/default.jpeg';
+            try {
+                const photoResp = await fetch(`${process.env.REACT_APP_API_URL}/photos/team/${team.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+                        'Content-Type': 'image/jpeg'
+                    }
+                });
+                if (!photoResp.ok) throw new Error('Photo not found');
+                const photoBlob = await photoResp.blob();
+                photoUrl = URL.createObjectURL(photoBlob);
+            } catch (error) {
+                console.error(`Error fetching photo for team ${team.id}:`, error);
+            }
+            return {
             id: team.id,
             name: team.name,
             companyID: {
@@ -19,12 +35,13 @@ export async function getAllTeams(id) {
                 nit: team.companyID.nit
             },
             hoursPlanned: team.hoursPlanned,
-            photo: team.photo,
+            photo: photoUrl,
             status: team.status,
             teacherDescription: {
                 id: team.teacherDescription.id,
                 fullName: team.teacherDescription.fullName,
             }
+        }
         }));
         return teamsList;
     } catch (error) {  
