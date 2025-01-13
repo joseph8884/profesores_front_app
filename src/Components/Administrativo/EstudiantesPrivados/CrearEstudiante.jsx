@@ -37,7 +37,6 @@ const CrearEditarEstudiante = ({ data, context, flag }) => {
   const fileInputRef = useRef(null); // Referencia al input de archivo
 
   const handleFileChange = async (e) => {
-    console.log("dsa")
     const selectedFile = e.target.files[0];
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (selectedFile && allowedTypes.includes(selectedFile.type)) {
@@ -132,7 +131,6 @@ const CrearEditarEstudiante = ({ data, context, flag }) => {
           <div
           className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer"
           onClick={(e) => {
-            
             fileInputRef.current.click()
           }}
         >

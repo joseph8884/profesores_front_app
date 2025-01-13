@@ -187,10 +187,7 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
         }
 
       }
-      console.log(response);
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      
     } catch (error) {
       console.log("Error creating team class:", error);
     } finally {

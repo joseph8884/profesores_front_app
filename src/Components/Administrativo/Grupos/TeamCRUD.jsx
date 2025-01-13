@@ -12,6 +12,8 @@ const TeamCRUD = ({
   setteacherNameprev,
   hoursPlanned,
   setHoursPlanned,
+  flag,
+  fileInputRef,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -20,24 +22,30 @@ const TeamCRUD = ({
       {loading && <Loader />}
       <form className="space-y-4 mb-6">
         <h3 className="text-lg font-semibold">Manage Team</h3>
-        <div
-          className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer"
-          onClick={() => document.getElementById("fileInput").click()}
-        >
-          <img
-            src={photo}
-            alt="uploadimage"
-            className="h-32 w-32 object-cover rounded-full"
-          />
+        {/* Vista previa de la imagen */}
+        {teamName && flag && (
+          <div
+            className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer"
+            onClick={(e) => {
+              fileInputRef.current.click();
+            }}
+          >
+            <img
+              src={photo}
+              alt="uploadimage"
+              className="h-32 w-32 object-cover rounded-full"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
 
-          <input
-            type="file"
-            id="fileInput"
-            accept="image/jpeg, image/jpg, image/png"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-        </div>
+              // Oculta el input de archivo
+            />
+          </div>
+        )}
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Team Name

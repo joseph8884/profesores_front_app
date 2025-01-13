@@ -216,7 +216,7 @@ const GroupDetail = () => {
           )}
 
           <div className="informacionDetalladaEstudiante">
-            <CrearModGrupo initialData={groupData} />
+            <CrearModGrupo initialData={groupData} flag={1} />
           </div>
           <div className="ultimasclasesvistas">
             <Dialog>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createTeam, editTeam } from "../../../provider/adm/Grupos/crearTeam&Company";
 import { Button } from "../../ui/button";
 import Loader from "../../Loader/Loader";
 import CompanyCRUD from "./CompanyCRUD.jsx";
 import { getCompanys } from "../../../provider/adm/Grupos/getCompany";
 import TeamCRUD from "./TeamCRUD.jsx"; // Importa el nuevo componente
-
-const CrearModGrupo = ({ initialData, context }) => {
+import { uploadPhoto } from "../../../provider/adm/uploadPhoto";
+const CrearModGrupo = ({ initialData, context, flag }) => {
   const [companies, setCompanies] = useState([]);
   const [nit, setNit] = useState(initialData.companyNIT || "");
   const [idCompany, setidCompany] = useState(initialData.companyID || "");
@@ -15,7 +15,7 @@ const CrearModGrupo = ({ initialData, context }) => {
   const [teacherNameprev,setteacherNameprev] = useState(initialData.teacherDescription ? initialData.teacherDescription.fullName : "");
   const [loading, setLoading] = useState(false);
   const [hoursPlanned, setHoursPlanned] = useState(initialData.hoursPlanned || ""); 
-
+  const fileInputRef = useRef(null);
   // Variables de estado para el equipo
   const [teamName, setTeamName] = useState(initialData.name||"" );
   const [photo, setPhoto] = useState("");
@@ -66,19 +66,28 @@ const CrearModGrupo = ({ initialData, context }) => {
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (selectedFile && allowedTypes.includes(selectedFile.type)) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        console.log("Preview result:", reader.result); // Verificación
-        setPhoto(reader.result); // Actualiza la vista previa
-      };
-      reader.readAsDataURL(selectedFile);
+      try {
+        await uploadPhoto("/admin/equipo/actualizar/foto/", initialData.ID, selectedFile);
+        
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPhoto(reader.result); // Almacena la imagen como una URL de datos
+        };
+        reader.readAsDataURL(selectedFile);
+      } catch (error) {
+        console.error("Error uploading photo:", error);
+      }
     } else {
       setPhoto("");
     }
+        // Restablece el valor del input de archivo
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
   };
 
   return (
@@ -111,6 +120,8 @@ const CrearModGrupo = ({ initialData, context }) => {
           setteacherNameprev={setteacherNameprev}
           hoursPlanned={hoursPlanned}
           setHoursPlanned={setHoursPlanned}
+          flag={flag}
+          fileInputRef={fileInputRef}
         />
         <Button
           onClick={handleSubmit}
