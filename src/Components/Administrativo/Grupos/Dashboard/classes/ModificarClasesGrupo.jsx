@@ -186,6 +186,9 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
           await postORputAttendance(attendanceList);
         }
       }
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.log("Error creating team class:", error);
     } finally {
@@ -193,7 +196,6 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
     }
     console.log("Submitted Data grupo:", JSON.stringify(formData, null, 2));
   };
-  
   const getCurrentDateTime = () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -203,7 +205,6 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
-
   return (
     <div className="overflow-y-auto max-h-[70vh] p-6">
       {loading && <Loader />}
