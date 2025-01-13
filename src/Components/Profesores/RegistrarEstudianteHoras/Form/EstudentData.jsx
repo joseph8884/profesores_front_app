@@ -61,7 +61,7 @@ const EstudentData = ({ studentData }) => {
           </label>
           <input
             type="numeber"
-            value={studentData.latestPurchasedHour.hours} // Changed from horasPlaneadas
+            value={studentData.latestPurchasedHour ? studentData.latestPurchasedHour.hours : 0} // Changed from horasPlaneadas
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             readOnly
           />

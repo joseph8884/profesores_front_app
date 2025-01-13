@@ -19,7 +19,7 @@ import {
 import { postORputTeamClass } from "../../../../../provider/adm/Clases/ClasesGrupales/postORputTeamClass";
 import { toast } from "sonner";
 import ListofStudents from "./ListofStudents";
-import {postORputAttendance} from "../../../../../provider/adm/Clases/ClasesGrupales/postorputAttendance"
+import { postORputAttendance } from "../../../../../provider/adm/Clases/ClasesGrupales/postorputAttendance";
 import { getAttendancebyClassID } from "../../../../../provider/adm/Clases/ClasesGrupales/getAttendancebyClassID";
 import { getStdentTeambyId } from "../../../../../provider/adm/Grupos/students/getStdentTeambyId";
 import ScrollListProfesores from "../../../Grupos/ScrollListProfesores";
@@ -80,7 +80,7 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
             return acc;
           }, {});
           setAttendance(initialAttendance);
-          console.log(attendanceList)
+          console.log(attendanceList);
         } catch {
           console.log("No hay lista de estudiantes para esta clase");
         }
@@ -185,15 +185,23 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
           console.log("Attendance list:", attendanceList);
           await postORputAttendance(attendanceList);
         }
-
       }
-      
     } catch (error) {
       console.log("Error creating team class:", error);
     } finally {
       setLoading(false);
     }
     console.log("Submitted Data grupo:", JSON.stringify(formData, null, 2));
+  };
+  
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
 
   return (
@@ -248,9 +256,9 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
             <Input
               type="datetime-local"
               name="date"
-              value={formatDateForInput(date)}
+              value={date}
               onChange={handleChange}
-              className="w-full"
+              max={getCurrentDateTime()}
             />
           </label>
         </div>

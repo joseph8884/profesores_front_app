@@ -16,9 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../ui/select";
-import {postORputIndividualClass} from "../../../../../provider/adm/Clases/ClasesIndividuales/postORputIndividualClass";
+import { postORputIndividualClass } from "../../../../../provider/adm/Clases/ClasesIndividuales/postORputIndividualClass";
 import { toast } from "sonner";
-import ScrollListProfesores from "../../../Grupos/ScrollListProfesores"
+import ScrollListProfesores from "../../../Grupos/ScrollListProfesores";
 const ModificarClases = ({ data, studentID }) => {
   const [classHeld, setClassHeld] = useState(data.classHeld || true);
   const [date, setDate] = useState(data.dateTime || "");
@@ -33,8 +33,12 @@ const ModificarClases = ({ data, studentID }) => {
   const [cancellationReason, setCancellationReason] = useState(
     data.cancellationReason || ""
   );
-  const [teacherID, setTeacherID] = useState(data.teacherDescription ? data.teacherDescription.id : "");
-  const [teacherNameprev,setteacherNameprev] = useState(data.teacherDescription ? data.teacherDescription.fullName : "");
+  const [teacherID, setTeacherID] = useState(
+    data.teacherDescription ? data.teacherDescription.id : ""
+  );
+  const [teacherNameprev, setteacherNameprev] = useState(
+    data.teacherDescription ? data.teacherDescription.fullName : ""
+  );
   const [loading, setLoading] = useState(false);
 
   // Handle input changes
@@ -64,13 +68,13 @@ const ModificarClases = ({ data, studentID }) => {
   const formatDateForInput = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (classHeld === false) {
@@ -95,9 +99,8 @@ const ModificarClases = ({ data, studentID }) => {
       topic: topics,
       classHeld: classHeld === true ? true : false,
       cancellationReason: cancellationReason,
-      cancellationTiming: classHeld === false
-        ? cancellationTiming
-        : "Class held",
+      cancellationTiming:
+        classHeld === false ? cancellationTiming : "Class held",
       canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
@@ -108,6 +111,15 @@ const ModificarClases = ({ data, studentID }) => {
       setLoading(false);
     }
     console.log("Submitted Data nueva:", JSON.stringify(formData, null, 2));
+  };
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
 
   return (
@@ -142,18 +154,18 @@ const ModificarClases = ({ data, studentID }) => {
             </Select>
           </label>
         </div>
-        { !data.teacherId && (
+        {!data.teacherId && (
           <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Profesor asignado
-          </label>
-          <ScrollListProfesores
-            setTeacherID={setTeacherID}
-            setprofesorSelectedToFilter={setteacherNameprev}
-            profesorSelectedToFilter={teacherNameprev}
-            setLoading={setLoading}
-          />
-        </div>
+            <label className="block text-sm font-medium text-gray-700">
+              Profesor asignado
+            </label>
+            <ScrollListProfesores
+              setTeacherID={setTeacherID}
+              setprofesorSelectedToFilter={setteacherNameprev}
+              profesorSelectedToFilter={teacherNameprev}
+              setLoading={setLoading}
+            />
+          </div>
         )}
 
         <div className="flex flex-col">
@@ -162,9 +174,9 @@ const ModificarClases = ({ data, studentID }) => {
             <Input
               type="datetime-local"
               name="date"
-              value={formatDateForInput(date)}
+              value={date}
               onChange={handleChange}
-              className="w-full"
+              max={getCurrentDateTime()}
             />
           </label>
         </div>
@@ -191,7 +203,11 @@ const ModificarClases = ({ data, studentID }) => {
         <div className="flex flex-col">
           <label className="mb-2 font-semibold">
             Duration (hours):
-            <Select name="hours" onValueChange={(value)=>setHours(parseFloat(value))} value={hours}>
+            <Select
+              name="hours"
+              onValueChange={(value) => setHours(parseFloat(value))}
+              value={hours}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Duration" />
               </SelectTrigger>
