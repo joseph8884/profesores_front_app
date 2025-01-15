@@ -18,14 +18,12 @@ export async function postORputIndividualClass(individualClass, id) {
         const contentType = putResponse.headers.get('content-type');
         const responseText = await putResponse.text(); // Read the response as text
 
-        if (!putResponse.ok) {
-            toast.error("Error al actualizar la clase del estudiante, por favor intentar mas tarde.", responseText);    
+        if (!putResponse.ok) {   
             console.error('Server responded with:', responseText);
             throw new Error('Failed to put student');
         }
 
         if (contentType && contentType.includes('application/json')) {
-            toast.error("Error al actualizar la clase del estudiante", responseText);
             return JSON.parse(responseText); // Attempt to parse the response as JSON
         } else {
             console.log('Response is not JSON:', responseText);
@@ -46,14 +44,12 @@ export async function postORputIndividualClass(individualClass, id) {
             const contentType = postResponse.headers.get('content-type');
             const responseText = await postResponse.text(); // Read the response as text
 
-            if (!postResponse.ok) {
-                toast.error("Error al actualizar la clase del estudiante, por favor intentar mas tarde.", responseText);    
+            if (!postResponse.ok) {  
                 console.error('Server responded with:', responseText);
                 throw new Error('Failed to post student');
             }
 
-            if (contentType && contentType.includes('application/json')) {
-                toast.error("Error al actualizar la clase del estudiante", responseText);
+            if (contentType && contentType.includes('application/json')) {;
                 return JSON.parse(responseText); // Attempt to parse the response as JSON
             } else {
                 console.log('Response is not JSON:', responseText);
@@ -61,6 +57,7 @@ export async function postORputIndividualClass(individualClass, id) {
                 return { message: responseText }; // Return the response text as a message
             }
         } catch (postError) {
+            toast.error("Error al actualizar o crear la clase del estudiante, recuerde revisar el numero de horas", postError)
             console.error('Error posting individual class:', postError);
             throw postError;
         }

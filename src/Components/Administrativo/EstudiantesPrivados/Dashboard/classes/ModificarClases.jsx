@@ -20,8 +20,17 @@ import { postORputIndividualClass } from "../../../../../provider/adm/Clases/Cla
 import { toast } from "sonner";
 import ScrollListProfesores from "../../../Grupos/ScrollListProfesores";
 const ModificarClases = ({ data, studentID }) => {
+  const formatDateForInput = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
   const [classHeld, setClassHeld] = useState(data.classHeld || true);
-  const [date, setDate] = useState(data.dateTime || "");
+  const [date, setDate] = useState(data.dateTime ? formatDateForInput(data.dateTime) : "");
   const [classType, setClassType] = useState(data.classType || "Virtual");
   const [hours, setHours] = useState(data.duration || "");
   const [comments, setComments] = useState(data.comment || "");
@@ -65,15 +74,6 @@ const ModificarClases = ({ data, studentID }) => {
   const handleAttendanceChange = (value) => {
     setClassHeld(value);
   };
-  const formatDateForInput = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,11 +106,10 @@ const ModificarClases = ({ data, studentID }) => {
     try {
       await postORputIndividualClass(formData, data.id);
     } catch (error) {
-      console.log("Error creating team class:", error);
+      console.error("Error creating team class:", error);
     } finally {
       setLoading(false);
     }
-    console.log("Submitted Data nueva:", JSON.stringify(formData, null, 2));
   };
   const getCurrentDateTime = () => {
     const now = new Date();

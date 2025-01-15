@@ -22,7 +22,7 @@ export async function getAllTeams(status) {
                         'Content-Type': 'image/jpeg'
                     }
                 });
-                if (!photoResp.ok) throw new Error('Photo not found');
+                if (!photoResp.ok) throw new Error();
                 const photoBlob = await photoResp.blob();
                 photoUrl = URL.createObjectURL(photoBlob);
             } catch (error) {

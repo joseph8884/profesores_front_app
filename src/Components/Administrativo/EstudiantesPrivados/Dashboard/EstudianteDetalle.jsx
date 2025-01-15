@@ -155,6 +155,7 @@ const StudentDetail = () => {
                 getClasses={getClassesbyStudentIDDate}
                 getInforDashboard={infodashboardIndividual}
                 setInforDashboard={setStudentInfoClasses}
+                setLoading={setLoading}
               />
 
               <Button
@@ -164,7 +165,6 @@ const StudentDetail = () => {
                     month: (currentDate.getMonth() + 1).toString(),
                     year: currentDate.getFullYear().toString(),
                   };
-                  console.log(dateObj);
                   setDate(dateObj);
                 }}
               >

@@ -36,6 +36,7 @@ const GruposEmpresas = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true)
     const fetchGroups = async () => {
       try {
         const data_fromAPI = await getAllTeams(true);
