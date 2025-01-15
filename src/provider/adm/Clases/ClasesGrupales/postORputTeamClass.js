@@ -18,14 +18,12 @@ export async function postORputTeamClass(teamClass, id) {
         const contentType = putResponse.headers.get('content-type');
         const responseText = await putResponse.text(); // Read the response as text
 
-        if (!putResponse.ok) {
-            toast.error("Error al actualizar la clase del equipo, por favor intentar mas tarde.", responseText);    
+        if (!putResponse.ok) { 
             console.error('Server responded with:', responseText);
             throw new Error('Failed to put team class');
         }
 
         if (contentType && contentType.includes('application/json')) {
-            toast.error("Error al actualizar la clase del equipo", responseText);
             return JSON.parse(responseText); // Attempt to parse the response as JSON
         } else {
             console.log('Response is not JSON:', responseText);
@@ -46,14 +44,12 @@ export async function postORputTeamClass(teamClass, id) {
             const contentType = postResponse.headers.get('content-type');
             const responseText = await postResponse.text(); // Read the response as text
 
-            if (!postResponse.ok) {
-                toast.error("Error al crear la clase del equipo, por favor intentar mas tarde.", responseText);    
+            if (!postResponse.ok) {   
                 console.error('Server responded with:', responseText);
                 throw new Error('Failed to post team class');
             }
 
             if (contentType && contentType.includes('application/json')) {
-                toast.error("Error al crear la clase del equipo", responseText);
                 return JSON.parse(responseText); // Attempt to parse the response as JSON
             } else {
                 console.log('Response is not JSON:', responseText);
@@ -61,6 +57,7 @@ export async function postORputTeamClass(teamClass, id) {
                 return { message: responseText }; // Return the response text as a message
             }
         } catch (postError) {
+            toast.error("Error al crear o actualizar la clase del equipo, por favor intentar mas tarde.", postError);   
             console.error('Error posting team class:', postError);
             throw postError;
         }

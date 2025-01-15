@@ -16,7 +16,6 @@ export async function getStdentTeambyId(idteam) {
             teamID: student.teamID,
             fullName: student.fullName,
         }));
-        console.log('Estudiantes obtenidos:', studentsList);
         return studentsList;
     } catch (error) {  
         toast.error("No se encontraron estudiantes, por favor intente mas tarde")

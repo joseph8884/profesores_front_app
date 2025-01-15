@@ -3,7 +3,7 @@ import "./Loader.css";
 const Loader = () => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-      <div class="loadingspinner">
+      <div className="loadingspinner">
         <div id="square1"></div>
         <div id="square2"></div>
         <div id="square3"></div>

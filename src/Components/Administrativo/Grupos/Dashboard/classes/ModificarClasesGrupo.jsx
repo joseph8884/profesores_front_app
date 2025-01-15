@@ -24,8 +24,18 @@ import { getAttendancebyClassID } from "../../../../../provider/adm/Clases/Clase
 import { getStdentTeambyId } from "../../../../../provider/adm/Grupos/students/getStdentTeambyId";
 import ScrollListProfesores from "../../../Grupos/ScrollListProfesores";
 const ModificarClasesGrupo = ({ data, teamID }) => {
+  const formatDateForInput = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  const [date, setDate] = useState(data.dateTime ? formatDateForInput(data.dateTime) : "");
   const [classHeld, setClassHeld] = useState(data.classHeld || true);
-  const [date, setDate] = useState(data.dateTime || "");
   const [classType, setClassType] = useState(data.classType || "Virtual");
   const [hours, setHours] = useState(data.duration || "");
   const [comments, setComments] = useState(data.comment || "");
@@ -53,6 +63,7 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (students.length === 0) {
+      setLoading(true)
       const fetchGroups = async () => {
         try {
           const data_fromAPI = await getStdentTeambyId(teamID);
@@ -65,9 +76,8 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
       };
       fetchGroups();
     }
-  }, [students, teamID]);
-  useEffect(() => {
     if (data.id && students.length > 0) {
+      setLoading(true)
       const fetchAttendance = async () => {
         const classID = data.id; // Ajusta según sea necesario
         try {
@@ -80,15 +90,18 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
             return acc;
           }, {});
           setAttendance(initialAttendance);
-          console.log(attendanceList);
         } catch {
-          console.log("No hay lista de estudiantes para esta clase");
+          console.error("No hay lista de estudiantes para esta clase");
+        }
+        finally{
+          setLoading(false)
         }
       };
 
       fetchAttendance();
     }
-  }, [students, data.id]);
+  }, [students, teamID, data.id, ]);
+
 
   // Handle input changes
   const handleChange = (e) => {
@@ -114,15 +127,6 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
   const handleAttendanceChange = (value) => {
     setClassHeld(value);
   };
-  const formatDateForInput = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,13 +143,7 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
       const formattedDate = isoString.replace("Z", "000000Z");
       return formattedDate;
     };
-    const attendedStudents = students.filter(
-      (student) => attendance[student.id]
-    );
-    if (classHeld && attendedStudents.length === 0) {
-      toast.error("Por favor, selecciona al menos un estudiante.");
-      return;
-    }
+
 
     var formData = {
       teacherID: data.teacherID || teacherID,
@@ -162,27 +160,25 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
       canceledBy: classHeld === false ? cancelledBy : "Class held",
     };
     try {
-      const response = await postORputTeamClass(formData, data.id);
-      if (Number.isInteger(response.message)) {
+      const response = await postORputTeamClass(formData, data.id); 
+      if (Number.isInteger(Number(response.message))) {
         if (classHeld === true) {
-          const attendanceList = attendedStudents.map((student) => ({
-            classID: response.message,
+          const attendanceList = students.map((student) => ({
+            classID: Number(response.message),
             studentTeamID: student.id,
-            attended: true,
+            attended: attendance[student.id] ? true : false,  
           }));
-          console.log("Attendance list:", attendanceList);
           await postORputAttendance(attendanceList);
         }
         toast.success("Class has been created");
       } else {
         if (classHeld === true) {
-          const attendanceList = attendedStudents.map((student) => ({
+          const attendanceList = students.map((student) => ({
             //Aca necesito el id del attendance list
-            classID: response.message,
+            classID: data.id,
             studentTeamID: student.id,
-            attended: true,
+            attended: attendance[student.id] ? true : false,
           }));
-          console.log("Attendance list:", attendanceList);
           await postORputAttendance(attendanceList);
         }
       }
@@ -190,11 +186,10 @@ const ModificarClasesGrupo = ({ data, teamID }) => {
         window.location.reload();
       }, 2000);
     } catch (error) {
-      console.log("Error creating team class:", error);
+      console.error("Error creating team class:", error);
     } finally {
       setLoading(false);
     }
-    console.log("Submitted Data grupo:", JSON.stringify(formData, null, 2));
   };
   const getCurrentDateTime = () => {
     const now = new Date();

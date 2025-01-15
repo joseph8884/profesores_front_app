@@ -27,6 +27,7 @@ export default function CalendarForm({
   getClasses2,
   getInforDashboard,
   setInforDashboard,
+  setLoading
 }) {
   const FormSchema = z.object({
     dob: z.date({
@@ -37,34 +38,33 @@ export default function CalendarForm({
     resolver: zodResolver(FormSchema),
   });
   useEffect(() => {
+    setLoading(true)
     const fetchClasses = async () => {
       try {
-        console.log("Fetching classes... with date and id", date, ID);
-
         if (!ID) return;
         const clases = await getClasses(ID, date.year, date.month);
         if (clases) {
           setClasses(clases);
-          console.log(clases);
         }
         if (setClasses2 && getClasses2) {
           const clases2 = await getClasses2(ID, date.year, date.month);
           if (clases2) {
             setClasses2(clases2);
-            console.log(clases2);
           }
         }
         const info = await getInforDashboard(ID, date.year, date.month);
-        
         if (info) {
           setInforDashboard(info);
-          console.log(info);
         }
+        
       } catch (error) {
         console.error("Error fetching classes:", error);
+      } finally{
+        setLoading(false)
       }
     };
     fetchClasses();
+    
   }, [
     ID,
     date,
@@ -74,6 +74,7 @@ export default function CalendarForm({
     getClasses2,
     getInforDashboard,
     setInforDashboard,
+    setLoading
   ]);
 
   // Convert the incoming date prop to a Date object
@@ -128,7 +129,6 @@ export default function CalendarForm({
                           year: newDate.getFullYear().toString(),
                         };
                         setDate(dateObj);
-                        console.log(dateObj);
                       } else {
                         console.error("No date selected");
                       }

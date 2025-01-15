@@ -1,7 +1,12 @@
 import { toast } from "sonner";
-
+let isFetching = false;
 export async function getAllProfesoresActivos() {
-    try{
+    if (isFetching) {
+        setTimeout(()=>{getAllProfesoresActivos()},1000)
+    }
+
+    isFetching = true;
+    try {
         const url = `${process.env.REACT_APP_API_URL}/admin/profesor/activos`;
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
@@ -24,12 +29,12 @@ export async function getAllProfesoresActivos() {
             registerDate: profesor.registerDate,
             idUser: profesor.idUser,
         }));
-        console.log('Lista de profesores activos:', proflist);
         return proflist;
-    } catch (error) { 
-        toast.error('Error al obtener los profesores', error.message); 
+    } catch (error) {
+        toast.error('Error al obtener los profesores', error.message);
         console.error('Error al obtener los equipos:', error);
         throw error;
+    } finally {
+        isFetching = false;
     }
- // Asegúrate de que esto retorne la respuesta completa
 };

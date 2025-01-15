@@ -39,7 +39,7 @@ import ModificarClasesGrupo from "./classes/ModificarClasesGrupo";
 import { infodashboardGrupo } from "../../../../provider/adm/Clases/ClasesGrupales/infodashboardGrupo";
 import { Toaster } from "sonner";
 const GroupDetail = () => {
-  const [groupData, setGroupData] = useState(null);
+  const [groupData, setGroupData] = useState();
   const [classes, setClasses] = useState([]);
   const [date, setDate] = useState([]);
   const [inforDashboard, setInforDashboard] = useState([]);
@@ -112,7 +112,7 @@ const GroupDetail = () => {
     saveAs(blob, "DatosGrupoCompleto.xlsx");
   };
 
-  if (!groupData) {
+  if (!groupData || !date || !inforDashboard || !classes ) {
     return <Loader />;
   }
 
@@ -145,6 +145,7 @@ const GroupDetail = () => {
                 getClasses={getClassesbyGroupIDDate}
                 getInforDashboard={infodashboardGrupo}
                 setInforDashboard={setInforDashboard}
+                setLoading={setLoading}
               />
 
               <Button
