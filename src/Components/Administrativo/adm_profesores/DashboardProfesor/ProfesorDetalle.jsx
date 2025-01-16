@@ -167,6 +167,7 @@ const ProfesoresDashboard = () => {
                 getClasses2={teamClassesByTeacherIdAndYearMonth}
                 getInforDashboard={dashboardTeacher}
                 setInforDashboard={setTeacherInfoClasses}
+                setLoading={setLoading}
               />
 
               <Button

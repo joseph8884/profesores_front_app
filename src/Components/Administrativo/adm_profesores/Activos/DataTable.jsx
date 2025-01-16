@@ -45,12 +45,15 @@ export function DataTableDemo() {
   const [loading, setLoading] = useState(false); // Estado para manejar el loading
   //TraerData
   useEffect(() => {
+    setLoading(true)
     const fetchStudents = async () => {
       try {
         const data_fromAPI = await getAllProfesoresActivos();
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
+      } finally{
+        setLoading(false)
       }
     };
     fetchStudents();
