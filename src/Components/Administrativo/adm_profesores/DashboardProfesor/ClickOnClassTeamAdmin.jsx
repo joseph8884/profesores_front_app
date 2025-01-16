@@ -54,30 +54,10 @@ function ClickOnClassTeamAdmin({ teamID }) {
         <h3 className="text-lg font-semibold text-gray-800 mt-4">
           Profesor a cargo
         </h3>
-        <p className="text-gray-600">ID: {teamData.teacherID.id}</p>
+        <p className="text-gray-600">ID: {teamData.teacherDescription.id}</p>
         <p className="text-gray-600">
-          Full Name: {teamData.teacherID.fullName}
+          Full Name: {teamData.teacherDescription.fullName}
         </p>
-        <p className="text-gray-600">
-          Phone Number: {teamData.teacherID.phoneNumber}
-        </p>
-        <p className="text-gray-600">
-          Emergency Contact: {teamData.teacherID.emergencyContact}
-        </p>
-        <p className="text-gray-600">
-          Identification Type: {teamData.teacherID.identificationType}
-        </p>
-        <p className="text-gray-600">
-          Identification Number: {teamData.teacherID.identificationNumber}
-        </p>
-        <p className="text-gray-600">
-          Status: {teamData.teacherID.status ? "Active" : "Inactive"}
-        </p>
-        <p className="text-gray-600">
-          Register Date:{" "}
-          {new Date(teamData.teacherID.registerDate).toLocaleDateString()}
-        </p>
-        <p className="text-gray-600">Username: {teamData.teacherID.username}</p>
       </div>
     </div>
   );

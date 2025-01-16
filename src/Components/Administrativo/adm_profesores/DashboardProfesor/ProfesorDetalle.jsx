@@ -191,19 +191,19 @@ const ProfesoresDashboard = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Classes canceled in time</h3>
-              <p className="total">info</p>
+              <h3>Clases canceladas estudiante tarde virual</h3>
+              <p className="total">{teacherInfoClasses.hoursCanceledStudentLateVirtual}</p>
             </div>
             <div className="actividadCard">
-              <h3>Classes canceled late</h3>
-              <p className="total">info</p>
+              <h3>Classes canceled estudiante tarde presencial</h3>
+              <p className="total">{teacherInfoClasses.hoursCanceledStudentLateInPerson }</p>
             </div>
             <div className="actividadCard">
-              <h3>Classes in person </h3>
+              <h3>Clases en persona </h3>
               <p className="total">{teacherInfoClasses.classesHeldInPerson}</p>
             </div>
             <div className="actividadCard">
-              <h3>Classes virtual</h3>
+              <h3>Clases virtuales</h3>
               <p className="total">{teacherInfoClasses.classesHeldVirtual}</p>
             </div>
           </div>
@@ -326,7 +326,7 @@ const ProfesoresDashboard = () => {
                     <DialogTrigger asChild>
                       <TableRow>
                         <TableCell>{classData.id}</TableCell>
-                        <TableCell>{classData.teacherID}</TableCell>
+                        <TableCell>{classData.teacherId}</TableCell>
                         <TableCell>{classData.teamID}</TableCell>
                         <TableCell>
                           {new Date(classData.dateTime).toLocaleString("es", {
