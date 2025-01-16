@@ -20,12 +20,6 @@ export async function dashboardTeacher(idTeacher, year, month) {
         hoursHeld: data.hoursHeld,
         hoursHeldVirtual: data.hoursHeldVirtual,
         hoursHeldInPerson: data.hoursHeldInPerson,
-        monthlyClassStats: data.monthlyClassStats.map(stat => ({
-          month: stat.month,
-          year: stat.year,
-          classesHeld: stat.classesHeld,
-          classesCanceled: stat.classesCanceled
-        })),
         totalVirtualValue: data.totalVirtualValue,
         totalInPersonValue: data.totalInPersonValue,
         hoursCanceledStudentLateVirtual: data.hoursCanceledStudentLateVirtual,

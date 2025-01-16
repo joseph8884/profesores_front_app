@@ -210,14 +210,18 @@ const ProfesoresDashboard = () => {
           <div className="informacionDetalladaEstudiante">
             <CrearEditarProfesorBankData personal_info_teacher={profesorData} />
           </div>
-          <div className="totales bg-white shadow-md rounded-lg p-6">
-          falta lo de contar las horas de canceladas a tiempo y tarde
+          <div className="totales bg-white shadow-md rounded-lg p-6 text-sm">
+            {" "}
+            {/* Añadido text-sm para reducir el tamaño de la letra */}
             <div className="invoice-item flex justify-between border-b pb-2">
               <span className="font-semibold">Valor por Hora Virtual:</span>
               <span>
                 $
                 {teacherInfoClasses.hoursHeldVirtual
-                  ? (teacherInfoClasses.totalVirtualValue / teacherInfoClasses.hoursHeldVirtual).toFixed(2)
+                  ? (
+                      teacherInfoClasses.totalVirtualValue /
+                      teacherInfoClasses.hoursHeldVirtual
+                    ).toFixed(2)
                   : 0}{" "}
                 por hora
               </span>
@@ -227,9 +231,10 @@ const ProfesoresDashboard = () => {
               <span>
                 $
                 {teacherInfoClasses.hoursHeldInPerson
-                  ? (teacherInfoClasses.totalInPersonValue / teacherInfoClasses.hoursHeldInPerson).toFixed(
-                      2
-                    )
+                  ? (
+                      teacherInfoClasses.totalInPersonValue /
+                      teacherInfoClasses.hoursHeldInPerson
+                    ).toFixed(2)
                   : 0}{" "}
                 por hora
               </span>
@@ -249,12 +254,42 @@ const ProfesoresDashboard = () => {
                 <span>{teacherInfoClasses.hoursHeldInPerson || 0} horas</span>
               </div>
               <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">
+                  Horas Canceladas por Estudiante (Virtual):
+                </span>
+                <span>
+                  {teacherInfoClasses.hoursCanceledStudentLateVirtual || 0}{" "}
+                  horas
+                </span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">
+                  Horas Canceladas por Estudiante (Presencial):
+                </span>
+                <span>
+                  {teacherInfoClasses.hoursCanceledStudentLateInPerson || 0}{" "}
+                  horas
+                </span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
+                <span className="font-semibold">
+                  Horas Canceladas por Profesor:
+                </span>
+                <span>
+                  {teacherInfoClasses.hoursCanceledTeacherLate || 0} horas
+                </span>
+              </div>
+              <div className="invoice-item flex justify-between border-b pb-2">
                 <span className="font-semibold">Valor Total Virtual:</span>
-                <span>${(teacherInfoClasses.totalVirtualValue || 0).toFixed(2)}</span>
+                <span>
+                  ${(teacherInfoClasses.totalVirtualValue || 0).toFixed(2)}
+                </span>
               </div>
               <div className="invoice-item flex justify-between border-b pb-2">
                 <span className="font-semibold">Valor Total Presencial:</span>
-                <span>${(teacherInfoClasses.totalInPersonValue || 0).toFixed(2)}</span>
+                <span>
+                  ${(teacherInfoClasses.totalInPersonValue || 0).toFixed(2)}
+                </span>
               </div>
               <div className="invoice-item flex justify-between text-xl font-bold mt-4">
                 <span>Total Ganado:</span>
@@ -294,19 +329,16 @@ const ProfesoresDashboard = () => {
                         <TableCell>{classData.teacherID}</TableCell>
                         <TableCell>{classData.teamID}</TableCell>
                         <TableCell>
-                          {new Date(classData.dateTime).toLocaleString(
-                            "es",
-                            {
-                              weekday: "long", // e.g., Monday
-                              year: "numeric", // e.g., 2024
-                              month: "long", // e.g., December
-                              day: "numeric", // e.g., 9
-                              hour: "2-digit", // e.g., 01
-                              minute: "2-digit", // e.g., 30
-                              second: "2-digit", // e.g., 45
-                              hour12: true, // e.g., AM/PM format
-                            }
-                          )}
+                          {new Date(classData.dateTime).toLocaleString("es", {
+                            weekday: "long", // e.g., Monday
+                            year: "numeric", // e.g., 2024
+                            month: "long", // e.g., December
+                            day: "numeric", // e.g., 9
+                            hour: "2-digit", // e.g., 01
+                            minute: "2-digit", // e.g., 30
+                            second: "2-digit", // e.g., 45
+                            hour12: true, // e.g., AM/PM format
+                          })}
                         </TableCell>
                         <TableCell>{classData.classType}</TableCell>
                         <TableCell>{classData.duration} H</TableCell>
@@ -365,19 +397,16 @@ const ProfesoresDashboard = () => {
                         <TableCell>{classData.teacherID}</TableCell>
                         <TableCell>{classData.studentID}</TableCell>
                         <TableCell>
-                          {new Date(classData.dateTime).toLocaleString(
-                            "es",
-                            {
-                              weekday: "long", // e.g., Monday
-                              year: "numeric", // e.g., 2024
-                              month: "long", // e.g., December
-                              day: "numeric", // e.g., 9
-                              hour: "2-digit", // e.g., 01
-                              minute: "2-digit", // e.g., 30
-                              second: "2-digit", // e.g., 45
-                              hour12: true, // e.g., AM/PM format
-                            }
-                          )}
+                          {new Date(classData.dateTime).toLocaleString("es", {
+                            weekday: "long", // e.g., Monday
+                            year: "numeric", // e.g., 2024
+                            month: "long", // e.g., December
+                            day: "numeric", // e.g., 9
+                            hour: "2-digit", // e.g., 01
+                            minute: "2-digit", // e.g., 30
+                            second: "2-digit", // e.g., 45
+                            hour12: true, // e.g., AM/PM format
+                          })}
                         </TableCell>
                         <TableCell>{classData.classType}</TableCell>
                         <TableCell>{classData.duration} H</TableCell>

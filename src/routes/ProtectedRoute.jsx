@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useAuth } from '../provider/auth/authProvider';
 
 export const ProtectedRoute = () => {
   const { token } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) {
@@ -21,7 +20,7 @@ export const ProtectedRoute = () => {
         window.location.href="/";
       }
     }
-  }, [token, navigate]);
+  }, [token]);
 
   // If authenticated, render the child routes
   return token ? <Outlet /> : null;

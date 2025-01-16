@@ -19,7 +19,7 @@ export async function postORputIndividualClass(individualClass, id) {
         const responseText = await putResponse.text(); // Read the response as text
 
         if (!putResponse.ok) {   
-            console.error('Server responded with:', responseText);
+            console.error('Failed to put Server responded with:', responseText);
             throw new Error('Failed to put student');
         }
 
@@ -53,7 +53,7 @@ export async function postORputIndividualClass(individualClass, id) {
                 return JSON.parse(responseText); // Attempt to parse the response as JSON
             } else {
                 console.log('Response is not JSON:', responseText);
-                toast.success("Clase del estudiante actualizada con éxito");
+                toast.success("Clase del estudiante creada con éxito");
                 return { message: responseText }; // Return the response text as a message
             }
         } catch (postError) {
