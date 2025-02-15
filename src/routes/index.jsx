@@ -23,6 +23,7 @@ import EstudianteForm from '../Components/Profesores/RegistrarEstudianteHoras/Fo
 import GruposEmpresasProfesor from '../Components/Profesores/RegistrarGruposHoras/GruposAllview.jsx';
 import FormGroup from '../Components/Profesores/RegistrarGruposHoras/Form/Form.jsx';
 import DashBoardProfesor from '../Components/Profesores/DashboardProfesor/DashboardView.jsx';
+import RegistrarHoras from '../Components/Profesores/RegistrarHoras/RegistrarHoras.jsx';
 //ErrorBoundary
 import ErrorBoundary from '../Components/ErrorBoundary/ErrorBoundary.jsx';
 
@@ -118,6 +119,11 @@ const Routes = () => {
           {
             path: "/profesor/registrarhoras/estudianteindividual/estudiante",
             element: <EstudianteForm />,
+            errorElement: <ErrorBoundary />
+          },
+          {
+            path: "/profesor/registrarhoras",
+            element: <RegistrarHoras />,
             errorElement: <ErrorBoundary />
           },
           {

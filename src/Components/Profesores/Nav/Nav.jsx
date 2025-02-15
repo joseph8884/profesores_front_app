@@ -33,6 +33,11 @@ const Nav = ({profesorId, nombre}) => {
               <li>Grupos empresas</li>
             </Button>
             </a>
+            <a href={`/profesor/registrarhoras`}>
+            <Button variant="ghost">
+              <li>Lista</li>
+            </Button>
+            </a>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
