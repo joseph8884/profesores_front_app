@@ -3,9 +3,8 @@ import { Calendar } from '../../ui/calendar';
 import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 
-const DateRangePicker = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+const DateRangePicker = ({ startDate, setStartDate, endDate, setEndDate}) => {
+
   const [isOpen, setIsOpen] = useState(false);
   const calendarRef = useRef(null);
   
