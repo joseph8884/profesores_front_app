@@ -19,14 +19,11 @@ import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
 import Loader from "../../../Loader/Loader";
 import ClickOnClassEstudentDetailAdmin from "./ClickOnClassEstudentDetailAdmin";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
-import { individualclassesByTeacherAndYearMonth } from "../../../../provider/adm/Clases/ClasesIndividuales/individualclassesByTeacherAndYearMonth";
-import { teamClassesByTeacherIdAndYearMonth } from "../../../../provider/adm/Clases/ClasesGrupales/teamClassesByTeacherIdAndYearMonth";
-import { dashboardTeacher } from "../../../../provider/adm/profesores/dashboardTeacher";
-import ClickOnClassTeamAdmin from "./ClickOnClassTeamAdmin";
+import {getClassesByTeacherAndDateTimeBetween} from "../../../../provider/adm/Clases/getClassesByTeacherAndDateTimeBetween"
+import { dashboardTeacher } from "../../../../provider/adm/dashboard/dashboardTeacher";
 import { Toaster } from "sonner";
 const ProfesoresDashboard = () => {
   const [profesorData, setProfesorData] = useState(null);
-  const [classes_grupo, setClasses_grupo] = useState([]);
   const [classes_estudiante, setClassesEstudiante] = useState([]);
   const [teacherInfoClasses, setTeacherInfoClasses] = useState([]);
   const [date, setDate] = useState([]);
@@ -92,11 +89,6 @@ const ProfesoresDashboard = () => {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheetProfesor, "DatosProfesor");
 
-    // Agregar hoja para clases grupales
-    if (classes_grupo.length > 0) {
-      const worksheetGrupo = XLSX.utils.json_to_sheet(classes_grupo);
-      XLSX.utils.book_append_sheet(workbook, worksheetGrupo, "ClasesGrupo");
-    }
 
     // Agregar hoja para clases individuales
     if (classes_estudiante.length > 0) {
@@ -162,9 +154,7 @@ const ProfesoresDashboard = () => {
                 date={date}
                 ID={profesorData.id}
                 setClasses={setClassesEstudiante}
-                getClasses={individualclassesByTeacherAndYearMonth}
-                setClasses2={setClasses_grupo}
-                getClasses2={teamClassesByTeacherIdAndYearMonth}
+                getClasses={getClassesByTeacherAndDateTimeBetween}
                 getInforDashboard={dashboardTeacher}
                 setInforDashboard={setTeacherInfoClasses}
                 setLoading={setLoading}
@@ -303,74 +293,6 @@ const ProfesoresDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="ultimas_clases_grupo">
-            <h2>
-              <b>Clases de los equipos</b>
-            </h2>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>clase ID</TableHead>
-                  <TableHead>teacher ID</TableHead>
-                  <TableHead>team ID</TableHead>
-                  <TableHead>Fecha</TableHead>
-                  <TableHead>Tipo de clase</TableHead>
-                  <TableHead>Duracion</TableHead>
-                  <TableHead>Cancelacion</TableHead>
-                  <TableHead>Cancelado por</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {classes_grupo.map((classData) => (
-                  <Dialog key={classData.id}>
-                    <DialogTrigger asChild>
-                      <TableRow>
-                        <TableCell>{classData.id}</TableCell>
-                        <TableCell>{classData.teacherId}</TableCell>
-                        <TableCell>{classData.teamID}</TableCell>
-                        <TableCell>
-                          {new Date(classData.dateTime).toLocaleString("es", {
-                            weekday: "long", // e.g., Monday
-                            year: "numeric", // e.g., 2024
-                            month: "long", // e.g., December
-                            day: "numeric", // e.g., 9
-                            hour: "2-digit", // e.g., 01
-                            minute: "2-digit", // e.g., 30
-                            second: "2-digit", // e.g., 45
-                            hour12: true, // e.g., AM/PM format
-                          })}
-                        </TableCell>
-                        <TableCell>{classData.classType}</TableCell>
-                        <TableCell>{classData.duration} H</TableCell>
-                        <TableCell>{classData.cancellationTiming}</TableCell>
-                        <TableCell>{classData.canceledBy}</TableCell>
-                        <TableCell>
-                          <div
-                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                              classData.classHeld
-                                ? "bg-green-500"
-                                : "bg-red-500"
-                            }`}
-                          >
-                            {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
-                            <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
-                            {/* Texto del estado */}
-                            <span>
-                              {classData.classHeld ? "Completed" : "Cancelled"}{" "}
-                              {/* Updated logic for status */}
-                            </span>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] p-4">
-                      <ClickOnClassTeamAdmin teamID={classData.teamID} />
-                    </DialogContent>
-                  </Dialog>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
           <div className="ultimas_clases_estudiante">
             <h2>
               <b>Clases de los estudiantes privados</b>
@@ -381,6 +303,7 @@ const ProfesoresDashboard = () => {
                   <TableHead>clase ID</TableHead>
                   <TableHead>teacher ID</TableHead>
                   <TableHead>Estudiante ID</TableHead>
+                  <TableHead>Tipo de participante</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Tipo de clase</TableHead>
                   <TableHead>Duracion</TableHead>
@@ -396,6 +319,7 @@ const ProfesoresDashboard = () => {
                         <TableCell>{classData.id}</TableCell>
                         <TableCell>{classData.teacherID}</TableCell>
                         <TableCell>{classData.studentID}</TableCell>
+                        <TableCell>{classData.classScope}</TableCell>
                         <TableCell>
                           {new Date(classData.dateTime).toLocaleString("es", {
                             weekday: "long", // e.g., Monday

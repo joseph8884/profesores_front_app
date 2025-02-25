@@ -17,7 +17,7 @@ import {
 import { postorputTeacher } from "../../../provider/adm/profesores/postorputTeacher";
 
 const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
-  const [email, setEmail] = useState(data.email || "");
+  const [username, setusername] = useState(data.username || "");
   const [fullName, setFullName] = useState(data.fullName || "");
   const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber || "");
   const [emergencyContact, setemergencyContact] = useState(
@@ -56,7 +56,7 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
 
     const updatedData = {
       fullName,
-      email,
+      email:username,
       phoneNumber,
       emergencyContact,
       identificationType,
@@ -93,14 +93,14 @@ const CrearEditarProfesorInfoPersonal = ({ data, context }) => {
         </div>
         <div>
           <label className="block text-m font-semibold text-gray-900">
-            Email
+           Email
           </label>
           <input
             id="email"
             placeholder="Enter email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setusername(e.target.value)}
             className="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-m p-1"
           />
         </div>

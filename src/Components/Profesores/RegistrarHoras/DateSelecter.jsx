@@ -2,11 +2,35 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Calendar } from '../../ui/calendar';
 import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
+import { getClassesByTeacherAndDateTimeBetweenDays } from '../../../provider/profesor/ListClasess/getClassesByTeacherAndDateTimeBetweenDays';
 
 const DateRangePicker = ({ startDate, setStartDate, endDate, setEndDate}) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const calendarRef = useRef(null);
+  useEffect(() => {
+    const fetchData = async () => {
+    if (startDate && endDate) {
+      const startDateString =
+      new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+        .toISOString()
+        .split('T')[0] + 'T00:00:00Z';
+
+    const endDateString =
+      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate())
+        .toISOString()
+        .split('T')[0] + 'T23:59:59Z';
+      await getClassesByTeacherAndDateTimeBetweenDays(startDateString, endDateString)
+        .then((data) => {
+          console.log("Clases encontradas:", data);
+        })
+        .catch((error) => {
+          console.error("Error al obtener clases:", error);
+        });
+    }
+  }
+  fetchData();
+  }, [startDate, endDate]);
   
   // Obtener el primer y último día del mes actual
   const now = new Date();

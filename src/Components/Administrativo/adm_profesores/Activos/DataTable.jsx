@@ -88,9 +88,9 @@ export function DataTableDemo() {
       cell: ({ row }) => <div>{row.getValue("fullName")}</div>,
     },
     {
-      accessorKey: "email",
-      header: "email",
-      cell: ({ row }) => <div>{row.getValue("email")}</div>,
+      accessorKey: "username",
+      header: "user",
+      cell: ({ row }) => <div>{row.getValue("username")}</div>,
     },
     {
       accessorKey: "phoneNumber",

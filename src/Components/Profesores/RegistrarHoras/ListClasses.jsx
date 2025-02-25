@@ -4,25 +4,35 @@ import { Badge } from '../../ui/badge';
 import { ChevronDown, ChevronUp } from "lucide-react";
 import sampleEvents from './Clases fake.json';
 
-const ListClasses = ({ startDate, endDate}) => {
-
+const ListClasses = ({ startDate, endDate }) => {
   const [expandedEventId, setExpandedEventId] = useState(null);
+  const [expandedDates, setExpandedDates] = useState({}); // New state for dates
 
-
-  // Filtrar eventos según el rango de fechas
   const filteredEvents = sampleEvents.filter(event => {
     if (!startDate || !endDate) return false;
-    
     const eventDate = new Date(event.Date);
     return eventDate >= startDate && eventDate <= endDate;
   });
 
-  const toggleExpand = (index) => {
-    if (expandedEventId === index) {
-      setExpandedEventId(null);
-    } else {
-      setExpandedEventId(index);
+  // Agrupar eventos por fecha
+  const groupedEvents = filteredEvents.reduce((acc, event) => {
+    const dateStr = new Date(event.Date).toLocaleDateString();
+    if (!acc[dateStr]) {
+      acc[dateStr] = [];
     }
+    acc[dateStr].push(event);
+    return acc;
+  }, {});
+
+  const toggleExpand = (index) => {
+    setExpandedEventId(expandedEventId === index ? null : index);
+  };
+
+  const toggleDate = (date) => {
+    setExpandedDates(prev => ({
+      ...prev,
+      [date]: !prev[date]
+    }));
   };
 
   const getStatusColor = (status) => {
@@ -35,71 +45,93 @@ const ListClasses = ({ startDate, endDate}) => {
   };
 
   return (
-    <div className="space-y-4 max-w-2xl mx-auto">
-
-      {/* Lista de Eventos */}
-      <div className="mt-4 space-y-2">
-        {filteredEvents.length === 0 ? (
-          <div className="text-center text-gray-500">
+    <div className="space-y-4">
+      {filteredEvents.length === 0 ? (
+        <Card>
+          <CardContent className="p-4 text-center">
             {startDate && endDate 
               ? "No hay eventos en el rango de fechas seleccionado" 
               : "Selecciona un rango de fechas para ver los eventos"}
+          </CardContent>
+        </Card>
+      ) : (
+        <div>
+          <div className="text-xl font-bold mb-4">
+            Eventos ({filteredEvents.length})
           </div>
-        ) : (
-          <>
-            <h3 className="text-lg font-medium">
-              Eventos ({filteredEvents.length})
-            </h3>
-            
-            {filteredEvents.map((event, index) => (
-              <Card key={index} className="overflow-hidden">
+          
+          {Object.entries(groupedEvents).map(([date, events]) => (
+            <Card key={date} className="mb-2">
+              <CardContent className="p-4">
                 <div 
-                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
-                  onClick={() => toggleExpand(index)}
+                  className="flex justify-between items-center cursor-pointer"
+                  onClick={() => toggleDate(date)}
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <span className="font-medium">{new Date(event.Date).toLocaleDateString()}</span>
-                    <span className="text-gray-700">{event["Class Name"]}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-3">
-                    <Badge 
-                      className={getStatusColor(event["State of the Object"])}
-                    >
-                      {event["State of the Object"]}
-                    </Badge>
-                    
-                    {expandedEventId === index ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  </div>
+                  <h2 className="text-lg font-semibold">
+                    {date} ({events.length} clases)
+                  </h2>
+                  {expandedDates[date] ? 
+                    <ChevronUp className="h-5 w-5" /> : 
+                    <ChevronDown className="h-5 w-5" />
+                  }
                 </div>
-                
-                {expandedEventId === index && (
-                  <CardContent className="bg-gray-50 p-4 border-t">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-gray-500">Fecha</p>
-                        <p>{new Date(event.Date).toLocaleDateString()}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Nombre de la clase</p>
-                        <p>{event["Class Name"]}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Estado</p>
-                        <p>{event["State of the Object"]}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Clase celebrada</p>
-                        <p>{event["Class Held"] ? "Sí" : "No"}</p>
-                      </div>
-                    </div>
-                  </CardContent>
+
+                {expandedDates[date] && (
+                  <div className="mt-4 space-y-2">
+                    {events.map((event, index) => {
+                      const originalIndex = filteredEvents.indexOf(event);
+                      return (
+                        <Card key={originalIndex} className="border">
+                          <CardContent className="p-4">
+                            <div 
+                              className="flex justify-between items-center cursor-pointer"
+                              onClick={() => toggleExpand(originalIndex)}
+                            >
+                              <div className="space-y-1">
+                                <div className="font-medium">{event["Class Name"]}</div>
+                                <div className="text-sm text-gray-500">
+                                  {new Date(event.Date).toLocaleTimeString()}
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-center gap-2">
+                                <Badge className={getStatusColor(event["State of the Object"])}>
+                                  {event["State of the Object"]}
+                                </Badge>
+                                {expandedEventId === originalIndex ? 
+                                  <ChevronUp className="h-5 w-5" /> : 
+                                  <ChevronDown className="h-5 w-5" />
+                                }
+                              </div>
+                            </div>
+
+                            {expandedEventId === originalIndex && (
+                              <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                  <div className="text-gray-500">Fecha completa</div>
+                                  <div>{new Date(event.Date).toLocaleDateString()}</div>
+                                </div>
+                                <div>
+                                  <div className="text-gray-500">Estado</div>
+                                  <div>{event["State of the Object"]}</div>
+                                </div>
+                                <div>
+                                  <div className="text-gray-500">Clase celebrada</div>
+                                  <div>{event["Class Held"] ? "Sí" : "No"}</div>
+                                </div>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
+                  </div>
                 )}
-              </Card>
-            ))}
-          </>
-        )}
-      </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

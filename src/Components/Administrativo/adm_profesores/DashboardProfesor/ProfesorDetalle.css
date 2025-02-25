@@ -5,7 +5,6 @@
     "actions"
     "actividad_academica"
     "personal_information"
-    "ultimas_clases_grupo"
     "ultimas_clases_estudiante"
     "totales";
     
@@ -22,7 +21,6 @@
         "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10%
         "actions actions actions" auto
         "actividad_academica actividad_academica personal_information" auto
-        "ultimas_clases_grupo ultimas_clases_grupo personal_information" auto
         "ultimas_clases_estudiante ultimas_clases_estudiante totales" auto/
          35% 35% auto; 
         gap: 10px;
