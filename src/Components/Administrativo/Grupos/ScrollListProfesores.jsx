@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "../../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import {getAllProfesoresActivos} from "../../../provider/adm/profesores/getProfesoresActivos";
+import {getAllProfesoresByStatus} from "../../../provider/adm/profesores/teachersByStatus";
 const ScrollListProfesores = ({ profesorSelectedToFilter, setprofesorSelectedToFilter, setLoading, setTeacherID }) => {
     const [open, setOpen] = React.useState(false);
     const [listaProfesores, setlistaProfesores] = useState([]);
@@ -19,7 +19,7 @@ const ScrollListProfesores = ({ profesorSelectedToFilter, setprofesorSelectedToF
     setLoading(true);
       const fetchFrameworks = async () => {
         try {
-          setlistaProfesores(await getAllProfesoresActivos(false));
+          setlistaProfesores(await getAllProfesoresByStatus(true));
         } catch (error) {
           console.error("Error fetching frameworks:", error);
         }

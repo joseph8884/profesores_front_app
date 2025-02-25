@@ -149,6 +149,13 @@ export function DataTableDemo({ status }) {
       ),
     },
     {
+      accessorKey: "hoursPlanned",
+      header: "Horas planeadas",
+      cell: ({ row }) => (
+        <div className="text-center">{row.getValue("hoursPlanned")}</div>
+      ),
+    },
+    {
       accessorKey: "office",
       header: "Ciudad a la que pertenece",
       cell: ({ row }) => (

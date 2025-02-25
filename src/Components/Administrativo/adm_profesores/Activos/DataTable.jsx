@@ -32,7 +32,7 @@ import {
 } from "../../../ui/alert-dialog";
 import { MoreHorizontal } from "lucide-react";
 import Loader from "../../../Loader/Loader";
-import { getAllProfesoresActivos } from "../../../../provider/adm/profesores/getProfesoresActivos";
+import {getAllProfesoresByStatus} from "../../../../provider/adm/profesores/teachersByStatus";
 import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import CrearProfesorDialog from "./CrearProfesor";
 import { deleteProfesor } from "../../../../provider/adm/profesores/deleteProfesor";
@@ -48,7 +48,7 @@ export function DataTableDemo() {
     setLoading(true)
     const fetchStudents = async () => {
       try {
-        const data_fromAPI = await getAllProfesoresActivos();
+        const data_fromAPI = await getAllProfesoresByStatus(true);
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);

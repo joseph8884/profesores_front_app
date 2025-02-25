@@ -1,8 +1,7 @@
 import { toast } from "sonner";
-
-export async function getAllProfesoresInactivos() {
-    try{
-        const url = `${process.env.REACT_APP_API_URL}/admin/profesor/inactivos`;
+export async function getAllProfesoresByStatus(status) {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/admin/profesor/estado/${status}`;
         const token = sessionStorage.getItem('token'); // Retrieve the JWT token from session storage
         const resp = await fetch(url, {
             method: 'GET',
@@ -15,19 +14,18 @@ export async function getAllProfesoresInactivos() {
         const proflist = data.map((profesor) => ({
             id: profesor.id,
             fullName: profesor.fullName,
+            username: profesor.username,
             phoneNumber: profesor.phoneNumber,
             emergencyContact: profesor.emergencyContact,
             identificationType: profesor.identificationType,
             identificationNumber: profesor.identificationNumber,
             status: profesor.status,
             registerDate: profesor.registerDate,
-            idUser: profesor.idUser,
         }));
         return proflist;
     } catch (error) {
-        toast.error('Error al obtener los profesores', error.message);  
+        toast.error('Error al obtener los profesores', error.message);
         console.error('Error al obtener los equipos:', error);
         throw error;
     }
- // Asegúrate de que esto retorne la respuesta completa
 };

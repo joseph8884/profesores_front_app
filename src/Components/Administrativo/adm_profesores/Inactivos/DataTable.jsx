@@ -12,7 +12,7 @@ import {
 } from "../../../ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import Loader from "../../../Loader/Loader";
-import { getAllProfesoresInactivos } from "../../../../provider/adm/profesores/getProfesoresInactivos";
+import {getAllProfesoresByStatus} from "../../../../provider/adm/profesores/teachersByStatus";
 import { changeStatusProfesor } from "../../../../provider/adm/profesores/changeStatus";
 import { DataTableDemoTemplate } from "../../../ui/DataTableAdjusted";
 import {deleteProfesor} from "../../../../provider/adm/profesores/deleteProfesor";
@@ -24,7 +24,7 @@ export function DataTableDemo() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const data_fromAPI = await getAllProfesoresInactivos();
+        const data_fromAPI = await getAllProfesoresByStatus(false);
         setData(data_fromAPI);
       } catch (error) {
         console.error("Error fetching students:", error);
