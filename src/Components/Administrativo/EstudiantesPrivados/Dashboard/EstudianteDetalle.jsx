@@ -34,9 +34,9 @@ import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import ModificarClases from "./classes/ModificarClases";
-import { getClassesbyStudentIDDate } from "../../../../provider/adm/Clases/ClasesIndividuales/getClassesbyStudentIDDate";
+import { getClassesByParticipantIDAndDateTimeBetween } from "../../../../provider/adm/Clases/getClassesByParticipantIDAndDateTimeBetween";
 import { deleteIndividualClass } from "../../../../provider/adm/Clases/ClasesIndividuales/deleteIndividualClass";
-import { infodashboardIndividual } from "../../../../provider/adm/Clases/ClasesIndividuales/infodashboardIndividual";
+import { dashboardParticipant } from "../../../../provider/adm/dashboard/dashboardParticipant";
 import Loader from "../../../Loader/Loader";
 import { Toaster } from "sonner";
 const StudentDetail = () => {
@@ -152,8 +152,8 @@ const StudentDetail = () => {
                 date={date}
                 ID={studentData.ID}
                 setClasses={setClasses}
-                getClasses={getClassesbyStudentIDDate}
-                getInforDashboard={infodashboardIndividual}
+                getClasses={getClassesByParticipantIDAndDateTimeBetween}
+                getInforDashboard={dashboardParticipant}
                 setInforDashboard={setStudentInfoClasses}
                 setLoading={setLoading}
               />

@@ -34,8 +34,6 @@ export async function getAllTeams(status) {
                 companyID: team.companyID.id,
                 companyName: team.companyID.name,
                 companyNIT: team.companyID.nit,
-                hoursPurchased: team.hoursPurchased,
-                hoursSpented: team.hoursSpented,
                 photo: photoUrl,
                 hoursPlanned: team.hoursPlanned,
                 status: team.status,

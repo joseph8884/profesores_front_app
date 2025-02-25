@@ -29,14 +29,14 @@ import { BellIcon, DownloadIcon, PersonIcon } from "@radix-ui/react-icons";
 import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
 import Chart from "../../EstudiantesPrivados/Dashboard/Chart";
 import PieChart from "../../EstudiantesPrivados/Dashboard/Chart2";
-import { getClassesbyGroupIDDate } from "../../../../provider/adm/Clases/ClasesGrupales/getClassesbyGroupidDate";
+import { getClassesByParticipantIDAndDateTimeBetween } from "../../../../provider/adm/Clases/getClassesByParticipantIDAndDateTimeBetween";
 import { Dialog, DialogContent, DialogTrigger } from "../../../ui/dialog";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import Loader from "../../../Loader/Loader";
 import { deleteTeamClass } from "../../../../provider/adm/Clases/ClasesGrupales/deleteTeamClass";
 import ModificarClasesGrupo from "./classes/ModificarClasesGrupo";
-import { infodashboardGrupo } from "../../../../provider/adm/Clases/ClasesGrupales/infodashboardGrupo";
+import { dashboardParticipant } from "../../../../provider/adm/dashboard/dashboardParticipant";
 import { Toaster } from "sonner";
 const GroupDetail = () => {
   const [groupData, setGroupData] = useState();
@@ -142,8 +142,8 @@ const GroupDetail = () => {
                 date={date}
                 ID={groupData.ID}
                 setClasses={setClasses}
-                getClasses={getClassesbyGroupIDDate}
-                getInforDashboard={infodashboardGrupo}
+                getClasses={getClassesByParticipantIDAndDateTimeBetween}
+                getInforDashboard={dashboardParticipant}
                 setInforDashboard={setInforDashboard}
                 setLoading={setLoading}
               />
