@@ -19,7 +19,7 @@ import Calendar from "../../EstudiantesPrivados/Dashboard/Calendar";
 import Loader from "../../../Loader/Loader";
 import ClickOnClassEstudentDetailAdmin from "./ClickOnClassEstudentDetailAdmin";
 import CrearEditarProfesorBankData from "../CrearEditProfesorBankData";
-import {getClassesByTeacherAndDateTimeBetween} from "../../../../provider/adm/Clases/getClassesByTeacherAndDateTimeBetween"
+import { getClassesByTeacherAndDateTimeBetween } from "../../../../provider/adm/Clases/getClassesByTeacherAndDateTimeBetween"
 import { dashboardTeacher } from "../../../../provider/adm/dashboard/dashboardTeacher";
 import { Toaster } from "sonner";
 const ProfesoresDashboard = () => {
@@ -181,20 +181,34 @@ const ProfesoresDashboard = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Clases canceladas estudiante tarde virual</h3>
-              <p className="total">{teacherInfoClasses.hoursCanceledStudentLateVirtual}</p>
+              <h3>Núm de horas canceladas tarde virtual</h3>
+              <p className="total">
+                {teacherInfoClasses.hoursCanceledParticipantLateVirtual}
+              </p>
             </div>
             <div className="actividadCard">
-              <h3>Classes canceled estudiante tarde presencial</h3>
-              <p className="total">{teacherInfoClasses.hoursCanceledStudentLateInPerson }</p>
+              <h3>Núm de horas canceladas tarde presencial </h3>
+              <p className="total">
+                {teacherInfoClasses.hoursCanceledParticipantLateInPerson}
+              </p>
             </div>
             <div className="actividadCard">
-              <h3>Clases en persona </h3>
-              <p className="total">{teacherInfoClasses.classesHeldInPerson}</p>
+              <h3>Total de horas planeadas del mes </h3>
+              <p className="total">
+                {teacherInfoClasses.hoursPlanned}
+              </p>
             </div>
             <div className="actividadCard">
-              <h3>Clases virtuales</h3>
-              <p className="total">{teacherInfoClasses.classesHeldVirtual}</p>
+              <h3>Total horas virtuales</h3>
+              <p className="total">{teacherInfoClasses.hoursHeldVirtual}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total horas presenciales</h3>
+              <p className="total">{teacherInfoClasses.hoursHeldInPerson}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de clases dictadas</h3>
+              <p className="total">{teacherInfoClasses.hoursHeld}</p>
             </div>
           </div>
           <div className="informacionDetalladaEstudiante">
@@ -203,32 +217,6 @@ const ProfesoresDashboard = () => {
           <div className="totales bg-white shadow-md rounded-lg p-6 text-sm">
             {" "}
             {/* Añadido text-sm para reducir el tamaño de la letra */}
-            <div className="invoice-item flex justify-between border-b pb-2">
-              <span className="font-semibold">Valor por Hora Virtual:</span>
-              <span>
-                $
-                {teacherInfoClasses.hoursHeldVirtual
-                  ? (
-                      teacherInfoClasses.totalVirtualValue /
-                      teacherInfoClasses.hoursHeldVirtual
-                    ).toFixed(2)
-                  : 0}{" "}
-                por hora
-              </span>
-            </div>
-            <div className="invoice-item flex justify-between border-b pb-2">
-              <span className="font-semibold">Valor por Hora Presencial:</span>
-              <span>
-                $
-                {teacherInfoClasses.hoursHeldInPerson
-                  ? (
-                      teacherInfoClasses.totalInPersonValue /
-                      teacherInfoClasses.hoursHeldInPerson
-                    ).toFixed(2)
-                  : 0}{" "}
-                por hora
-              </span>
-            </div>
             <h2 className="text-2xl font-bold mb-4">Totales</h2>
             <div className="invoice space-y-4">
               <div className="invoice-item flex justify-between border-b pb-2">
@@ -245,19 +233,19 @@ const ProfesoresDashboard = () => {
               </div>
               <div className="invoice-item flex justify-between border-b pb-2">
                 <span className="font-semibold">
-                  Horas Canceladas por Estudiante (Virtual):
+                  Tarde Canceladas por Estudiante (Virtual):
                 </span>
                 <span>
-                  {teacherInfoClasses.hoursCanceledStudentLateVirtual || 0}{" "}
+                  {teacherInfoClasses.hoursCanceledParticipantLateVirtual || 0}{" "}
                   horas
                 </span>
               </div>
               <div className="invoice-item flex justify-between border-b pb-2">
                 <span className="font-semibold">
-                  Horas Canceladas por Estudiante (Presencial):
+                  Tarde Canceladas por Estudiante (Presencial):
                 </span>
                 <span>
-                  {teacherInfoClasses.hoursCanceledStudentLateInPerson || 0}{" "}
+                  {teacherInfoClasses.hoursCanceledParticipantLateInPerson || 0}{" "}
                   horas
                 </span>
               </div>
@@ -272,23 +260,35 @@ const ProfesoresDashboard = () => {
               <div className="invoice-item flex justify-between border-b pb-2">
                 <span className="font-semibold">Valor Total Virtual:</span>
                 <span>
-                  ${(teacherInfoClasses.totalVirtualValue || 0).toFixed(2)}
+                  {new Intl.NumberFormat('es-CO', {
+                    style: 'currency',
+                    currency: 'COP'
+                  }).format(
+                    (teacherInfoClasses.totalVirtualValue || 0).toFixed(2)
+                  )}
                 </span>
               </div>
               <div className="invoice-item flex justify-between border-b pb-2">
                 <span className="font-semibold">Valor Total Presencial:</span>
                 <span>
-                  ${(teacherInfoClasses.totalInPersonValue || 0).toFixed(2)}
+                  {new Intl.NumberFormat('es-CO', {
+                    style: 'currency',
+                    currency: 'COP'
+                  }).format(
+                    (teacherInfoClasses.totalInPersonValue || 0).toFixed(2)
+                  )}
                 </span>
               </div>
               <div className="invoice-item flex justify-between text-xl font-bold mt-4">
                 <span>Total Ganado:</span>
                 <span>
-                  $
-                  {(
+                  {new Intl.NumberFormat('es-CO', {
+                    style: 'currency',
+                    currency: 'COP'
+                  }).format(
                     (teacherInfoClasses.totalVirtualValue || 0) +
                     (teacherInfoClasses.totalInPersonValue || 0)
-                  ).toFixed(2)}
+                  )}
                 </span>
               </div>
             </div>
@@ -338,11 +338,10 @@ const ProfesoresDashboard = () => {
                         <TableCell>{classData.canceledBy}</TableCell>
                         <TableCell>
                           <div
-                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                              classData.classHeld
-                                ? "bg-green-500"
-                                : "bg-red-500"
-                            }`}
+                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${classData.classHeld
+                              ? "bg-green-500"
+                              : "bg-red-500"
+                              }`}
                           >
                             {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                             <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>

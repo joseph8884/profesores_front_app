@@ -21,6 +21,7 @@
         "tituloynotificaciones tituloynotificaciones tituloynotificaciones"10%
         "actions actions actions" auto
         "actividad_academica actividad_academica personal_information" auto
+        "ultimas_clases_estudiante ultimas_clases_estudiante personal_information" auto
         "ultimas_clases_estudiante ultimas_clases_estudiante totales" auto/
          35% 35% auto; 
         gap: 10px;
@@ -61,6 +62,7 @@
             justify-content: space-between;
             gap: 10px;
             padding: 10px;
+            max-height: 200px;
             flex-wrap: wrap;
         }
         & div.actividadCard {
@@ -112,7 +114,7 @@
             background-color: white;
             border-radius: 10px;
             grid-area: ultimas_clases_estudiante;
-            max-height: 500px;
+            max-height: 100%;
             overflow-y: auto;
         }
     }

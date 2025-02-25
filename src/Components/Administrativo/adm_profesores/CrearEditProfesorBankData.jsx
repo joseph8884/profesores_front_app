@@ -112,7 +112,7 @@ const CrearEditarProfesorBankData = ({ personal_info_teacher }) => {
             Valor por hora virtual
           </label>
           <input
-            type="text"
+            type="money"
             value={virtualHourValue}
             onChange={(e) => setVirtualHourValue(parseFloat(e.target.value))}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
