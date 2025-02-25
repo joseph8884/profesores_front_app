@@ -180,7 +180,7 @@ const StudentDetail = () => {
             <div className="actividadCard">
               <h3>Núm de horas canceladas tarde virtual</h3>
               <p className="total">
-                {studentInfoClasses.hoursCanceledParticipantLateVirtual}{" "}
+                {studentInfoClasses.hoursCanceledParticipantLateVirtual}
               </p>
             </div>
             <div className="actividadCard">
