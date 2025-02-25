@@ -178,20 +178,22 @@ const StudentDetail = () => {
           </div>
           <div className="resumenDeActividadAcademica">
             <div className="actividadCard">
-              <h3>Total de horas canceladas tarde estudiante virtual</h3>
+              <h3>Núm de horas canceladas tarde virtual</h3>
               <p className="total">
-                {studentInfoClasses.hoursCanceledStudentLateVirtual}{" "}
+                {studentInfoClasses.hoursCanceledParticipantLateVirtual}{" "}
               </p>
             </div>
             <div className="actividadCard">
-              <h3>Total de horas canceladas tarde estudiante presencial </h3>
+              <h3>Núm de horas canceladas tarde presencial </h3>
               <p className="total">
-                {studentInfoClasses.hoursCanceledStudentLateInPerson}
+                {studentInfoClasses.hoursCanceledParticipantLateInPerson}
               </p>
             </div>
             <div className="actividadCard">
-              <h3>Total de clases dictadas</h3>
-              <p className="total">{studentInfoClasses.hoursHeld}</p>
+              <h3>Total de horas planeadas del mes </h3>
+              <p className="total">
+                {studentInfoClasses.hoursPlanned}
+              </p>
             </div>
             <div className="actividadCard">
               <h3>Total horas virtuales</h3>
@@ -200,6 +202,10 @@ const StudentDetail = () => {
             <div className="actividadCard">
               <h3>Total horas presenciales</h3>
               <p className="total">{studentInfoClasses.hoursHeldInPerson}</p>
+            </div>
+            <div className="actividadCard">
+              <h3>Total de clases dictadas</h3>
+              <p className="total">{studentInfoClasses.hoursHeld}</p>
             </div>
           </div>
           {studentInfoClasses.monthlyClassStats && (

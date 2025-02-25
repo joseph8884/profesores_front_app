@@ -21,28 +21,28 @@ const chartConfig = {
     label: "Horas Realizadas",
     color: "hsl(var(--chart-1))",
   },
-  hoursHeldVirtual: {
+  classesHeldVirtual: {
     label: "Horas Virtuales Realizadas",
     color: "hsl(var(--chart-2))",
   },
-  hoursHeldInPerson: {
+  classesHeldInPerson: {
     label: "Horas Presenciales Realizadas",
     color: "hsl(var(--chart-3))",
   },
-  hoursCanceledStudentOnTime: {
-    label: "Horas Canceladas por Estudiante a Tiempo",
+  hoursCanceledParticipantOnTime: {
+    label: "Horas Canceladas por Participante a Tiempo",
     color: "hsl(var(--chart-4))",
   },
   hoursCanceledTeacherOnTime: {
     label: "Horas Canceladas por Profesor a Tiempo",
     color: "hsl(var(--chart-5))",
   },
-  hoursCanceledStudentLateVirtual: {
-    label: "Horas Canceladas por Estudiante Tarde (Virtual)",
+  hoursCanceledParticipantLateVirtual: {
+    label: "Horas Canceladas por Participante Tarde (Virtual)",
     color: "hsl(var(--chart-6))",
   },
-  hoursCanceledStudentLateInPerson: {
-    label: "Horas Canceladas por Estudiante Tarde (Presencial)",
+  hoursCanceledParticipantLateInPerson: {
+    label: "Horas Canceladas por Participante Tarde (Presencial)",
     color: "hsl(var(--chart-7))",
   },
   hoursCanceledTeacherLate: {
@@ -55,12 +55,12 @@ export default function Component({ data }) {
   
   const chartData = [
     { name: chartConfig.hoursHeld.label, value: data.hoursHeld, fill: chartConfig.hoursHeld.color },
-    { name: chartConfig.hoursHeldVirtual.label, value: data.hoursHeldVirtual, fill: chartConfig.hoursHeldVirtual.color },
-    { name: chartConfig.hoursHeldInPerson.label, value: data.hoursHeldInPerson, fill: chartConfig.hoursHeldInPerson.color },
-    { name: chartConfig.hoursCanceledStudentOnTime.label, value: data.hoursCanceledStudentOnTime, fill: chartConfig.hoursCanceledStudentOnTime.color },
+    { name: chartConfig.classesHeldVirtual.label, value: data.hoursHeldVirtual, fill: chartConfig.classesHeldVirtual.color },
+    { name: chartConfig.classesHeldInPerson.label, value: data.hoursHeldInPerson, fill: chartConfig.classesHeldInPerson.color },
+    { name: chartConfig.hoursCanceledParticipantOnTime.label, value: data.hoursCanceledStudentOnTime, fill: chartConfig.hoursCanceledParticipantOnTime.color },
     { name: chartConfig.hoursCanceledTeacherOnTime.label, value: data.hoursCanceledTeacherOnTime, fill: chartConfig.hoursCanceledTeacherOnTime.color },
-    { name: chartConfig.hoursCanceledStudentLateVirtual.label, value: data.hoursCanceledStudentLateVirtual, fill: chartConfig.hoursCanceledStudentLateVirtual.color },
-    { name: chartConfig.hoursCanceledStudentLateInPerson.label, value: data.hoursCanceledStudentLateInPerson, fill: chartConfig.hoursCanceledStudentLateInPerson.color },
+    { name: chartConfig.hoursCanceledParticipantLateVirtual.label, value: data.hoursCanceledStudentLateVirtual, fill: chartConfig.hoursCanceledParticipantLateVirtual.color },
+    { name: chartConfig.hoursCanceledParticipantLateInPerson.label, value: data.hoursCanceledStudentLateInPerson, fill: chartConfig.hoursCanceledParticipantLateInPerson.color },
     { name: chartConfig.hoursCanceledTeacherLate.label, value: data.hoursCanceledTeacherLate, fill: chartConfig.hoursCanceledTeacherLate.color },
   ];
 
