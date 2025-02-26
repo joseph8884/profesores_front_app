@@ -300,15 +300,13 @@ const ProfesoresDashboard = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>clase ID</TableHead>
-                  <TableHead>teacher ID</TableHead>
-                  <TableHead>Estudiante ID</TableHead>
-                  <TableHead>Tipo de participante</TableHead>
+                  <TableHead>ID clase</TableHead>
                   <TableHead>Fecha</TableHead>
-                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Participante ID</TableHead>
+                  <TableHead>Participante</TableHead>
+                  <TableHead>Modalidad</TableHead>
+                  <TableHead>H. planeadas</TableHead>
                   <TableHead>Duracion</TableHead>
-                  <TableHead>Cancelacion</TableHead>
-                  <TableHead>Cancelado por</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -317,9 +315,6 @@ const ProfesoresDashboard = () => {
                     <DialogTrigger asChild>
                       <TableRow key={classData.id}>
                         <TableCell>{classData.id}</TableCell>
-                        <TableCell>{classData.teacherID}</TableCell>
-                        <TableCell>{classData.studentID}</TableCell>
-                        <TableCell>{classData.classScope}</TableCell>
                         <TableCell>
                           {new Date(classData.dateTime).toLocaleString("es", {
                             weekday: "long", // e.g., Monday
@@ -332,23 +327,27 @@ const ProfesoresDashboard = () => {
                             hour12: true, // e.g., AM/PM format
                           })}
                         </TableCell>
+                        <TableCell>{classData.participantID}</TableCell>
+                        <TableCell>{classData.classScope}</TableCell>
                         <TableCell>{classData.classType}</TableCell>
+                        <TableCell>{classData.plannedDuration} H</TableCell>
                         <TableCell>{classData.duration} H</TableCell>
-                        <TableCell>{classData.cancellationTiming}</TableCell>
-                        <TableCell>{classData.canceledBy}</TableCell>
                         <TableCell>
                           <div
-                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${classData.classHeld
+                            className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${classData.classStatus === 'Held'
                               ? "bg-green-500"
-                              : "bg-red-500"
+                              : classData.classStatus === 'To be held'
+                                ? "bg-gray-500"
+                                : "bg-red-500"
                               }`}
                           >
-                            {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                             <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
-                            {/* Texto del estado */}
                             <span>
-                              {classData.classHeld ? "Completed" : "Cancelled"}{" "}
-                              {/* Updated logic for status */}
+                              {classData.classStatus === 'To be held'
+                                ? "Por Realizar"
+                                : classData.classStatus === 'Held'
+                                  ? "Completada"
+                                  : "Cancelada"}
                             </span>
                           </div>
                         </TableCell>

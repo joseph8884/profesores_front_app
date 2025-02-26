@@ -112,7 +112,7 @@ const GroupDetail = () => {
     saveAs(blob, "DatosGrupoCompleto.xlsx");
   };
 
-  if (!groupData || !date || !inforDashboard || !classes ) {
+  if (!groupData || !date || !inforDashboard || !classes) {
     return <Loader />;
   }
 
@@ -168,9 +168,8 @@ const GroupDetail = () => {
               <a
                 href={`/admin/gruposvista/grupos/groupdetail/studentsgroupcrud?nameGroup=${encodeURIComponent(
                   groupData.name
-                )}&teamId=${groupData.ID}&year=${date.year}&month=${
-                  date.month
-                }`}
+                )}&teamId=${groupData.ID}&year=${date.year}&month=${date.month
+                  }`}
               >
                 <Button>
                   <PersonIcon />
@@ -237,21 +236,18 @@ const GroupDetail = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>clase ID</TableHead>
-                  <TableHead>teacherID</TableHead>
-                  <TableHead>teacher name</TableHead>
+                  <TableHead>ID clase</TableHead>
+                  <TableHead>Teacher</TableHead>
                   <TableHead>Fecha</TableHead>
-                  <TableHead>Tipo de clase</TableHead>
+                  <TableHead>Modalidad</TableHead>
+                  <TableHead>H. planeadas</TableHead>
                   <TableHead>Duracion</TableHead>
-                  <TableHead>Cancelacion</TableHead>
-                  <TableHead>Cancelado por</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {classes.map((classData) => (
                   <TableRow key={classData.id}>
                     <TableCell>{classData.id}</TableCell>
-                    <TableCell>{classData.teacherId}</TableCell>
                     <TableCell>{classData.teacherName}</TableCell>
                     <TableCell>
                       {new Date(classData.dateTime).toLocaleString("es", {
@@ -266,21 +262,24 @@ const GroupDetail = () => {
                       })}
                     </TableCell>
                     <TableCell>{classData.classType}</TableCell>
+                    <TableCell>{classData.plannedDuration} H</TableCell>
                     <TableCell>{classData.duration} H</TableCell>
-                    <TableCell>{classData.cancellationTiming}</TableCell>
-                    <TableCell>{classData.canceledBy}</TableCell>
                     <TableCell>
                       <div
-                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${
-                          classData.classHeld ? "bg-green-500" : "bg-red-500"
-                        }`}
+                        className={`flex items-center justify-center p-1 rounded-lg text-white font-semibold ${classData.classStatus === 'Held'
+                          ? "bg-green-500"
+                          : classData.classStatus === 'To be held'
+                            ? "bg-gray-500"
+                            : "bg-red-500"
+                          }`}
                       >
-                        {/* Indicador de color: Verde para "activo", Rojo para "inactivo" */}
                         <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
-                        {/* Texto del estado */}
                         <span>
-                          {classData.classHeld ? "Completed" : "Cancelled"}{" "}
-                          {/* Updated logic for status */}
+                          {classData.classStatus === 'To be held'
+                            ? "Por Realizar"
+                            : classData.classStatus === 'Held'
+                              ? "Completada"
+                              : "Cancelada"}
                         </span>
                       </div>
                     </TableCell>
