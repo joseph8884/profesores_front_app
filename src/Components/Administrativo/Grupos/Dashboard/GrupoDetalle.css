@@ -124,16 +124,17 @@
 
 
 @media screen and (max-width: 600px) {
-    .dashboard {
+    .dashboardgroup {
         overflow-x: scroll; /* Asegura que la barra de scroll siempre sea visible */
         overflow-x: auto; /* Agregar scroll lateral */
-        & div.dashboardcontainer{
+        & div.dashboardcontainergroup{
             height: auto;
             grid-template:
             "tituloynotificaciones"auto
             "actions" 40px
             "actividad_academica" 15%
             "grafica" auto
+            "pie" auto
             "calendario" auto
             "last_classes" auto
             "personal_information" auto/

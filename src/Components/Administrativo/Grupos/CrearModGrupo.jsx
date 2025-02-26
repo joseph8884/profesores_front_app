@@ -18,7 +18,7 @@ const CrearModGrupo = ({ initialData, context, flag }) => {
   const fileInputRef = useRef(null);
   // Variables de estado para el equipo
   const [teamName, setTeamName] = useState(initialData.name||"" );
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(initialData.photo || "");
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
